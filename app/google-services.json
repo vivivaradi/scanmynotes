@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1093628492912",
+    "project_id": "scanmynotesfree",
+    "storage_bucket": "scanmynotesfree.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093628492912:android:ff2fac30a62deca32f88b5",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.android.scanmynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093628492912-n8n28of5gtj43lfcedf1blgh2ka545ib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8p2JBdOOAXL8qsCinfRlQ1zZCtMa-y7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093628492912-n8n28of5gtj43lfcedf1blgh2ka545ib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

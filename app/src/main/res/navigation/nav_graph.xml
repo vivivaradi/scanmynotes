@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:name="hu.bme.aut.android.scanmynotes.ui.login.LoginFragment"
+        android:id="@+id/loginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/loginAction"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@layout/fragment_login"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:name="hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment"
+        android:id="@+id/noteListFragment"
+        tools:layout="@layout/fragment_note_list">
+        <action
+            android:id="@+id/openNoteAction"
+            app:destination="@+id/noteDetailsFragment" />
+        <action
+            android:id="@+id/newNoteAction"
+            app:destination="@+id/newNoteFragment"/>
+    </fragment>
+    <fragment
+        android:name="hu.bme.aut.android.scanmynotes.ui.notedetails.NoteDetailsFragment"
+        android:id="@+id/noteDetailsFragment"
+        tools:layout="@layout/fragment_note_details">
+        <argument
+            android:name="noteId"
+            app:argType="string"/>
+        <action
+            android:id="@+id/noteDeletedAction"
+            app:destination="@+id/noteListFragment"
+            app:popUpTo="@layout/fragment_note_list"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:name="hu.bme.aut.android.scanmynotes.ui.newnote.NewNoteFragment"
+        android:id="@+id/newNoteFragment"
+        tools:layout="@layout/fragment_new_note">
+        <argument
+            android:name="noteText"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/saveNewNoteAction"
+            app:destination="@+id/noteDetailsFragment"
+            app:popUpTo="@layout/fragment_note_list"
+            app:popUpToInclusive="false"/>
+
+    </fragment>
+
+</navigation>
