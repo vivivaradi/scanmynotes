@@ -8,6 +8,8 @@ import com.google.api.services.vision.v1.model.AnnotateImageRequest
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest
 import com.google.api.services.vision.v1.model.Feature
 import com.google.api.services.vision.v1.model.Image
+import hu.bme.aut.android.scanmynotes.BuildConfig
+import hu.bme.aut.android.scanmynotes.R
 import java.util.*
 
 interface VisionApi {
@@ -22,7 +24,7 @@ interface VisionApi {
         )
 
         visionBuilder.setVisionRequestInitializer(
-            VisionRequestInitializer("AIzaSyD34PfzKfoqy-W11n_QXhEBL4zLRWtfRlg")
+            VisionRequestInitializer(BuildConfig.VISION_API_KEY)
         )
 
         vision = visionBuilder.build()
