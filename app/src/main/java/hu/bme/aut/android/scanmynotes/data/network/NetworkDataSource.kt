@@ -1,5 +1,7 @@
 package hu.bme.aut.android.scanmynotes.data.network
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import com.google.api.services.vision.v1.model.Image
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -13,6 +15,7 @@ class NetworkDataSource @Inject constructor(
     val currentUser = Firebase.auth.currentUser
 
     suspend fun getUserNotes(): ArrayList<DomainNote>{
+        Log.d("DEBUG", "Datasource reached")
         return firebaseApi.getNotes(currentUser!!.uid)
     }
 
@@ -35,4 +38,5 @@ class NetworkDataSource @Inject constructor(
     suspend fun deleteNote(id: String) {
         return firebaseApi.deleteNote(currentUser!!.uid, id)
     }
+
 }

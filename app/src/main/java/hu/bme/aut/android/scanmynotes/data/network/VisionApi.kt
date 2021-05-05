@@ -9,10 +9,8 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest
 import com.google.api.services.vision.v1.model.Feature
 import com.google.api.services.vision.v1.model.Image
 import hu.bme.aut.android.scanmynotes.BuildConfig
-import hu.bme.aut.android.scanmynotes.R
-import java.util.*
 
-interface VisionApi {
+class VisionApi {
 
 
     suspend fun detectText(image: Image): String {

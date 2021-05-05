@@ -1,14 +1,16 @@
 package hu.bme.aut.android.scanmynotes.ui.notelist
 
 import androidx.recyclerview.widget.DiffUtil
-import hu.bme.aut.android.scanmynotes.ui.notelist.models.UiNotePreview
+import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 
-object NoteComparator : DiffUtil.ItemCallback<UiNotePreview>() {
-    override fun areItemsTheSame(oldItem: UiNotePreview, newItem: UiNotePreview): Boolean {
-        return oldItem.noteId == newItem.noteId
+object NoteComparator : DiffUtil.ItemCallback<DomainNote>() {
+
+
+    override fun areItemsTheSame(oldItem: DomainNote, newItem: DomainNote): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: UiNotePreview, newItem: UiNotePreview): Boolean {
+    override fun areContentsTheSame(oldItem: DomainNote, newItem: DomainNote): Boolean {
         return oldItem == newItem
     }
 }

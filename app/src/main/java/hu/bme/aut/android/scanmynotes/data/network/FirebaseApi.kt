@@ -1,6 +1,8 @@
 package hu.bme.aut.android.scanmynotes.data.network
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -8,9 +10,10 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 
-interface FirebaseApi {
+class FirebaseApi {
 
     suspend fun getNotes(uid: String): ArrayList<DomainNote>{
+        Log.d("DEBUG", "Api reached")
         val notes = ArrayList<DomainNote>()
         val notesRef = Firebase.firestore.collection("users").document(uid).collection("notes")
         notesRef.get()
@@ -21,6 +24,7 @@ interface FirebaseApi {
                             notes.add(note)
                         }
                     }
+                    Log.d("DEBUG", "Successful data fetch")
                 }
                 .addOnFailureListener { exception ->
                     exception.message?.let { Log.e("ERROR", it) }
@@ -54,8 +58,8 @@ interface FirebaseApi {
                     }
                 }
             }
-            .addOnFailureListener {
-
+            .addOnFailureListener { exception ->
+                exception.message?.let { Log.e("ERROR", it) }
             }
         return note
     }
@@ -70,8 +74,8 @@ interface FirebaseApi {
             .addOnSuccessListener {
 
             }
-            .addOnFailureListener {
-
+            .addOnFailureListener { exception ->
+                exception.message?.let { Log.e("ERROR", it) }
             }
     }
 
@@ -81,8 +85,9 @@ interface FirebaseApi {
                 .addOnSuccessListener {
 
                 }
-                .addOnFailureListener {
-
+                .addOnFailureListener { exception ->
+                    exception.message?.let { Log.e("ERROR", it) }
                 }
     }
+
 }

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
-import hu.bme.aut.android.scanmynotes.ui.notelist.models.UiNotePreview
+import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import kotlinx.android.synthetic.main.fragment_note_list.*
 import java.util.*
 
@@ -43,14 +43,22 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     override fun render(viewState: NoteListViewState) {
         when(viewState){
-            is Loading -> Log.d("INFO", "Loading")
-            is NotesReady -> adapter.submitList(viewState.notes)
-            is NewNoteReady -> findNavController().navigate(NoteListFragmentDirections.newNoteAction(viewState.detectedText))
+            is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
+            is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
+            is NotesReady -> {
+                adapter.submitList(viewState.noteList)
+                Log.d(getString(R.string.debug_tag), "Notes Ready")
+
+            }
+            is NewNoteReady -> {
+                Log.d(getString(R.string.debug_tag), "New Note Ready")
+                findNavController().navigate(NoteListFragmentDirections.newNoteAction(viewState.detectedText))
+            }
         }
     }
 
-    override fun onNoteClicked(note: UiNotePreview) {
-        findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.noteId))
+    override fun onNoteClicked(note: DomainNote) {
+        findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
     }
 
     fun takePhoto() {

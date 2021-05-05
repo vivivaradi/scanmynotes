@@ -5,13 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.auth.User
 import hu.bme.aut.android.scanmynotes.R
-import hu.bme.aut.android.scanmynotes.ui.notelist.models.UiNotePreview
+import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import kotlinx.android.synthetic.main.note_row.view.*
 
-class NoteListAdapter : ListAdapter<UiNotePreview, NoteListAdapter.NoteListViewHolder>(NoteComparator) {
+class NoteListAdapter : ListAdapter<DomainNote, NoteListAdapter.NoteListViewHolder>(NoteComparator) {
 
     var listener: Listener? = null
 
@@ -20,7 +22,7 @@ class NoteListAdapter : ListAdapter<UiNotePreview, NoteListAdapter.NoteListViewH
         val tvNoteTitle: TextView = noteView.tvNoteTitle
         val linearLayout: LinearLayout = noteView.linearLayout
 
-        var note: UiNotePreview? = null
+        var note: DomainNote? = null
 
         init {
             linearLayout.setOnClickListener {
@@ -30,7 +32,7 @@ class NoteListAdapter : ListAdapter<UiNotePreview, NoteListAdapter.NoteListViewH
     }
 
     interface Listener {
-        fun onNoteClicked(note: UiNotePreview)
+        fun onNoteClicked(note: DomainNote)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
@@ -42,6 +44,8 @@ class NoteListAdapter : ListAdapter<UiNotePreview, NoteListAdapter.NoteListViewH
         val note = getItem(position)
 
         holder.note = note
-        holder.tvNoteTitle.text = note.noteTitle
+        holder.tvNoteTitle.text = note.title
     }
+
+
 }
