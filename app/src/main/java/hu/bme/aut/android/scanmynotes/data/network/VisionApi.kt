@@ -1,5 +1,6 @@
 package hu.bme.aut.android.scanmynotes.data.network
 
+import android.util.Log
 import com.google.api.client.extensions.android.json.AndroidJsonFactory
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.services.vision.v1.Vision
@@ -14,6 +15,7 @@ class VisionApi {
 
 
     suspend fun detectText(image: Image): String {
+        Log.d("DEBUG", "VisionApi reached")
         val vision: Vision
         val visionBuilder = Vision.Builder(
             NetHttpTransport(),
@@ -36,7 +38,7 @@ class VisionApi {
         val batchResponse = vision.images().annotate(batchRequest).execute()
 
         val detectionResult = batchResponse.responses[0].fullTextAnnotation
-
+        Log.d("DEBUG", "Detection done")
         return detectionResult.text
     }
 }

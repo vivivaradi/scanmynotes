@@ -6,5 +6,5 @@ sealed class NoteListViewState
 
 object Initial: NoteListViewState()
 object Loading: NoteListViewState()
-data class NotesReady(val noteList: List<DomainNote>) : NoteListViewState()
+object NotesReady : NoteListViewState()
 data class NewNoteReady(val detectedText: String) : NoteListViewState()

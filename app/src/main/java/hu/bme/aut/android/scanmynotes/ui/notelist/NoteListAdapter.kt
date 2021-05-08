@@ -1,5 +1,6 @@
 package hu.bme.aut.android.scanmynotes.ui.notelist
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,22 +18,22 @@ class NoteListAdapter : ListAdapter<DomainNote, NoteListAdapter.NoteListViewHold
 
     var listener: Listener? = null
 
-
     inner class NoteListViewHolder(noteView: View) : RecyclerView.ViewHolder(noteView) {
         val tvNoteTitle: TextView = noteView.tvNoteTitle
-        val linearLayout: LinearLayout = noteView.linearLayout
 
         var note: DomainNote? = null
 
         init {
-            linearLayout.setOnClickListener {
-                note?.let { listener?.onNoteClicked(it) }
+            noteView.setOnClickListener {
+                note?.let { note ->
+                    Log.d("DEBUG", "Note with id: ${note.id} clicked")
+                    listener?.onNoteClicked(note.id) }
             }
         }
     }
 
     interface Listener {
-        fun onNoteClicked(note: DomainNote)
+        fun onNoteClicked(noteId: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {

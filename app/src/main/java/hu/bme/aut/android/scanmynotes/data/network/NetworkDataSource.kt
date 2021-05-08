@@ -14,9 +14,13 @@ class NetworkDataSource @Inject constructor(
 ){
     val currentUser = Firebase.auth.currentUser
 
-    suspend fun getUserNotes(): ArrayList<DomainNote>{
+    suspend fun fetchNotes() {
         Log.d("DEBUG", "Datasource reached")
-        return firebaseApi.getNotes(currentUser!!.uid)
+        return firebaseApi.fetchNotes(currentUser!!.uid)
+    }
+
+    fun getNoteList(): LiveData<List<DomainNote>> {
+        return firebaseApi.getNoteList()
     }
 
     suspend fun createUserNote(note: DomainNote){
@@ -37,6 +41,10 @@ class NetworkDataSource @Inject constructor(
 
     suspend fun deleteNote(id: String) {
         return firebaseApi.deleteNote(currentUser!!.uid, id)
+    }
+
+    suspend fun observeNotes() : LiveData<List<DomainNote>>{
+        return firebaseApi.observeNotes(currentUser!!.uid)
     }
 
 }

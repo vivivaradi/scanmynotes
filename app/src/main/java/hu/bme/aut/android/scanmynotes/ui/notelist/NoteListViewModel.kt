@@ -1,7 +1,8 @@
 package hu.bme.aut.android.scanmynotes.ui.notelist
 
 import android.graphics.Bitmap
-import androidx.lifecycle.LiveData
+import android.util.Log
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
@@ -12,10 +13,26 @@ class NoteListViewModel @Inject constructor(
         private val interactor: Interactor
 ) : RainbowCakeViewModel<NoteListViewState>(Initial) {
 
+    val noteList = MediatorLiveData<List<DomainNote>>()
+
+    fun setupDataFlow() {
+        interactor.setupDataFlow()
+        noteList.addSource(interactor.getNoteList()) { list ->
+            noteList.value = list
+        }
+    }
+
+    fun stopDataFlow() {
+        noteList.removeSource(interactor.getNoteList())
+        interactor.stopDataFlow()
+    }
 
     fun load() = execute {
         viewState = Loading
-        viewState = NotesReady(interactor.getNotes())
+        Log.d("DEBUG", "Calling interactor for notes")
+        interactor.fetchNotes()
+        Log.d("DEBUG", "Received notes")
+        viewState = NotesReady
     }
 
     fun digitalizePhoto(image: Bitmap) = execute {

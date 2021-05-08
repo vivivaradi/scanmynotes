@@ -1,21 +1,24 @@
 package hu.bme.aut.android.scanmynotes.ui.notedetails
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
+import hu.bme.aut.android.scanmynotes.R
 import kotlinx.android.synthetic.main.fragment_note_details.*
 
 class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>() {
     override fun provideViewModel() = getViewModelFromFactory()
+    override fun getViewResource() = R.layout.fragment_note_details
 
     val args: NoteDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d("DEBUG", "Reached note detail fragment")
         editNoteButton.setOnClickListener {
             viewModel.editNote()
         }
@@ -27,12 +30,14 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
 
     override fun onStart() {
         super.onStart()
+        Log.d("DEBUG", "Loading current note with id: ${args.noteId}")
         viewModel.loadCurrentNote(args.noteId)
     }
 
     override fun render(viewState: NoteDetailsViewState) {
         when(viewState) {
             is Viewing -> {
+                Log.d("DEBUG", "Current note is ${viewState.note.title}")
                 editNoteTitle.isEnabled = false
                 editNoteContent.isEnabled = false
                 editNoteButton.visibility = View.VISIBLE

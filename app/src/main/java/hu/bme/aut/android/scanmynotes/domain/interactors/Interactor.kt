@@ -3,9 +3,9 @@ package hu.bme.aut.android.scanmynotes.domain.interactors
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import co.zsmb.rainbowcake.withIOContext
 import com.google.api.services.vision.v1.model.Image
-import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.data.network.NetworkDataSource
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import java.io.ByteArrayOutputStream
@@ -14,10 +14,25 @@ import javax.inject.Inject
 class Interactor @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ){
+    val noteList = MediatorLiveData<List<DomainNote>>()
 
-    suspend fun getNotes(): List<DomainNote> {
+    fun setupDataFlow() {
+        noteList.addSource(networkDataSource.getNoteList()) { list ->
+            noteList.setValue(list)
+        }
+    }
+
+    fun stopDataFlow() {
+        noteList.removeSource(networkDataSource.getNoteList())
+    }
+
+    fun getNoteList(): LiveData<List<DomainNote>> {
+        return noteList
+    }
+
+    suspend fun fetchNotes() = withIOContext {
         Log.d("DEBUG", "Interactor reached")
-        return networkDataSource.getUserNotes()
+        networkDataSource.fetchNotes()
     }
 
     suspend fun digitalize(image: Bitmap): String = withIOContext {
@@ -37,12 +52,20 @@ class Interactor @Inject constructor(
         networkDataSource.saveNote(note)
     }
 
-    suspend fun getSingleNote(id: String): DomainNote = withIOContext {
-        networkDataSource.getSingleNote(id)
+    suspend fun getSingleNote(id: String): DomainNote? = withIOContext {
+        //networkDataSource.getSingleNote(id)
+        Log.d("DEBUG", "Getting single note with id: $id")
+        noteList.value?.firstOrNull { note ->
+            Log.d("DEBUG", "Applying predicate to list, id: ${note.id}")
+            note.id == id
+        }
     }
 
     suspend fun deleteNote(id: String) = withIOContext {
         networkDataSource.deleteNote(id)
     }
 
+    suspend fun observeNotes() : LiveData<List<DomainNote>> = withIOContext {
+        networkDataSource.observeNotes()
+    }
 }
