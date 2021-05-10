@@ -2,9 +2,13 @@ package hu.bme.aut.android.scanmynotes.ui.notedetails
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
@@ -15,6 +19,17 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
     override fun getViewResource() = R.layout.fragment_note_details
 
     val args: NoteDetailsFragmentArgs by navArgs()
+    var isEditing = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_details, menu)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,10 +55,41 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         viewModel.loadCurrentNote(args.noteId)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+
+        val edit = menu.findItem(R.id.action_edit)
+        edit.isVisible = !isEditing
+
+        val save = menu.findItem(R.id.action_save)
+        save.isVisible = isEditing
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_edit -> {
+                viewModel.editNote()
+                requireActivity().invalidateOptionsMenu()
+                true
+            }
+            R.id.action_save -> {
+                viewModel.saveNote(editNoteTitle.text.toString(), editNoteContent.text.toString())
+                requireActivity().invalidateOptionsMenu()
+                true
+            }
+            R.id.action_delete -> {
+                viewModel.deleteNote()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun render(viewState: NoteDetailsViewState) {
         when(viewState) {
             is Viewing -> {
                 Log.d("DEBUG", "Current note is ${viewState.note.title}")
+                isEditing = false
                 editNoteTitle.isEnabled = false
                 editNoteContent.isEnabled = false
                 editNoteButton.visibility = View.VISIBLE
@@ -52,6 +98,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 editNoteContent.setText(viewState.note.content)
             }
             is Editing -> {
+                isEditing = true
                 editNoteTitle.isEnabled = true
                 editNoteContent.isEnabled = true
                 editNoteButton.visibility = View.GONE
@@ -59,9 +106,16 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 editNoteTitle.setText(viewState.note.title)
                 editNoteContent.setText(viewState.note.content)
             }
-            is NoteDeleted ->
-                findNavController().navigate(NoteDetailsFragmentDirections.noteDeletedAction())
         }
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is NoteDetailsViewModel.NoteDeletedEvent -> {
+                findNavController().navigate(NoteDetailsFragmentDirections.noteDeletedAction())
+            }
+        }
+
     }
 
 }

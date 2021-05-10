@@ -14,4 +14,10 @@
         android:title="Delete"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/baseline_save_white_24"
+        android:title="Save"
+        app:showAsAction="ifRoom"/>
+
 </menu>

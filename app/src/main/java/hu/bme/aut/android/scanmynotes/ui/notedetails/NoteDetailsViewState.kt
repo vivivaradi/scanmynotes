@@ -13,5 +13,3 @@ data class Viewing(val note: DomainNote): NoteDetailsViewState()
 data class Editing(val note: DomainNote): NoteDetailsViewState()
 
 data class Error(val noteId: String): NoteDetailsViewState()
-
-object NoteDeleted: NoteDetailsViewState()

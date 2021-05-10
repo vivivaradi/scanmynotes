@@ -2,6 +2,9 @@ package hu.bme.aut.android.scanmynotes.ui.newnote
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,8 +20,24 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
 
     val args : NewNoteFragmentArgs by navArgs()
 
-    override fun render(viewState: NewNoteViewState) {
-        newNoteText.setText(args.noteText)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_new, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_save -> {
+                viewModel.saveNote(newNoteTitle.text.toString(), newNoteText.text.toString())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,5 +54,10 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                 findNavController().navigate(NewNoteFragmentDirections.savedNewNoteAction(event.id))
             }
         }
+    }
+
+
+    override fun render(viewState: NewNoteViewState) {
+        newNoteText.setText(args.noteText)
     }
 }

@@ -17,6 +17,7 @@ class NoteDetailsViewModel @Inject constructor(
     val noteList = MediatorLiveData<List<DomainNote>>()
 
     class NoteNotFoundEvent(val noteId: String): OneShotEvent
+    object NoteDeletedEvent: OneShotEvent
 
     fun setupDataFlow() = execute {
         Log.d("DEBUG", "Run you bitch")
@@ -60,7 +61,7 @@ class NoteDetailsViewModel @Inject constructor(
     fun deleteNote() = execute {
         viewState = Loading
         interactor.deleteNote(currentNote!!.id)
-        viewState = NoteDeleted
+        postEvent(NoteDeletedEvent)
     }
 
 }
