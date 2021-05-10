@@ -1,21 +1,28 @@
 package hu.bme.aut.android.scanmynotes.ui.notelist
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
+import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
+import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
 import kotlinx.android.synthetic.main.fragment_note_list.*
 
-class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), NoteListAdapter.Listener {
+class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), NoteListAdapter.Listener, EasyPermissions.PermissionCallbacks {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource(): Int {
         return R.layout.fragment_note_list
@@ -67,11 +74,18 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
     }
 
-    fun takePhoto() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { photoIntent ->
-            photoIntent.resolveActivity(requireContext().packageManager)?.also {
-                startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE)
-            } } }
+    private fun takePhoto() {
+        if (hasCameraPermission()) {
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { photoIntent ->
+                photoIntent.resolveActivity(requireContext().packageManager)?.also {
+                    startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE)
+                } } }
+        else {
+            Toast.makeText(requireContext(), "You need to grant camera access to the application, if you want to use this feature", Toast.LENGTH_LONG).show()
+            requestCameraPermission(PERMISSION_CAMERA_REQUEST_CODE)
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -94,6 +108,28 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     companion object {
         val REQUEST_IMAGE_CAPTURE = 1
+        val PERMISSION_CAMERA_REQUEST_CODE = 2
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            Toast.makeText(requireContext(), "You need to manually grant camera permission, in order to use this app.", Toast.LENGTH_LONG).show()
+        } else {
+            requestCameraPermission(PERMISSION_CAMERA_REQUEST_CODE)
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        takePhoto()
     }
 
 }

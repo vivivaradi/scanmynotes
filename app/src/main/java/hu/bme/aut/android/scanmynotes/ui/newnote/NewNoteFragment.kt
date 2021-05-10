@@ -12,7 +12,9 @@ import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.util.validateTextContent
 import kotlinx.android.synthetic.main.fragment_new_note.*
+import kotlinx.android.synthetic.main.fragment_note_details.*
 
 class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>() {
     override fun provideViewModel() = getViewModelFromFactory()
@@ -33,6 +35,8 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
+                if (!validateTextFields())
+                    return true
                 viewModel.saveNote(newNoteTitle.text.toString(), newNoteText.text.toString())
                 true
             }
@@ -57,4 +61,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     override fun render(viewState: NewNoteViewState) {
         newNoteText.setText(args.noteText)
     }
+
+    fun validateTextFields(): Boolean = editNoteTitle.validateTextContent() && editNoteContent.validateTextContent()
 }

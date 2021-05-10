@@ -12,6 +12,7 @@ import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.util.validateTextContent
 import kotlinx.android.synthetic.main.fragment_note_details.*
 
 class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>() {
@@ -67,6 +68,8 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 true
             }
             R.id.action_save -> {
+                if (!validateTextFields())
+                    return true
                 viewModel.saveNote(editNoteTitle.text.toString(), editNoteContent.text.toString())
                 requireActivity().invalidateOptionsMenu()
                 true
@@ -107,5 +110,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         }
 
     }
+
+    fun validateTextFields(): Boolean = editNoteTitle.validateTextContent() && editNoteContent.validateTextContent()
 
 }

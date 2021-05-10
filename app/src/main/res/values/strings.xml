@@ -11,4 +11,10 @@
     <string name="login_failed">"Login failed"</string>
 
     <string name="debug_tag">DEBUG</string>
+    <string name="permission_camera_denied">Ne csináld má</string>
+    <string name="permission_camera_never_askagain">Te tudod lol</string>
+    <string name="permission_camera_rationale">Add má meg mer köll</string>
+    <string name="call_permission_explanation">Camera permission is needed for taking pictures of text.</string>
+    <string name="exit">Exit</string>
+    <string name="proceed">Proceed</string>
 </resources>

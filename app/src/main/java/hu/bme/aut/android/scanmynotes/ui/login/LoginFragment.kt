@@ -17,7 +17,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.MainActivity
 import hu.bme.aut.android.scanmynotes.R
-import kotlinx.android.synthetic.main.activity_login.*
+import hu.bme.aut.android.scanmynotes.util.validateEmailContent
+import hu.bme.aut.android.scanmynotes.util.validatePasswordContent
+import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment: Fragment(R.layout.fragment_login) {
 
@@ -39,6 +41,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     }
 
     fun loginUser(){
+        if (!validateForm())
+            return
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
         auth.signInWithEmailAndPassword(email, password)
@@ -54,6 +58,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     }
 
     fun signupUser(){
+        if (!validateForm())
+            return
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
         auth.createUserWithEmailAndPassword(email, password)
@@ -68,5 +74,5 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             }
     }
 
-
+    fun validateForm() = etEmail.validateEmailContent() && etPassword.validatePasswordContent()
 }
