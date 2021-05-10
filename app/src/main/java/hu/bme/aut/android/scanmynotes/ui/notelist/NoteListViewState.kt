@@ -7,4 +7,3 @@ sealed class NoteListViewState
 object Initial: NoteListViewState()
 object Loading: NoteListViewState()
 object NotesReady : NoteListViewState()
-data class NewNoteReady(val detectedText: String) : NoteListViewState()

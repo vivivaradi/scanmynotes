@@ -18,20 +18,23 @@ class NoteDetailsViewModel @Inject constructor(
 
     class NoteNotFoundEvent(val noteId: String): OneShotEvent
 
-    fun setupDataFlow() {
+    fun setupDataFlow() = execute {
+        Log.d("DEBUG", "Run you bitch")
         noteList.addSource(interactor.noteList) { list ->
-            noteList.postValue(list)
+            noteList.value = list
             Log.d("DEBUG", "Observing interactor noteList")
         }
+        Log.d("DEBUG", "Source added (maybe)")
     }
 
-    fun loadCurrentNote(id: String)  {
+    fun loadCurrentNote(id: String) = execute {
         viewState = Loading
 
-        currentNote = noteList.value!!.find { note ->
-            Log.d("DEBUG", "Applying predicate to list, id: $id")
-            note.id == id
-        }
+//        currentNote = noteList.value!!.find { note ->
+//            Log.d("DEBUG", "Applying predicate to list, id: $id")
+//            note.id == id
+//        }
+        currentNote = interactor.getSingleNote(id)
         Log.d("DEBUG", "Retrieved note with title ${currentNote!!.title}")
         currentNote?.let { note ->
             viewState = Viewing(note)

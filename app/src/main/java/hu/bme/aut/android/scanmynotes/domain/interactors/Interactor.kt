@@ -44,7 +44,7 @@ class Interactor @Inject constructor(
         networkDataSource.detectText(inputImage)
     }
 
-    suspend fun createNote(title: String, text: String) = withIOContext{
+    suspend fun createNote(title: String, text: String): String = withIOContext{
         networkDataSource.createUserNote(DomainNote("", title, text))
     }
 
@@ -52,15 +52,15 @@ class Interactor @Inject constructor(
         networkDataSource.saveNote(note)
     }
 
-    fun getSingleNote(id: String): DomainNote? {
+    suspend fun getSingleNote(id: String): DomainNote? = withIOContext {
 
         Log.d("DEBUG", "Getting single note with id: $id")
-        Log.d("DEBUG", "Notelist size: ${noteList.value!!.size}")
-        return noteList.value!!.find { note ->
-            Log.d("DEBUG", "Applying predicate to list, id: ${note.id}")
-            note.id == id
-        }
-//        networkDataSource.getSingleNote(id)
+//        Log.d("DEBUG", "Notelist size: ${noteList.value!!.size}")
+//        return noteList.value!!.find { note ->
+//            Log.d("DEBUG", "Applying predicate to list, id: ${note.id}")
+//            note.id == id
+//        }
+        networkDataSource.getSingleNote(id)
     }
 
     suspend fun deleteNote(id: String) = withIOContext {

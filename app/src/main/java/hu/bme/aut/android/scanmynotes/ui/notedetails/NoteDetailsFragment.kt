@@ -24,8 +24,10 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         }
 
         viewModel.setupDataFlow()
+        Log.d("DEBUG", "SetupDataFlow should have run")
         viewModel.noteList.observe(viewLifecycleOwner) {
         }
+        Log.d("DEBUG", "Observing noteList")
 
         saveNoteButton.setOnClickListener {
             viewModel.saveNote(editNoteTitle.text.toString(), editNoteContent.text.toString())

@@ -3,6 +3,7 @@ package hu.bme.aut.android.scanmynotes.data.network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ListenerRegistration
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
+import java.util.concurrent.TimeUnit
 
 class FirebaseApi {
 
@@ -40,37 +42,46 @@ class FirebaseApi {
 
     fun getNoteList(): LiveData<List<DomainNote>> = noteList
 
-    suspend fun saveNewNote(uid: String, note: DomainNote) {
+    suspend fun saveNewNote(uid: String, note: DomainNote): String {
         val notesRef = db.collection("users").document(uid).collection("notes")
         val data = hashMapOf(
             "title" to note.title,
             "content" to note.content
         )
-        notesRef.add(data)
-            .addOnSuccessListener {
-
-            }
-            .addOnFailureListener { exception ->
-                exception.message?.let { Log.e("ERROR", it) }
-            }
+        val task = notesRef.add(data)
+//            .addOnSuccessListener {
+//
+//            }
+//            .addOnFailureListener { exception ->
+//                exception.message?.let { Log.e("ERROR", it) }
+//            }
+        val docRef = Tasks.await(task, 10, TimeUnit.SECONDS)
+        return docRef.id
     }
 
     suspend fun getUserNote(id: String, uid: String) : DomainNote{
         Log.d("DEBUG", "API received id: $id")
         var note = DomainNote()
-        val docRef = db.collection("users").document(uid).collection("notes").document(id)
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document.exists()){
-                    document.toObject<DomainNote>()?.let {  result ->
-                        note = result
-                        note.id = document.id
-                    }
-                }
+        val task = db.collection("users").document(uid).collection("notes").document(id).get()
+//        docRef
+//            .addOnSuccessListener { document ->
+//                if (document.exists()){
+//                    document.toObject<DomainNote>()?.let {  result ->
+//                        note = result
+//                        note.id = document.id
+//                    }
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                exception.message?.let { Log.e("ERROR", it) }
+//            }
+        val snapshot = Tasks.await(task, 10, TimeUnit.SECONDS)
+        if (snapshot.exists()){
+            snapshot.toObject<DomainNote>()?.let { result ->
+                note = result
+                note.id = snapshot.id
             }
-            .addOnFailureListener { exception ->
-                exception.message?.let { Log.e("ERROR", it) }
-            }
+        }
         return note
     }
 

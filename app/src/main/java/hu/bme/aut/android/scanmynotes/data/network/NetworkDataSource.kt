@@ -23,7 +23,7 @@ class NetworkDataSource @Inject constructor(
         return firebaseApi.getNoteList()
     }
 
-    suspend fun createUserNote(note: DomainNote){
+    suspend fun createUserNote(note: DomainNote): String{
         return firebaseApi.saveNewNote(currentUser!!.uid, note)
     }
 

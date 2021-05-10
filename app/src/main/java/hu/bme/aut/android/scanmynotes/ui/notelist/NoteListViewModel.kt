@@ -3,7 +3,7 @@ package hu.bme.aut.android.scanmynotes.ui.notelist
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
@@ -14,6 +14,8 @@ class NoteListViewModel @Inject constructor(
 ) : RainbowCakeViewModel<NoteListViewState>(Initial) {
 
     val noteList = MediatorLiveData<List<DomainNote>>()
+
+    class NewNoteReadyEvent(val text: String): OneShotEvent
 
     fun setupDataFlow() {
         interactor.setupDataFlow()
@@ -37,7 +39,7 @@ class NoteListViewModel @Inject constructor(
 
     fun digitalizePhoto(image: Bitmap) = execute {
         viewState = Loading
-        viewState = NewNoteReady(interactor.digitalize(image))
+        postEvent(NewNoteReadyEvent(interactor.digitalize(image)))
     }
 
 }

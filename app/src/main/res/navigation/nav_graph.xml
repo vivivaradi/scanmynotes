@@ -12,7 +12,7 @@
         <action
             android:id="@+id/loginAction"
             app:destination="@id/noteListFragment"
-            app:popUpTo="@layout/fragment_login"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
@@ -36,7 +36,7 @@
         <action
             android:id="@+id/noteDeletedAction"
             app:destination="@+id/noteListFragment"
-            app:popUpTo="@layout/fragment_note_list"
+            app:popUpTo="@id/noteListFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -49,9 +49,9 @@
             app:argType="string"
             android:defaultValue="" />
         <action
-            android:id="@+id/saveNewNoteAction"
+            android:id="@+id/savedNewNoteAction"
             app:destination="@+id/noteDetailsFragment"
-            app:popUpTo="@layout/fragment_note_list"
+            app:popUpTo="@id/noteListFragment"
             app:popUpToInclusive="false"/>
 
     </fragment>

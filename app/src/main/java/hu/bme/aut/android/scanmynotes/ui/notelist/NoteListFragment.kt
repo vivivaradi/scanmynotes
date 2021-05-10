@@ -8,12 +8,12 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import kotlinx.android.synthetic.main.fragment_note_list.*
-import java.util.*
 
 class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), NoteListAdapter.Listener {
     override fun provideViewModel() = getViewModelFromFactory()
@@ -30,7 +30,6 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         adapter.listener = this
         listNotes.adapter = adapter
 
-        viewModel.setupDataFlow()
         viewModel.noteList.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
@@ -43,13 +42,14 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onStart() {
         super.onStart()
 
+        viewModel.setupDataFlow()
         viewModel.load()
     }
 
     override fun onStop() {
         super.onStop()
 
-//        viewModel.stopDataFlow()
+        viewModel.stopDataFlow()
     }
 
     override fun render(viewState: NoteListViewState) {
@@ -58,10 +58,6 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
             is NotesReady -> {
                 Log.d(getString(R.string.debug_tag), "Notes Ready")
-            }
-            is NewNoteReady -> {
-                Log.d(getString(R.string.debug_tag), "New Note Ready")
-                findNavController().navigate(NoteListFragmentDirections.newNoteAction(viewState.detectedText))
             }
         }
     }
@@ -83,6 +79,15 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             data.also {
                 val image = it?.extras?.get("data") as Bitmap
                 viewModel.digitalizePhoto(image)
+            }
+        }
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is NoteListViewModel.NewNoteReadyEvent -> {
+                Log.d(getString(R.string.debug_tag), "New Note Ready")
+                findNavController().navigate(NoteListFragmentDirections.newNoteAction(event.text))
             }
         }
     }

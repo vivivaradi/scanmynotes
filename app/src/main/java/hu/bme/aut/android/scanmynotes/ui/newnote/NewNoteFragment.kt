@@ -3,7 +3,9 @@ package hu.bme.aut.android.scanmynotes.ui.newnote
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
@@ -24,6 +26,14 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         Log.d("DEBUG", "Reached new note fragment")
         saveNoteButton.setOnClickListener {
             viewModel.saveNote(newNoteTitle.text.toString(), newNoteText.text.toString())
+        }
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when (event) {
+            is NewNoteViewModel.NewNoteSavedEvent -> {
+                findNavController().navigate(NewNoteFragmentDirections.savedNewNoteAction(event.id))
+            }
         }
     }
 }
