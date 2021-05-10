@@ -26,14 +26,13 @@ class NoteListAdapter : ListAdapter<DomainNote, NoteListAdapter.NoteListViewHold
         init {
             noteView.setOnClickListener {
                 note?.let { note ->
-                    Log.d("DEBUG", "Note with id: ${note.id} clicked")
-                    listener?.onNoteClicked(note.id) }
+                    listener?.onNoteClicked(note) }
             }
         }
     }
 
     interface Listener {
-        fun onNoteClicked(noteId: String)
+        fun onNoteClicked(note: DomainNote)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {

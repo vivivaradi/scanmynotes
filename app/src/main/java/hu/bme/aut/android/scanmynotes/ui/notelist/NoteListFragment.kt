@@ -30,6 +30,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         adapter.listener = this
         listNotes.adapter = adapter
 
+        viewModel.setupDataFlow()
         viewModel.noteList.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
@@ -42,14 +43,13 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onStart() {
         super.onStart()
 
-        viewModel.setupDataFlow()
         viewModel.load()
     }
 
     override fun onStop() {
         super.onStop()
 
-        viewModel.stopDataFlow()
+//        viewModel.stopDataFlow()
     }
 
     override fun render(viewState: NoteListViewState) {
@@ -66,8 +66,9 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
     }
 
-    override fun onNoteClicked(noteId: String) {
-        findNavController().navigate(NoteListFragmentDirections.openNoteAction(noteId))
+    override fun onNoteClicked(note: DomainNote) {
+        Log.d("DEBUG", "Note clicked: ${note.id}")
+        findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
     }
 
     fun takePhoto() {

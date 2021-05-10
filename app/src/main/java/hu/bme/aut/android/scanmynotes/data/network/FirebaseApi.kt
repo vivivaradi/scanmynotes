@@ -25,7 +25,8 @@ class FirebaseApi {
                 .addOnSuccessListener { result ->
                     if (!result.isEmpty) {
                         for (document in result) {
-                            val note = document.toObject<DomainNote>()
+                            var note = document.toObject<DomainNote>()
+                            note.id = document.id
                             notes.add(note)
                         }
                     }
@@ -55,6 +56,7 @@ class FirebaseApi {
     }
 
     suspend fun getUserNote(id: String, uid: String) : DomainNote{
+        Log.d("DEBUG", "API received id: $id")
         var note = DomainNote()
         val docRef = db.collection("users").document(uid).collection("notes").document(id)
         docRef.get()
@@ -62,6 +64,7 @@ class FirebaseApi {
                 if (document.exists()){
                     document.toObject<DomainNote>()?.let {  result ->
                         note = result
+                        note.id = document.id
                     }
                 }
             }

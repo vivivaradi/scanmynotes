@@ -23,6 +23,10 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
             viewModel.editNote()
         }
 
+        viewModel.setupDataFlow()
+        viewModel.noteList.observe(viewLifecycleOwner) {
+        }
+
         saveNoteButton.setOnClickListener {
             viewModel.saveNote(editNoteTitle.text.toString(), editNoteContent.text.toString())
         }

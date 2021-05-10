@@ -1,6 +1,7 @@
 package hu.bme.aut.android.scanmynotes.ui.notedetails
 
 import android.util.Log
+import androidx.lifecycle.MediatorLiveData
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
@@ -13,11 +14,24 @@ class NoteDetailsViewModel @Inject constructor(
 
     var currentNote: DomainNote? = null
 
+    val noteList = MediatorLiveData<List<DomainNote>>()
+
     class NoteNotFoundEvent(val noteId: String): OneShotEvent
 
-    fun loadCurrentNote(id: String) = execute {
+    fun setupDataFlow() {
+        noteList.addSource(interactor.noteList) { list ->
+            noteList.postValue(list)
+            Log.d("DEBUG", "Observing interactor noteList")
+        }
+    }
+
+    fun loadCurrentNote(id: String)  {
         viewState = Loading
-        currentNote = interactor.getSingleNote(id)
+
+        currentNote = noteList.value!!.find { note ->
+            Log.d("DEBUG", "Applying predicate to list, id: $id")
+            note.id == id
+        }
         Log.d("DEBUG", "Retrieved note with title ${currentNote!!.title}")
         currentNote?.let { note ->
             viewState = Viewing(note)

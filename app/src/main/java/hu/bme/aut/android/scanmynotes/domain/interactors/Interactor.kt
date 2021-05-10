@@ -18,7 +18,7 @@ class Interactor @Inject constructor(
 
     fun setupDataFlow() {
         noteList.addSource(networkDataSource.getNoteList()) { list ->
-            noteList.setValue(list)
+            noteList.postValue(list)
         }
     }
 
@@ -52,13 +52,15 @@ class Interactor @Inject constructor(
         networkDataSource.saveNote(note)
     }
 
-    suspend fun getSingleNote(id: String): DomainNote? = withIOContext {
-        //networkDataSource.getSingleNote(id)
+    fun getSingleNote(id: String): DomainNote? {
+
         Log.d("DEBUG", "Getting single note with id: $id")
-        noteList.value?.firstOrNull { note ->
+        Log.d("DEBUG", "Notelist size: ${noteList.value!!.size}")
+        return noteList.value!!.find { note ->
             Log.d("DEBUG", "Applying predicate to list, id: ${note.id}")
             note.id == id
         }
+//        networkDataSource.getSingleNote(id)
     }
 
     suspend fun deleteNote(id: String) = withIOContext {
