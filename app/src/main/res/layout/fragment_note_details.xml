@@ -22,20 +22,6 @@
             android:text=""
             android:enabled="false" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editNoteButton"
-            android:layout_gravity="center"
-            android:text="Edit" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/saveNoteButton"
-            android:layout_gravity="center"
-            android:text="Save"
-            android:visibility="gone"/>
 
     </LinearLayout>
 

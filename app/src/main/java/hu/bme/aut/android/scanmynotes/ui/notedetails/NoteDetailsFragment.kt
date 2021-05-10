@@ -34,9 +34,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("DEBUG", "Reached note detail fragment")
-        editNoteButton.setOnClickListener {
-            viewModel.editNote()
-        }
 
         viewModel.setupDataFlow()
         Log.d("DEBUG", "SetupDataFlow should have run")
@@ -44,9 +41,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         }
         Log.d("DEBUG", "Observing noteList")
 
-        saveNoteButton.setOnClickListener {
-            viewModel.saveNote(editNoteTitle.text.toString(), editNoteContent.text.toString())
-        }
     }
 
     override fun onStart() {
@@ -92,8 +86,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 isEditing = false
                 editNoteTitle.isEnabled = false
                 editNoteContent.isEnabled = false
-                editNoteButton.visibility = View.VISIBLE
-                saveNoteButton.visibility = View.GONE
                 editNoteTitle.setText(viewState.note.title)
                 editNoteContent.setText(viewState.note.content)
             }
@@ -101,8 +93,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 isEditing = true
                 editNoteTitle.isEnabled = true
                 editNoteContent.isEnabled = true
-                editNoteButton.visibility = View.GONE
-                saveNoteButton.visibility = View.VISIBLE
                 editNoteTitle.setText(viewState.note.title)
                 editNoteContent.setText(viewState.note.content)
             }

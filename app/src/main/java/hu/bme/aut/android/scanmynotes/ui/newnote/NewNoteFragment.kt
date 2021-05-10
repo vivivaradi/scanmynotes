@@ -43,9 +43,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("DEBUG", "Reached new note fragment")
-        saveNoteButton.setOnClickListener {
-            viewModel.saveNote(newNoteTitle.text.toString(), newNoteText.text.toString())
-        }
+
     }
 
     override fun onEvent(event: OneShotEvent) {
@@ -55,7 +53,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
             }
         }
     }
-
 
     override fun render(viewState: NewNoteViewState) {
         newNoteText.setText(args.noteText)

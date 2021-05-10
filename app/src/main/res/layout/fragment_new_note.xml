@@ -18,11 +18,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/newNoteText"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/saveNoteButton"
-            android:text="Save" />
 
     </LinearLayout>
 </ScrollView>
