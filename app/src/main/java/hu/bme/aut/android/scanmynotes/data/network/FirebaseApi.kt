@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit
 class FirebaseApi {
 
     private val db = Firebase.firestore
-    private var listener: ListenerRegistration? = null
     val noteList = MutableLiveData<List<DomainNote>>()
+    val auth = Firebase.auth
 
     suspend fun fetchNotes(uid: String) {
         Log.d("DEBUG", "FirebaseApi reached")
@@ -49,12 +49,6 @@ class FirebaseApi {
             "content" to note.content
         )
         val task = notesRef.add(data)
-//            .addOnSuccessListener {
-//
-//            }
-//            .addOnFailureListener { exception ->
-//                exception.message?.let { Log.e("ERROR", it) }
-//            }
         val docRef = Tasks.await(task, 10, TimeUnit.SECONDS)
         return docRef.id
     }
@@ -63,18 +57,6 @@ class FirebaseApi {
         Log.d("DEBUG", "API received id: $id")
         var note = DomainNote()
         val task = db.collection("users").document(uid).collection("notes").document(id).get()
-//        docRef
-//            .addOnSuccessListener { document ->
-//                if (document.exists()){
-//                    document.toObject<DomainNote>()?.let {  result ->
-//                        note = result
-//                        note.id = document.id
-//                    }
-//                }
-//            }
-//            .addOnFailureListener { exception ->
-//                exception.message?.let { Log.e("ERROR", it) }
-//            }
         val snapshot = Tasks.await(task, 10, TimeUnit.SECONDS)
         if (snapshot.exists()){
             snapshot.toObject<DomainNote>()?.let { result ->
@@ -111,23 +93,4 @@ class FirebaseApi {
                 }
     }
 
-    suspend fun observeNotes(uid: String): LiveData<List<DomainNote>> {
-
-        listener = db.collection("users").document(uid).collection("notes")
-                .addSnapshotListener { data, error ->
-                    if (data != null) {
-                        val notes = ArrayList<DomainNote>()
-                        for (document in data) {
-                            val note = document.toObject<DomainNote>()
-                            notes.add(note)
-                        }
-                        noteList.postValue(notes)
-                    }
-                }
-        return noteList
-    }
-
-    suspend fun detachObserver() {
-        listener?.remove()
-    }
 }

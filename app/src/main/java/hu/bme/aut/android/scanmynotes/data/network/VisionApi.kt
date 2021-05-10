@@ -14,7 +14,7 @@ import hu.bme.aut.android.scanmynotes.BuildConfig
 class VisionApi {
 
 
-    suspend fun detectText(image: Image): String {
+    suspend fun detectText(image: Image): String? {
         Log.d("DEBUG", "VisionApi reached")
         val vision: Vision
         val visionBuilder = Vision.Builder(

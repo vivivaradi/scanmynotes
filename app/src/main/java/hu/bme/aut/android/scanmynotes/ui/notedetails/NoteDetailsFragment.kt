@@ -1,26 +1,48 @@
 package hu.bme.aut.android.scanmynotes.ui.notedetails
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
+import com.vmadalin.easypermissions.EasyPermissions
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment
+import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
+import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
 import kotlinx.android.synthetic.main.fragment_note_details.*
+import kotlinx.android.synthetic.main.layout_view_note.*
+import kotlinx.android.synthetic.main.layout_edit_note.*
 
-class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>() {
+class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>(), EasyPermissions.PermissionCallbacks {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_note_details
 
     val args: NoteDetailsFragmentArgs by navArgs()
     var isEditing = false
+
+    object Flipper {
+        val LOADING = 0
+        val VIEWING = 1
+        val EDITING = 2
+    }
+
+    companion object {
+        val REQUEST_IMAGE_CAPTURE = 1
+        val PERMISSION_CAMERA_REQUEST_CODE = 2
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +80,9 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
 
         val save = menu.findItem(R.id.action_save)
         save.isVisible = isEditing
+
+        val add = menu.findItem(R.id.action_add)
+        add.isVisible = isEditing
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,24 +103,30 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 viewModel.deleteNote()
                 true
             }
+            R.id.action_add -> {
+                takePhoto()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun render(viewState: NoteDetailsViewState) {
         when(viewState) {
+            is Loading -> {
+                isEditing = false
+                viewFlipper.displayedChild = Flipper.LOADING
+            }
             is Viewing -> {
                 Log.d("DEBUG", "Current note is ${viewState.note.title}")
                 isEditing = false
-                editNoteTitle.isEnabled = false
-                editNoteContent.isEnabled = false
-                editNoteTitle.setText(viewState.note.title)
-                editNoteContent.setText(viewState.note.content)
+                viewFlipper.displayedChild = Flipper.VIEWING
+                noteTitle.text = viewState.note.title
+                noteContent.text = viewState.note.content
             }
             is Editing -> {
                 isEditing = true
-                editNoteTitle.isEnabled = true
-                editNoteContent.isEnabled = true
+                viewFlipper.displayedChild = Flipper.EDITING
                 editNoteTitle.setText(viewState.note.title)
                 editNoteContent.setText(viewState.note.content)
             }
@@ -107,8 +138,58 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
             is NoteDetailsViewModel.NoteDeletedEvent -> {
                 findNavController().navigate(NoteDetailsFragmentDirections.noteDeletedAction())
             }
+            is NoteDetailsViewModel.TextReady -> {
+                editNoteContent.append(event.text)
+            }
+            is NoteDetailsViewModel.NoTextFoundEvent -> {
+                Toast.makeText(requireContext(), "Couldn't find any text on the image!", Toast.LENGTH_LONG).show()
+            }
         }
 
+    }
+
+    private fun takePhoto() {
+        if (hasCameraPermission()) {
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { photoIntent ->
+                photoIntent.resolveActivity(requireContext().packageManager)?.also {
+                    startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE)
+                } } }
+        else {
+            Toast.makeText(requireContext(), "You need to grant camera access to the application, if you want to use this feature", Toast.LENGTH_LONG).show()
+            requestCameraPermission(NoteListFragment.PERMISSION_CAMERA_REQUEST_CODE)
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            data.also {
+                val image = it?.extras?.get("data") as Bitmap
+                viewModel.digitalizePhoto(image)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            Toast.makeText(requireContext(), "You need to manually grant camera permission, in order to use this app.", Toast.LENGTH_LONG).show()
+        } else {
+            requestCameraPermission(PERMISSION_CAMERA_REQUEST_CODE)
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        takePhoto()
     }
 
     fun validateTextFields(): Boolean = editNoteTitle.validateTextContent() && editNoteContent.validateTextContent()

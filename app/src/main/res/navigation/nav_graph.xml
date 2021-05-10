@@ -25,6 +25,11 @@
         <action
             android:id="@+id/newNoteAction"
             app:destination="@+id/newNoteFragment"/>
+        <action
+            android:id="@+id/logoutAction"
+            app:destination="@+id/loginFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:name="hu.bme.aut.android.scanmynotes.ui.notedetails.NoteDetailsFragment"
@@ -52,7 +57,7 @@
             android:id="@+id/savedNewNoteAction"
             app:destination="@+id/noteDetailsFragment"
             app:popUpTo="@id/noteListFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="true"/>
 
     </fragment>
 

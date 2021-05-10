@@ -16,6 +16,7 @@ class NoteListViewModel @Inject constructor(
     val noteList = MediatorLiveData<List<DomainNote>>()
 
     class NewNoteReadyEvent(val text: String): OneShotEvent
+    object NoTextFoundEvent: OneShotEvent
 
     fun setupDataFlow() {
         interactor.setupDataFlow()
@@ -29,6 +30,10 @@ class NoteListViewModel @Inject constructor(
         interactor.stopDataFlow()
     }
 
+    fun getUser() = interactor.getUser()
+
+    fun getAuth() = interactor.getAuth()
+
     fun load() = execute {
         viewState = Loading
         Log.d("DEBUG", "Calling interactor for notes")
@@ -39,7 +44,11 @@ class NoteListViewModel @Inject constructor(
 
     fun digitalizePhoto(image: Bitmap) = execute {
         viewState = Loading
-        postEvent(NewNoteReadyEvent(interactor.digitalize(image)))
+        val text = interactor.digitalize(image)
+        if (text != null)
+            postEvent(NewNoteReadyEvent(text))
+        else
+            postEvent(NoTextFoundEvent)
     }
 
 }

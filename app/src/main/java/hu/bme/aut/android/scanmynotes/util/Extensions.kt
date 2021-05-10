@@ -2,6 +2,7 @@ package hu.bme.aut.android.scanmynotes.util
 
 import android.Manifest
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.vmadalin.easypermissions.EasyPermissions
 
@@ -21,7 +22,7 @@ fun Fragment.requestCameraPermission(permissionCode: Int) {
 }
 
 fun EditText.validateTextContent(): Boolean {
-    if (text.isEmpty()) {
+    if (text.toString().isEmpty()) {
         error = "Field cannot be empty!"
         return false
     }
@@ -29,7 +30,7 @@ fun EditText.validateTextContent(): Boolean {
 }
 
 fun EditText.validateEmailContent(): Boolean {
-    if (text.isEmpty() || !text.contains('@') || !text.contains('.')) {
+    if (text.toString().isEmpty() || !text.toString().contains('@') || !text.toString().contains('.')) {
         error = "Email has to be a valid email format!"
         return false
     }
@@ -37,8 +38,16 @@ fun EditText.validateEmailContent(): Boolean {
 }
 
 fun EditText.validatePasswordContent(): Boolean {
-    if (text.length < 6) {
+    if (text.toString().length < 6) {
         error = "Password has to be at least 6 characters long!"
+        return false
+    }
+    return true
+}
+
+fun TextView.validateTextContent(): Boolean {
+    if (text.toString().isEmpty()) {
+        error = "Field cannot be empty!"
         return false
     }
     return true

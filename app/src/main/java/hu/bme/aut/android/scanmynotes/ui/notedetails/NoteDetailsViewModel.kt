@@ -1,5 +1,6 @@
 package hu.bme.aut.android.scanmynotes.ui.notedetails
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import co.zsmb.rainbowcake.base.OneShotEvent
@@ -15,6 +16,9 @@ class NoteDetailsViewModel @Inject constructor(
     var currentNote: DomainNote? = null
 
     val noteList = MediatorLiveData<List<DomainNote>>()
+
+    object NoTextFoundEvent: OneShotEvent
+    class TextReady(val text: String): OneShotEvent
 
     class NoteNotFoundEvent(val noteId: String): OneShotEvent
     object NoteDeletedEvent: OneShotEvent
@@ -62,6 +66,16 @@ class NoteDetailsViewModel @Inject constructor(
         viewState = Loading
         interactor.deleteNote(currentNote!!.id)
         postEvent(NoteDeletedEvent)
+    }
+
+    fun digitalizePhoto(image: Bitmap) = execute {
+        viewState = Loading
+        val text = interactor.digitalize(image)
+//        if (text != null)
+//            postEvent(TextReady(text))
+//        else
+//            postEvent(NoTextFoundEvent)
+        viewState = Editing(DomainNote(currentNote!!.id, currentNote!!.title, currentNote!!.content + text))
     }
 
 }

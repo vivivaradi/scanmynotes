@@ -23,11 +23,13 @@ class NetworkDataSource @Inject constructor(
         return firebaseApi.getNoteList()
     }
 
+    fun getAuth() = firebaseApi.auth
+
     suspend fun createUserNote(note: DomainNote): String{
         return firebaseApi.saveNewNote(currentUser!!.uid, note)
     }
 
-    suspend fun detectText(image: Image): String {
+    suspend fun detectText(image: Image): String? {
         return visionApi.detectText(image)
     }
 
@@ -43,8 +45,5 @@ class NetworkDataSource @Inject constructor(
         return firebaseApi.deleteNote(currentUser!!.uid, id)
     }
 
-    suspend fun observeNotes() : LiveData<List<DomainNote>>{
-        return firebaseApi.observeNotes(currentUser!!.uid)
-    }
 
 }

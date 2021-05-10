@@ -8,8 +8,12 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -29,6 +33,20 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     }
 
     private lateinit var adapter: NoteListAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            requireActivity().finish()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_list, menu)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,6 +87,18 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                // Not the best solution, should restrict this into the API, but good enough for now
+                viewModel.getAuth().signOut()
+                findNavController().navigate(NoteListFragmentDirections.logoutAction())
+                true
+            }
+            else ->super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onNoteClicked(note: DomainNote) {
         Log.d("DEBUG", "Note clicked: ${note.id}")
         findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
@@ -102,6 +132,9 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             is NoteListViewModel.NewNoteReadyEvent -> {
                 Log.d(getString(R.string.debug_tag), "New Note Ready")
                 findNavController().navigate(NoteListFragmentDirections.newNoteAction(event.text))
+            }
+            is NoteListViewModel.NoTextFoundEvent -> {
+                Toast.makeText(requireContext(), "Couldn't find any text on the image!", Toast.LENGTH_LONG).show()
             }
         }
     }

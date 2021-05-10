@@ -30,12 +30,16 @@ class Interactor @Inject constructor(
         return noteList
     }
 
+    fun getUser() = networkDataSource.currentUser
+
+    fun getAuth() = networkDataSource.getAuth()
+
     suspend fun fetchNotes() = withIOContext {
         Log.d("DEBUG", "Interactor reached")
         networkDataSource.fetchNotes()
     }
 
-    suspend fun digitalize(image: Bitmap): String = withIOContext {
+    suspend fun digitalize(image: Bitmap): String? = withIOContext {
         val stream = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 80, stream)
         val byteArray = stream.toByteArray()
@@ -53,13 +57,7 @@ class Interactor @Inject constructor(
     }
 
     suspend fun getSingleNote(id: String): DomainNote? = withIOContext {
-
         Log.d("DEBUG", "Getting single note with id: $id")
-//        Log.d("DEBUG", "Notelist size: ${noteList.value!!.size}")
-//        return noteList.value!!.find { note ->
-//            Log.d("DEBUG", "Applying predicate to list, id: ${note.id}")
-//            note.id == id
-//        }
         networkDataSource.getSingleNote(id)
     }
 
@@ -67,7 +65,4 @@ class Interactor @Inject constructor(
         networkDataSource.deleteNote(id)
     }
 
-    suspend fun observeNotes() : LiveData<List<DomainNote>> = withIOContext {
-        networkDataSource.observeNotes()
-    }
 }
