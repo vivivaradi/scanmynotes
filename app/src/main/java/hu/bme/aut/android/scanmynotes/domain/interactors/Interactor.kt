@@ -30,7 +30,7 @@ class Interactor @Inject constructor(
         return noteList
     }
 
-    fun getUser() = networkDataSource.currentUser
+    fun getUser() = networkDataSource.getCurrentUser()
 
     fun getAuth() = networkDataSource.getAuth()
 

@@ -42,6 +42,8 @@ class FirebaseApi {
 
     fun getNoteList(): LiveData<List<DomainNote>> = noteList
 
+    fun getCurrentUser() = auth.currentUser
+
     suspend fun saveNewNote(note: DomainNote): String {
         val notesRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes")
         val data = hashMapOf(

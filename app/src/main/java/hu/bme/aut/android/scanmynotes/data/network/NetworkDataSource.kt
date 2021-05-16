@@ -24,6 +24,8 @@ class NetworkDataSource @Inject constructor(
 
     fun getAuth() = firebaseApi.auth
 
+    fun getCurrentUser() = firebaseApi.getCurrentUser()
+
     suspend fun createUserNote(note: DomainNote): String{
         return firebaseApi.saveNewNote(note)
     }
