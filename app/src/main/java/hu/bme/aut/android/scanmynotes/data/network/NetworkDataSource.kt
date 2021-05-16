@@ -12,11 +12,10 @@ class NetworkDataSource @Inject constructor(
     private val firebaseApi: FirebaseApi,
     private val visionApi: VisionApi
 ){
-    val currentUser = Firebase.auth.currentUser
 
     suspend fun fetchNotes() {
         Log.d("DEBUG", "Datasource reached")
-        return firebaseApi.fetchNotes(currentUser!!.uid)
+        return firebaseApi.fetchNotes()
     }
 
     fun getNoteList(): LiveData<List<DomainNote>> {
@@ -26,7 +25,7 @@ class NetworkDataSource @Inject constructor(
     fun getAuth() = firebaseApi.auth
 
     suspend fun createUserNote(note: DomainNote): String{
-        return firebaseApi.saveNewNote(currentUser!!.uid, note)
+        return firebaseApi.saveNewNote(note)
     }
 
     suspend fun detectText(image: Image): String? {
@@ -34,15 +33,15 @@ class NetworkDataSource @Inject constructor(
     }
 
     suspend fun getSingleNote(id: String): DomainNote {
-        return firebaseApi.getUserNote(id, currentUser!!.uid)
+        return firebaseApi.getUserNote(id)
     }
 
     suspend fun saveNote(note: DomainNote) {
-        return firebaseApi.saveNote(currentUser!!.uid, note)
+        return firebaseApi.saveNote(note)
     }
 
     suspend fun deleteNote(id: String) {
-        return firebaseApi.deleteNote(currentUser!!.uid, id)
+        return firebaseApi.deleteNote(id)
     }
 
 

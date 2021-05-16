@@ -19,15 +19,15 @@ class FirebaseApi {
     val noteList = MutableLiveData<List<DomainNote>>()
     val auth = Firebase.auth
 
-    suspend fun fetchNotes(uid: String) {
+    suspend fun fetchNotes() {
         Log.d("DEBUG", "FirebaseApi reached")
         val notes = ArrayList<DomainNote>()
-        val notesRef = db.collection("users").document(uid).collection("notes")
+        val notesRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes")
         notesRef.get()
                 .addOnSuccessListener { result ->
                     if (!result.isEmpty) {
                         for (document in result) {
-                            var note = document.toObject<DomainNote>()
+                            val note = document.toObject<DomainNote>()
                             note.id = document.id
                             notes.add(note)
                         }
@@ -42,8 +42,8 @@ class FirebaseApi {
 
     fun getNoteList(): LiveData<List<DomainNote>> = noteList
 
-    suspend fun saveNewNote(uid: String, note: DomainNote): String {
-        val notesRef = db.collection("users").document(uid).collection("notes")
+    suspend fun saveNewNote(note: DomainNote): String {
+        val notesRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes")
         val data = hashMapOf(
             "title" to note.title,
             "content" to note.content
@@ -53,10 +53,10 @@ class FirebaseApi {
         return docRef.id
     }
 
-    suspend fun getUserNote(id: String, uid: String) : DomainNote{
+    suspend fun getUserNote(id: String) : DomainNote{
         Log.d("DEBUG", "API received id: $id")
         var note = DomainNote()
-        val task = db.collection("users").document(uid).collection("notes").document(id).get()
+        val task = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id).get()
         val snapshot = Tasks.await(task, 10, TimeUnit.SECONDS)
         if (snapshot.exists()){
             snapshot.toObject<DomainNote>()?.let { result ->
@@ -67,8 +67,8 @@ class FirebaseApi {
         return note
     }
 
-    suspend fun saveNote(uid: String, note: DomainNote) {
-        val docRef = db.collection("users").document(uid).collection("notes").document(note.id)
+    suspend fun saveNote(note: DomainNote) {
+        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(note.id)
         val data = hashMapOf(
             "title" to note.title,
             "content" to note.content
@@ -82,8 +82,8 @@ class FirebaseApi {
             }
     }
 
-    suspend fun deleteNote(uid: String, id: String) {
-        val docRef = db.collection("users").document(uid).collection("notes").document(id)
+    suspend fun deleteNote(id: String) {
+        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id)
         docRef.delete()
                 .addOnSuccessListener {
 
