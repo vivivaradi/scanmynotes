@@ -2,29 +2,36 @@ package hu.bme.aut.android.scanmynotes.ui.newnote
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.databinding.FragmentNewNoteBinding
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
-import kotlinx.android.synthetic.main.fragment_new_note.*
 
 class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>() {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_new_note
 
     val args : NewNoteFragmentArgs by navArgs()
+    private lateinit var binding: FragmentNewNoteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentNewNoteBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -39,7 +46,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                     return true
                 }
                 Log.d("DEBUG", "Reached the saveNote part")
-                viewModel.saveNote(newNoteTitle.text.toString(), newNoteText.text.toString())
+                viewModel.saveNote(binding.newNoteTitle.text.toString(), binding.newNoteText.text.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -61,8 +68,8 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     }
 
     override fun render(viewState: NewNoteViewState) {
-        newNoteText.setText(args.noteText)
+        binding.newNoteText.setText(args.noteText)
     }
 
-    fun validateTextFields(): Boolean = newNoteTitle.validateTextContent() && newNoteText.validateTextContent()
+    fun validateTextFields(): Boolean = binding.newNoteTitle.validateTextContent() && binding.newNoteText.validateTextContent()
 }

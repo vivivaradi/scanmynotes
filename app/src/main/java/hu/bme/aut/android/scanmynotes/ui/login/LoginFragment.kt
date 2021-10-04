@@ -17,13 +17,23 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.MainActivity
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.databinding.FragmentLoginBinding
 import hu.bme.aut.android.scanmynotes.util.validateEmailContent
 import hu.bme.aut.android.scanmynotes.util.validatePasswordContent
-import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment: Fragment(R.layout.fragment_login) {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var binding: FragmentLoginBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,10 +42,10 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             findNavController().navigate(R.id.noteListFragment)
         }
 
-        loginButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             loginUser()
         }
-        signupButton.setOnClickListener {
+        binding.signupButton.setOnClickListener {
             signupUser()
         }
     }
@@ -43,8 +53,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     fun loginUser(){
         if (!validateForm())
             return
-        val email = etEmail.text.toString()
-        val password = etPassword.text.toString()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
@@ -60,8 +70,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     fun signupUser(){
         if (!validateForm())
             return
-        val email = etEmail.text.toString()
-        val password = etPassword.text.toString()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
@@ -74,5 +84,5 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             }
     }
 
-    fun validateForm() = etEmail.validateEmailContent() && etPassword.validatePasswordContent()
+    fun validateForm() = binding.etEmail.validateEmailContent() && binding.etPassword.validatePasswordContent()
 }

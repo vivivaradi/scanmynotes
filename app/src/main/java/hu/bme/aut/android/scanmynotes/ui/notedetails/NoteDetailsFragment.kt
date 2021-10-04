@@ -6,10 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,17 +15,17 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import com.vmadalin.easypermissions.EasyPermissions
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteDetailsBinding
 import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
-import kotlinx.android.synthetic.main.fragment_note_details.*
-import kotlinx.android.synthetic.main.layout_view_note.*
-import kotlinx.android.synthetic.main.layout_edit_note.*
 
 class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>(), EasyPermissions.PermissionCallbacks {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_note_details
+
+    private lateinit var binding: FragmentNoteDetailsBinding
 
     val args: NoteDetailsFragmentArgs by navArgs()
     var isEditing = false
@@ -48,6 +45,15 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentNoteDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -95,7 +101,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
             R.id.action_save -> {
                 if (!validateTextFields())
                     return true
-                viewModel.saveNote(editNoteTitle.text.toString(), editNoteContent.text.toString())
+                viewModel.saveNote(binding.editNoteView.editNoteTitle.text.toString(), binding.editNoteView.editNoteContent.text.toString())
                 requireActivity().invalidateOptionsMenu()
                 true
             }
@@ -115,20 +121,20 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         when(viewState) {
             is Loading -> {
                 isEditing = false
-                viewFlipper.displayedChild = Flipper.LOADING
+                binding.viewFlipper.displayedChild = Flipper.LOADING
             }
             is Viewing -> {
                 Log.d("DEBUG", "Current note is ${viewState.note.title}")
                 isEditing = false
-                viewFlipper.displayedChild = Flipper.VIEWING
-                noteTitle.text = viewState.note.title
-                noteContent.text = viewState.note.content
+                binding.viewFlipper.displayedChild = Flipper.VIEWING
+                binding.noteView.noteTitle.text = viewState.note.title
+                binding.noteView.noteContent.text = viewState.note.content
             }
             is Editing -> {
                 isEditing = true
-                viewFlipper.displayedChild = Flipper.EDITING
-                editNoteTitle.setText(viewState.note.title)
-                editNoteContent.setText(viewState.note.content)
+                binding.viewFlipper.displayedChild = Flipper.EDITING
+                binding.editNoteView.editNoteTitle.setText(viewState.note.title)
+                binding.editNoteView.editNoteContent.setText(viewState.note.content)
             }
         }
     }
@@ -139,7 +145,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 findNavController().navigate(NoteDetailsFragmentDirections.noteDeletedAction())
             }
             is NoteDetailsViewModel.TextReady -> {
-                editNoteContent.append(event.text)
+                binding.editNoteView.editNoteContent.append(event.text)
             }
             is NoteDetailsViewModel.NoTextFoundEvent -> {
                 Toast.makeText(requireContext(), "Couldn't find any text on the image!", Toast.LENGTH_LONG).show()
@@ -192,6 +198,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         takePhoto()
     }
 
-    fun validateTextFields(): Boolean = editNoteTitle.validateTextContent() && editNoteContent.validateTextContent()
+    fun validateTextFields(): Boolean = binding.editNoteView.editNoteTitle.validateTextContent() && binding.editNoteView.editNoteContent.validateTextContent()
 
 }

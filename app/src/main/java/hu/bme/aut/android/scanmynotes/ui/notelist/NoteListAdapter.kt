@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.auth.User
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
-import kotlinx.android.synthetic.main.note_row.view.*
 
 class NoteListAdapter : ListAdapter<DomainNote, NoteListAdapter.NoteListViewHolder>(NoteComparator) {
 

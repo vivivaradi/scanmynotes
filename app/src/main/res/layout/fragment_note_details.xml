@@ -4,10 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include layout="@layout/layout_loading" />
+    <include layout="@layout/layout_loading"
+        android:id="@+id/loadingView"/>
 
-    <include layout="@layout/layout_view_note" />
+    <include layout="@layout/layout_view_note"
+        android:id="@+id/noteView"/>
 
-    <include layout="@layout/layout_edit_note" />
+    <include layout="@layout/layout_edit_note"
+        android:id="@+id/editNoteView"/>
 
 </ViewFlipper>
