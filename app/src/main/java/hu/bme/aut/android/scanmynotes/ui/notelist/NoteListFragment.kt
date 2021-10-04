@@ -1,17 +1,12 @@
 package hu.bme.aut.android.scanmynotes.ui.notelist
 
-import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
@@ -19,12 +14,11 @@ import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import hu.bme.aut.android.scanmynotes.R
+import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteListBinding
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
-import kotlinx.android.synthetic.main.fragment_note_list.*
 
 class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), NoteListAdapter.Listener, EasyPermissions.PermissionCallbacks {
     override fun provideViewModel() = getViewModelFromFactory()
@@ -33,6 +27,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     }
 
     private lateinit var adapter: NoteListAdapter
+    private lateinit var binding: FragmentNoteListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +39,15 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentNoteListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_list, menu)
     }
@@ -53,13 +57,13 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
         adapter = NoteListAdapter()
         adapter.listener = this
-        listNotes.adapter = adapter
+        binding.listNotes.adapter = adapter
 
         viewModel.noteList.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
 
-        floatingButton.setOnClickListener {
+        binding.floatingButton.setOnClickListener {
             takePhoto()
         }
     }
