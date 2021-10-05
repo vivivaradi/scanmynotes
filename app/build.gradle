@@ -91,4 +91,8 @@ dependencies {
     implementation 'com.google.guava:guava:26.0-android'
 
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
+
+    def groupie_version = '2.9.0'
+    implementation "com.github.lisawray.groupie:groupie:$groupie_version"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:$groupie_version"
 }
