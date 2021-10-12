@@ -14,19 +14,27 @@ import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import com.vmadalin.easypermissions.EasyPermissions
+import com.xwray.groupie.ExpandableGroup
+import com.xwray.groupie.GroupieAdapter
+import com.xwray.groupie.Section
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteListBinding
+import hu.bme.aut.android.scanmynotes.domain.models.Category
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
+import hu.bme.aut.android.scanmynotes.domain.models.ListItem
+import hu.bme.aut.android.scanmynotes.domain.models.Note
+import hu.bme.aut.android.scanmynotes.ui.notelist.items.CategoryItem
+import hu.bme.aut.android.scanmynotes.ui.notelist.items.NoteItem
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
 
-class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), NoteListAdapter.Listener, EasyPermissions.PermissionCallbacks {
+class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), EasyPermissions.PermissionCallbacks {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource(): Int {
         return R.layout.fragment_note_list
     }
 
-    private lateinit var adapter: NoteListAdapter
+    private lateinit var adapter: GroupieAdapter
     private lateinit var binding: FragmentNoteListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,13 +63,8 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = NoteListAdapter()
-        adapter.listener = this
+        adapter = GroupieAdapter()
         binding.listNotes.adapter = adapter
-
-        viewModel.noteList.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
-        }
 
         binding.floatingButton.setOnClickListener {
             takePhoto()
@@ -71,22 +74,19 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onStart() {
         super.onStart()
 
-        viewModel.setupDataFlow()
         viewModel.load()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        viewModel.stopDataFlow()
     }
 
     override fun render(viewState: NoteListViewState) {
         when(viewState){
             is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
             is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
-            is NotesReady -> {
+            is Success -> {
                 Log.d(getString(R.string.debug_tag), "Notes Ready")
+                adapter.add(populateList(viewState.noteList))
+            }
+            is Failure -> {
+                Log.d("ERROR", viewState.message)
             }
         }
     }
@@ -103,10 +103,10 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
     }
 
-    override fun onNoteClicked(note: DomainNote) {
-        Log.d("DEBUG", "Note clicked: ${note.id}")
-        findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
-    }
+//    override fun onItemClicked(item: ListItem) {
+//        Log.d("DEBUG", "Note clicked: ${item.id}")
+//        findNavController().navigate(NoteListFragmentDirections.openNoteAction(item.id))
+//    }
 
     private fun takePhoto() {
         if (hasCameraPermission()) {
@@ -169,4 +169,31 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         takePhoto()
     }
 
+    private fun populateList(itemList: List<ListItem>): Section {
+        val mainSection = Section()
+        for(item in itemList) {
+            when (item) {
+                is Category -> {
+                    val group = ExpandableGroup(CategoryItem(item))
+                    populateCategory(item.listItems, group)
+                    mainSection.add(group)
+                }
+                is Note -> mainSection.add(NoteItem(item))
+            }
+        }
+        return mainSection
+    }
+
+    private fun populateCategory(itemList: List<ListItem>, section: ExpandableGroup) {
+        for (item in itemList) {
+            when (item) {
+                is Category -> {
+                    val group = ExpandableGroup(CategoryItem(item))
+                    populateCategory(item.listItems, group)
+                    section.add(group)
+                }
+                is Note -> section.add(NoteItem(item))
+            }
+        }
+    }
 }

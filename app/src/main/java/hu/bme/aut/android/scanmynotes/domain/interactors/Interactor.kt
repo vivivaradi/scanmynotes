@@ -8,35 +8,22 @@ import co.zsmb.rainbowcake.withIOContext
 import com.google.api.services.vision.v1.model.Image
 import hu.bme.aut.android.scanmynotes.data.network.NetworkDataSource
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class Interactor @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ){
-    val noteList = MediatorLiveData<List<DomainNote>>()
-
-    fun setupDataFlow() {
-        noteList.addSource(networkDataSource.getNoteList()) { list ->
-            noteList.postValue(list)
-        }
-    }
-
-    fun stopDataFlow() {
-        noteList.removeSource(networkDataSource.getNoteList())
-    }
-
-    fun getNoteList(): LiveData<List<DomainNote>> {
-        return noteList
-    }
 
     fun getUser() = networkDataSource.getCurrentUser()
 
     fun getAuth() = networkDataSource.getAuth()
 
-    suspend fun fetchNotes() = withIOContext {
+    suspend fun fetchNoteList() = withIOContext {
         Log.d("DEBUG", "Interactor reached")
-        networkDataSource.fetchNotes()
+        networkDataSource.fetchNoteList()
     }
 
     suspend fun digitalize(image: Bitmap): String? = withIOContext {

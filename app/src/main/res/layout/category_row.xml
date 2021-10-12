@@ -3,12 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:id="@+id/noteItem"
+    android:id="@+id/categoryItem"
     android:orientation="horizontal">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvNoteTitle"/>
+        android:id="@+id/tvCategoryTitle"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/arrowIcon"
+        android:src="@android:drawable/arrow_down_float"/>
 
 </LinearLayout>

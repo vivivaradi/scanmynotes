@@ -4,7 +4,7 @@ import hu.bme.aut.android.scanmynotes.util.Behaviour
 
 class Category(id: String = "",
                title: String = "",
+               parentId: String? = null,
                behaviour: Behaviour = Behaviour.DROPDOWN,
-               parent: ListItem? = null,
-               var listItems: List<ListItem> = ArrayList<ListItem>()
-): ListItem(id, title, behaviour)
+               var listItems: ArrayList<ListItem> = ArrayList<ListItem>()
+): ListItem(id, title, parentId, behaviour)

@@ -5,7 +5,7 @@ import hu.bme.aut.android.scanmynotes.util.Behaviour
 
 class Note(id: String = "",
            title: String = "",
+           parentId: String? = null,
            behaviour: Behaviour = Behaviour.OPEN,
-           parent: ListItem? = null,
            val content: String = ""
-): ListItem(id, title, behaviour)
+): ListItem(id, title, parentId, behaviour)

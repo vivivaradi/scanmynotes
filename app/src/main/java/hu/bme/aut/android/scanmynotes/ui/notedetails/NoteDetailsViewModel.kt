@@ -23,15 +23,6 @@ class NoteDetailsViewModel @Inject constructor(
     class NoteNotFoundEvent(val noteId: String): OneShotEvent
     object NoteDeletedEvent: OneShotEvent
 
-    fun setupDataFlow() = execute {
-        Log.d("DEBUG", "Run you bitch")
-        noteList.addSource(interactor.noteList) { list ->
-            noteList.value = list
-            Log.d("DEBUG", "Observing interactor noteList")
-        }
-        Log.d("DEBUG", "Source added (maybe)")
-    }
-
     fun loadCurrentNote(id: String) = execute {
         viewState = Loading
 

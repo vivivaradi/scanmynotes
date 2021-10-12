@@ -5,6 +5,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.vmadalin.easypermissions.EasyPermissions
+import hu.bme.aut.android.scanmynotes.data.models.Result
+import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListViewState
 
 fun Fragment.hasCameraPermission() =
     com.vmadalin.easypermissions.EasyPermissions.hasPermissions(

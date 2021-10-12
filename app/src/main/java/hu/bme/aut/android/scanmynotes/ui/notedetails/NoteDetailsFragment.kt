@@ -64,7 +64,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         super.onViewCreated(view, savedInstanceState)
         Log.d("DEBUG", "Reached note detail fragment")
 
-        viewModel.setupDataFlow()
         Log.d("DEBUG", "SetupDataFlow should have run")
         viewModel.noteList.observe(viewLifecycleOwner) {
         }
