@@ -10,4 +10,4 @@ sealed class NoteListViewState
 object Initial: NoteListViewState()
 object Loading: NoteListViewState()
 data class Success(val noteList: List<ListItem>): NoteListViewState()
-data class Failure(val message: String): NoteListViewState()
+data class Error(val message: String): NoteListViewState()

@@ -60,17 +60,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         inflater.inflate(R.menu.menu_details, menu)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d("DEBUG", "Reached note detail fragment")
-
-        Log.d("DEBUG", "SetupDataFlow should have run")
-        viewModel.noteList.observe(viewLifecycleOwner) {
-        }
-        Log.d("DEBUG", "Observing noteList")
-
-    }
-
     override fun onStart() {
         super.onStart()
         Log.d("DEBUG", "Loading current note with id: ${args.noteId}")

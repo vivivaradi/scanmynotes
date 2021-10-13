@@ -75,18 +75,22 @@ class FirebaseApi {
         return docRef.id
     }
 
-    suspend fun getUserNote(id: String) : DomainNote{
+    suspend fun getUserNote(id: String) : Result<Note> {
         Log.d("DEBUG", "API received id: $id")
-        var note = DomainNote()
-        val task = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id).get()
-        val snapshot = Tasks.await(task, 10, TimeUnit.SECONDS)
-        if (snapshot.exists()){
-            snapshot.toObject<DomainNote>()?.let { result ->
+        var note = Note()
+        val noteRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id)
+        val noteSnapshot = try {
+            noteRef.get().await()
+        } catch (error: FirebaseFirestoreException) {
+            return Result.failure(error.message.toString())
+        }
+        if (noteSnapshot.exists()){
+            noteSnapshot.toObject<Note>()?.let { result ->
                 note = result
-                note.id = snapshot.id
+                note.id = noteSnapshot.id
             }
         }
-        return note
+        return Result.success(note)
     }
 
     suspend fun saveNote(note: DomainNote) {

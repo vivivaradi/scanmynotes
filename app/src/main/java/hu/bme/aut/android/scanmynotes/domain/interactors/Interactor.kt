@@ -2,14 +2,12 @@ package hu.bme.aut.android.scanmynotes.domain.interactors
 
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import co.zsmb.rainbowcake.withIOContext
 import com.google.api.services.vision.v1.model.Image
 import hu.bme.aut.android.scanmynotes.data.network.NetworkDataSource
 import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOn
+import hu.bme.aut.android.scanmynotes.data.models.Result
+import hu.bme.aut.android.scanmynotes.domain.models.Note
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -43,7 +41,7 @@ class Interactor @Inject constructor(
         networkDataSource.saveNote(note)
     }
 
-    suspend fun getSingleNote(id: String): DomainNote? = withIOContext {
+    suspend fun getSingleNote(id: String): Result<Note> = withIOContext {
         Log.d("DEBUG", "Getting single note with id: $id")
         networkDataSource.getSingleNote(id)
     }

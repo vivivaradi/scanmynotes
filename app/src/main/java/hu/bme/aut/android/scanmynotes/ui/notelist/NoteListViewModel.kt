@@ -27,7 +27,7 @@ class NoteListViewModel @Inject constructor(
         Log.d("DEBUG", "Received notes")
         viewState = when (result) {
             is Result.Success<List<ListItem>> -> Success(result.data)
-            is Result.Failure<List<ListItem>> -> Failure(result.message)
+            is Result.Failure<List<ListItem>> -> Error(result.message)
         }
     }
 

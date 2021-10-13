@@ -16,11 +16,11 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import com.vmadalin.easypermissions.EasyPermissions
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.GroupieAdapter
+import com.xwray.groupie.OnItemClickListener
 import com.xwray.groupie.Section
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteListBinding
 import hu.bme.aut.android.scanmynotes.domain.models.Category
-import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import hu.bme.aut.android.scanmynotes.domain.models.ListItem
 import hu.bme.aut.android.scanmynotes.domain.models.Note
 import hu.bme.aut.android.scanmynotes.ui.notelist.items.CategoryItem
@@ -65,6 +65,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
         adapter = GroupieAdapter()
         binding.listNotes.adapter = adapter
+        adapter.setOnItemClickListener(onItemClicked)
 
         binding.floatingButton.setOnClickListener {
             takePhoto()
@@ -73,7 +74,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     override fun onStart() {
         super.onStart()
-
+        adapter.clear()
         viewModel.load()
     }
 
@@ -82,10 +83,10 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
             is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
             is Success -> {
-                Log.d(getString(R.string.debug_tag), "Notes Ready")
                 adapter.add(populateList(viewState.noteList))
+                Log.d(getString(R.string.debug_tag), "Notes Ready")
             }
-            is Failure -> {
+            is Error -> {
                 Log.d("ERROR", viewState.message)
             }
         }
@@ -103,10 +104,14 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
     }
 
-//    override fun onItemClicked(item: ListItem) {
-//        Log.d("DEBUG", "Note clicked: ${item.id}")
-//        findNavController().navigate(NoteListFragmentDirections.openNoteAction(item.id))
-//    }
+    private val onItemClicked = OnItemClickListener { item, _ ->
+        Log.d("DEBUG", "Note clicked: ${item.id}")
+        if (item is NoteItem) {
+            val note = item.note
+            findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
+        }
+
+    }
 
     private fun takePhoto() {
         if (hasCameraPermission()) {
