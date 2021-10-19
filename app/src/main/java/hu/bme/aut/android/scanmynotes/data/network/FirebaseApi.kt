@@ -64,17 +64,6 @@ class FirebaseApi {
 
     fun getCurrentUser() = auth.currentUser
 
-    suspend fun saveNewNote(note: DomainNote): String {
-        val notesRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes")
-        val data = hashMapOf(
-            "title" to note.title,
-            "content" to note.content
-        )
-        val task = notesRef.add(data)
-        val docRef = Tasks.await(task, 10, TimeUnit.SECONDS)
-        return docRef.id
-    }
-
     suspend fun getUserNote(id: String) : Result<Note> {
         Log.d("DEBUG", "API received id: $id")
         var note = Note()
@@ -93,30 +82,54 @@ class FirebaseApi {
         return Result.success(note)
     }
 
-    suspend fun saveNote(note: DomainNote) {
+    suspend fun saveNote(note: Note): Result<String> {
         val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(note.id)
         val data = hashMapOf(
             "title" to note.title,
-            "content" to note.content
+            "content" to note.content,
+            "parentId" to note.parentId
         )
-        docRef.set(data)
-            .addOnSuccessListener {
+        try {
+            docRef.set(data).await()
+        } catch (error: FirebaseFirestoreException) {
+            return Result.failure(error.message.toString())
+        }
 
-            }
-            .addOnFailureListener { exception ->
-                exception.message?.let { Log.e("ERROR", it) }
-            }
+        return Result.success(note.id)
     }
 
-    suspend fun deleteNote(id: String) {
+    suspend fun saveCategory(category: Category): Result<String> {
+        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(category.id)
+        val data = hashMapOf(
+            "title" to category.title,
+            "parentId" to category.parentId
+        )
+        try {
+            docRef.set(data).await()
+        } catch (error: FirebaseFirestoreException) {
+            return Result.failure(error.message.toString())
+        }
+
+        return Result.success(category.id)
+    }
+
+    suspend fun deleteNote(id: String): Result<String> {
         val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id)
-        docRef.delete()
-                .addOnSuccessListener {
-
-                }
-                .addOnFailureListener { exception ->
-                    exception.message?.let { Log.e("ERROR", it) }
-                }
+        try {
+            docRef.delete().await()
+        } catch (error: FirebaseFirestoreException) {
+            return Result.failure(error.message.toString())
+        }
+        return Result.success("Successfully deleted note.")
     }
 
+    suspend fun deleteCategory(id: String): Result<String> {
+        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(id)
+        try {
+            docRef.delete().await()
+        } catch (error: FirebaseFirestoreException) {
+            return Result.failure(error.message.toString())
+        }
+        return Result.success("Successfully deleted category.")
+    }
 }

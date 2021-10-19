@@ -40,10 +40,6 @@ class NetworkDataSource @Inject constructor(
 
     fun getCurrentUser() = firebaseApi.getCurrentUser()
 
-    suspend fun createUserNote(note: DomainNote): String{
-        return firebaseApi.saveNewNote(note)
-    }
-
     suspend fun detectText(image: Image): String? {
         return visionApi.detectText(image)
     }
@@ -52,11 +48,11 @@ class NetworkDataSource @Inject constructor(
         return firebaseApi.getUserNote(id)
     }
 
-    suspend fun saveNote(note: DomainNote) {
+    suspend fun saveNote(note: Note): Result<String> {
         return firebaseApi.saveNote(note)
     }
 
-    suspend fun deleteNote(id: String) {
+    suspend fun deleteNote(id: String): Result<String> {
         return firebaseApi.deleteNote(id)
     }
 

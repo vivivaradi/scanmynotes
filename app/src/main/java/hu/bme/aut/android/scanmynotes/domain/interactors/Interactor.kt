@@ -33,11 +33,11 @@ class Interactor @Inject constructor(
         networkDataSource.detectText(inputImage)
     }
 
-    suspend fun createNote(title: String, text: String): String = withIOContext{
-        networkDataSource.createUserNote(DomainNote("", title, text))
+    suspend fun createNote(title: String, text: String): Result<String> = withIOContext{
+        networkDataSource.saveNote(Note("", title, text))
     }
 
-    suspend fun saveNote(note: DomainNote) = withIOContext {
+    suspend fun saveNote(note: Note) = withIOContext {
         networkDataSource.saveNote(note)
     }
 

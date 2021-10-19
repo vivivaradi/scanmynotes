@@ -64,6 +64,9 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
             is NewNoteViewModel.NewNoteSavedEvent -> {
                 findNavController().navigate(NewNoteFragmentDirections.savedNewNoteAction(event.id))
             }
+            is NewNoteViewModel.NoteSaveEventError -> {
+                // TODO
+            }
         }
     }
 
