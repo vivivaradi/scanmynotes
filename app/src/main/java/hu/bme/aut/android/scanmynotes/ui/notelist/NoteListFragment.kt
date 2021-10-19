@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
@@ -36,6 +38,13 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     private lateinit var adapter: GroupieAdapter
     private lateinit var binding: FragmentNoteListBinding
+
+    private var isFloatingMenuOpen = false
+
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_open_anim) }
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_close_anim) }
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.from_bottom_anim) }
+    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.to_bottom_anim) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +77,20 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         adapter.setOnItemClickListener(onItemClicked)
 
         binding.floatingButton.setOnClickListener {
+            animateButtons()
+        }
+
+        binding.addNoteButton.setOnClickListener {
             takePhoto()
+        }
+
+        binding.addCategoryButton.setOnClickListener {
+            // TODO
         }
     }
 
     override fun onStart() {
         super.onStart()
-        adapter.clear()
         viewModel.load()
     }
 
@@ -83,6 +99,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
             is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
             is Success -> {
+                adapter.clear()
                 adapter.add(populateList(viewState.noteList))
                 Log.d(getString(R.string.debug_tag), "Notes Ready")
             }
@@ -200,5 +217,31 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
                 is Note -> section.add(NoteItem(item))
             }
         }
+    }
+
+
+    private fun animateButtons() {
+        if (isFloatingMenuOpen) {
+            closeMenu()
+        } else {
+            openMenu()
+        }
+        isFloatingMenuOpen = !isFloatingMenuOpen
+    }
+
+    private fun openMenu() {
+        binding.addCategoryButton.visibility = View.VISIBLE
+        binding.addNoteButton.visibility = View.VISIBLE
+        binding.addCategoryButton.startAnimation(fromBottom)
+        binding.addNoteButton.startAnimation(fromBottom)
+        binding.floatingButton.startAnimation(rotateOpen)
+    }
+
+    private fun closeMenu() {
+        binding.addNoteButton.visibility = View.GONE
+        binding.addCategoryButton.visibility = View.GONE
+        binding.addCategoryButton.startAnimation(toBottom)
+        binding.addNoteButton.startAnimation(toBottom)
+        binding.floatingButton.startAnimation(rotateClose)
     }
 }
