@@ -21,7 +21,7 @@ class NetworkDataSource @Inject constructor(
     private val visionApi: VisionApi
 ){
 
-    suspend fun fetchNoteList(): Result<List<ListItem>> {
+    suspend fun getNoteList(): Result<List<ListItem>> {
         Log.d("DEBUG", "Datasource reached")
         val notesResult = firebaseApi.fetchNotes()
         val categoriesResult = firebaseApi.fetchCategories()
@@ -34,6 +34,10 @@ class NetworkDataSource @Inject constructor(
             notesResult is Result.Failure -> Result.failure(notesResult.message)
             else -> Result.failure("Unexpected error: Results of network calls do not match.")
         }
+    }
+
+    suspend fun getCategories(): Result<List<Category>> {
+        return firebaseApi.fetchCategories()
     }
 
     fun getAuth() = firebaseApi.auth
@@ -50,6 +54,10 @@ class NetworkDataSource @Inject constructor(
 
     suspend fun saveNote(note: Note): Result<String> {
         return firebaseApi.saveNote(note)
+    }
+
+    suspend fun saveCategory(category: Category): Result<String> {
+        return firebaseApi.saveCategory(category)
     }
 
     suspend fun deleteNote(id: String): Result<String> {

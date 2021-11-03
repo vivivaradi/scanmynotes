@@ -13,6 +13,8 @@ class NoteDetailsViewModel @Inject constructor(
     private val interactor: Interactor
 ): RainbowCakeViewModel<NoteDetailsViewState>(Initial) {
 
+    var currentNote: Note? = null
+
     object NoTextFoundEvent: OneShotEvent
     class TextReady(val text: String): OneShotEvent
 
@@ -23,23 +25,26 @@ class NoteDetailsViewModel @Inject constructor(
         viewState = Loading
         val result = interactor.getSingleNote(id)
         viewState = when (result) {
-            is Result.Success<Note> -> Viewing(result.data)
+            is Result.Success<Note> -> {
+                currentNote = result.data
+                Viewing(result.data)
+            }
             is Result.Failure<Note> -> Error(result.message)
         }
     }
 
     fun editNote() {
- //       currentNote?.let {
- //           viewState = Editing(it)
- //       }
+        currentNote?.let {
+            viewState = Editing(it)
+        }
     }
 
     fun saveNote(title: String, content: String) = execute {
- //       val updatedNote = DomainNote(currentNote!!.id, title, content)
- //       viewState = Loading
- //       interactor.saveNote(updatedNote)
- //       currentNote = updatedNote
- //       viewState = Viewing(currentNote!!)
+        val updatedNote = Note(currentNote!!.id, title, content)
+        viewState = Loading
+        interactor.saveNote(updatedNote)
+        currentNote = updatedNote
+        viewState = Viewing(currentNote!!)
     }
 
     fun deleteNote() = execute {

@@ -5,8 +5,8 @@ import android.util.Log
 import co.zsmb.rainbowcake.withIOContext
 import com.google.api.services.vision.v1.model.Image
 import hu.bme.aut.android.scanmynotes.data.network.NetworkDataSource
-import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import hu.bme.aut.android.scanmynotes.data.models.Result
+import hu.bme.aut.android.scanmynotes.domain.models.Category
 import hu.bme.aut.android.scanmynotes.domain.models.Note
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -19,11 +19,6 @@ class Interactor @Inject constructor(
 
     fun getAuth() = networkDataSource.getAuth()
 
-    suspend fun fetchNoteList() = withIOContext {
-        Log.d("DEBUG", "Interactor reached")
-        networkDataSource.fetchNoteList()
-    }
-
     suspend fun digitalize(image: Bitmap): String? = withIOContext {
         val stream = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 80, stream)
@@ -31,6 +26,15 @@ class Interactor @Inject constructor(
         val inputImage = Image()
         inputImage.encodeContent(byteArray)
         networkDataSource.detectText(inputImage)
+    }
+
+    suspend fun getNoteList() = withIOContext {
+        Log.d("DEBUG", "Interactor reached")
+        networkDataSource.getNoteList()
+    }
+
+    suspend fun getCategories() = withIOContext {
+        networkDataSource.getCategories()
     }
 
     suspend fun createNote(title: String, text: String): Result<String> = withIOContext{
@@ -50,4 +54,7 @@ class Interactor @Inject constructor(
         networkDataSource.deleteNote(id)
     }
 
+    suspend fun saveCategory(category: Category) = withIOContext {
+        networkDataSource.saveCategory(category)
+    }
 }

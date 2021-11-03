@@ -3,6 +3,7 @@ package hu.bme.aut.android.scanmynotes.ui.newnote
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.zsmb.rainbowcake.base.OneShotEvent
@@ -23,6 +24,9 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+        val actionBar = activity?.actionBar
+        actionBar?.title = "Create a Note"
+        actionBar?.setIcon(R.drawable.ic_baseline_close_24)
     }
 
     override fun onCreateView(

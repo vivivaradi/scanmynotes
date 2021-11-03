@@ -85,7 +85,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
 
         binding.addCategoryButton.setOnClickListener {
-            // TODO
+            findNavController().navigate(NoteListFragmentDirections.newCategoryAction())
         }
     }
 

@@ -7,6 +7,7 @@ import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
 import hu.bme.aut.android.scanmynotes.domain.models.ListItem
 import hu.bme.aut.android.scanmynotes.data.models.Result
+import hu.bme.aut.android.scanmynotes.domain.models.Category
 import javax.inject.Inject
 
 class NoteListViewModel @Inject constructor(
@@ -23,7 +24,7 @@ class NoteListViewModel @Inject constructor(
     fun load() = execute {
         viewState = Loading
         Log.d("DEBUG", "Calling interactor for notes")
-        val result = interactor.fetchNoteList()
+        val result = interactor.getNoteList()
         Log.d("DEBUG", "Received notes")
         viewState = when (result) {
             is Result.Success<List<ListItem>> -> Success(result.data)
@@ -39,5 +40,6 @@ class NoteListViewModel @Inject constructor(
         else
             postEvent(NoTextFoundEvent)
     }
+
 
 }

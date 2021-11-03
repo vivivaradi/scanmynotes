@@ -5,6 +5,7 @@ import co.zsmb.rainbowcake.dagger.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import hu.bme.aut.android.scanmynotes.ui.newcategory.NewCategoryViewModel
 import hu.bme.aut.android.scanmynotes.ui.newnote.NewNoteViewModel
 import hu.bme.aut.android.scanmynotes.ui.notedetails.NoteDetailsViewModel
 import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListViewModel
@@ -21,6 +22,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NewNoteViewModel::class)
     abstract fun bindNewNoteViewModel(viewModel: NewNoteViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewCategoryViewModel::class)
+    abstract fun bindNewCategoryViewModel(viewModel: NewCategoryViewModel): ViewModel
 
     @Binds
     @IntoMap
