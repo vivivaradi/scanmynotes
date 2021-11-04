@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
@@ -31,7 +32,7 @@ class FirebaseApi {
 
         val notesRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes")
         val notesSnapshot = try {
-            notesRef.get().await()
+            notesRef.orderBy("title").get().await()
         } catch (error: FirebaseFirestoreException) {
             return Result.failure(error.message.toString())
         }
@@ -48,7 +49,7 @@ class FirebaseApi {
     suspend fun fetchCategories(): Result<List<Category>> {
         val categoriesRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories")
         val categoriesSnapshot = try {
-            categoriesRef.get().await()
+            categoriesRef.orderBy("title").get().await()
         } catch (error: FirebaseFirestoreException) {
             return Result.failure(error.message.toString())
         }
@@ -79,38 +80,62 @@ class FirebaseApi {
                 note.id = noteSnapshot.id
             }
         }
+
         return Result.success(note)
     }
 
     suspend fun saveNote(note: Note): Result<String> {
-        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(note.id)
+        val docRef: DocumentReference
+
         val data = hashMapOf(
             "title" to note.title,
             "content" to note.content,
             "parentId" to note.parentId
         )
-        try {
-            docRef.set(data).await()
-        } catch (error: FirebaseFirestoreException) {
-            return Result.failure(error.message.toString())
+        if (note.id.isEmpty()) {
+            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document()
+            try {
+                docRef.set(data).await()
+            } catch (error: FirebaseFirestoreException) {
+                return Result.failure(error.message.toString())
+            }
+        } else {
+            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(note.id)
+            try {
+                docRef.set(data).await()
+            } catch (error: FirebaseFirestoreException) {
+                return Result.failure(error.message.toString())
+            }
         }
 
-        return Result.success(note.id)
+        return Result.success(docRef.id)
     }
 
     suspend fun saveCategory(category: Category): Result<String> {
-        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(category.id)
+        val docRef: DocumentReference
+
         val data = hashMapOf(
             "title" to category.title,
             "parentId" to category.parentId
         )
-        try {
-            docRef.set(data).await()
-        } catch (error: FirebaseFirestoreException) {
-            return Result.failure(error.message.toString())
+
+        if (category.id.isEmpty()) {
+            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document()
+            try {
+                docRef.set(data).await()
+            } catch (error: FirebaseFirestoreException) {
+                return Result.failure(error.message.toString())
+            }
+        } else {
+            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(category.id)
+            try {
+                docRef.set(data).await()
+            } catch (error: FirebaseFirestoreException) {
+                return Result.failure(error.message.toString())
+            }
         }
 
-        return Result.success(category.id)
+        return Result.success(docRef.id)
     }
 
     suspend fun deleteNote(id: String): Result<String> {

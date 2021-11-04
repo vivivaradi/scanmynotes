@@ -3,6 +3,8 @@ package hu.bme.aut.android.scanmynotes.ui.newnote
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -11,14 +13,18 @@ import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNewNoteBinding
+import hu.bme.aut.android.scanmynotes.domain.models.Category
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
 
-class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>() {
+class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>(), AdapterView.OnItemSelectedListener {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_new_note
 
     val args : NewNoteFragmentArgs by navArgs()
     private lateinit var binding: FragmentNewNoteBinding
+    private lateinit var adapter: ArrayAdapter<Category>
+
+    private var selectedParent: Category? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +44,19 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
+        binding.categorySelectorSpinner.adapter = adapter
+        binding.categorySelectorSpinner.onItemSelectedListener = this
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadCategories()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_new, menu)
     }
@@ -50,17 +69,11 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                     return true
                 }
                 Log.d("DEBUG", "Reached the saveNote part")
-                viewModel.saveNote(binding.newNoteTitle.text.toString(), binding.newNoteText.text.toString())
+                viewModel.saveNote(binding.newNoteTitle.text.toString(), binding.newNoteText.text.toString(), selectedParent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d("DEBUG", "Reached new note fragment")
-
     }
 
     override fun onEvent(event: OneShotEvent) {
@@ -75,7 +88,31 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     }
 
     override fun render(viewState: NewNoteViewState) {
-        binding.newNoteText.setText(args.noteText)
+        when (viewState) {
+            is Initial -> Log.d("New Note", "Initial")
+            is Loading -> Log.d("New Note", "Loading")
+            is Success -> {
+                Log.d("New Note", "Success")
+                adapter.clear()
+                adapter.add(Category("", "None"))
+                adapter.addAll(viewState.categories)
+                binding.newNoteText.setText(args.noteText)
+            }
+            is Failure -> Log.d("New Note", "Failure")
+        }
+
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        selectedParent = when (position) {
+            0 -> null
+            else -> parent.getItemAtPosition(position) as Category
+        }
+        Log.d("Spinner Selection", "object id: ${selectedParent?.id}, title: ${selectedParent?.title}")
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        selectedParent = null
     }
 
     fun validateTextFields(): Boolean = binding.newNoteTitle.validateTextContent() && binding.newNoteText.validateTextContent()

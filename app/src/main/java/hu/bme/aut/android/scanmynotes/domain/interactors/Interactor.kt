@@ -37,8 +37,8 @@ class Interactor @Inject constructor(
         networkDataSource.getCategories()
     }
 
-    suspend fun createNote(title: String, text: String): Result<String> = withIOContext{
-        networkDataSource.saveNote(Note("", title, text))
+    suspend fun createNote(title: String, text: String, parentId: String?): Result<String> = withIOContext{
+        networkDataSource.saveNote(Note("", title, parentId, text))
     }
 
     suspend fun saveNote(note: Note) = withIOContext {
