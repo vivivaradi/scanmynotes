@@ -24,8 +24,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     private lateinit var binding: FragmentNewNoteBinding
     private lateinit var adapter: ArrayAdapter<Category>
 
-    private var selectedParent: Category? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,7 +67,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                     return true
                 }
                 Log.d("DEBUG", "Reached the saveNote part")
-                viewModel.saveNote(binding.newNoteTitle.text.toString(), binding.newNoteText.text.toString(), selectedParent)
+                viewModel.saveNote(binding.newNoteTitle.text.toString(), binding.newNoteText.text.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -104,15 +102,16 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        selectedParent = when (position) {
+        val selectedItem = when (position) {
             0 -> null
             else -> parent.getItemAtPosition(position) as Category
         }
-        Log.d("Spinner Selection", "object id: ${selectedParent?.id}, title: ${selectedParent?.title}")
+        Log.d("Spinner Selection", "object id: ${selectedItem?.id}, title: ${selectedItem?.title}")
+        viewModel.selectParent(selectedItem)
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        selectedParent = null
+        viewModel.selectParent(null)
     }
 
     fun validateTextFields(): Boolean = binding.newNoteTitle.validateTextContent() && binding.newNoteText.validateTextContent()

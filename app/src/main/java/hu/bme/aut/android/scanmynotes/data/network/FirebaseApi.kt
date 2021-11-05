@@ -65,9 +65,9 @@ class FirebaseApi {
 
     fun getCurrentUser() = auth.currentUser
 
-    suspend fun getUserNote(id: String) : Result<Note> {
+    suspend fun getSingleNote(id: String) : Result<Note> {
         Log.d("DEBUG", "API received id: $id")
-        var note = Note()
+        var note: Note
         val noteRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id)
         val noteSnapshot = try {
             noteRef.get().await()
@@ -78,10 +78,28 @@ class FirebaseApi {
             noteSnapshot.toObject<Note>()?.let { result ->
                 note = result
                 note.id = noteSnapshot.id
+                return Result.success(note)
             }
         }
+        return Result.failure("Note doesn't exist.")
+    }
 
-        return Result.success(note)
+    suspend fun getSingleCategory(id: String): Result<Category> {
+        var category: Category
+        val categoryRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(id)
+        val categorySnapshot = try {
+            categoryRef.get().await()
+        } catch (error: FirebaseFirestoreException) {
+            return Result.failure(error.message.toString())
+        }
+        if (categorySnapshot.exists()) {
+            categorySnapshot.toObject<Category>()?.let { result ->
+                category = result
+                category.id = categorySnapshot.id
+                return Result.success(category)
+            }
+        }
+        return Result.failure("Category doesn't exist.")
     }
 
     suspend fun saveNote(note: Note): Result<String> {

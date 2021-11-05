@@ -45,16 +45,24 @@ class Interactor @Inject constructor(
         networkDataSource.saveNote(note)
     }
 
+    suspend fun saveCategory(category: Category) = withIOContext {
+        networkDataSource.saveCategory(category)
+    }
+
     suspend fun getSingleNote(id: String): Result<Note> = withIOContext {
         Log.d("DEBUG", "Getting single note with id: $id")
         networkDataSource.getSingleNote(id)
+    }
+
+    suspend fun getSingleCategory(id: String): Result<Category> = withIOContext {
+        networkDataSource.getSingleCategory(id)
     }
 
     suspend fun deleteNote(id: String) = withIOContext {
         networkDataSource.deleteNote(id)
     }
 
-    suspend fun saveCategory(category: Category) = withIOContext {
-        networkDataSource.saveCategory(category)
+    suspend fun deleteCategory(id: String) = withIOContext {
+        networkDataSource.deleteCategory(id)
     }
 }

@@ -21,8 +21,6 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
     private lateinit var binding: FragmentNewCategoryBinding
     private lateinit var adapter: ArrayAdapter<Category>
 
-    private var selectedParent: Category? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,7 +73,7 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
                 if (!binding.newCategoryTitle.validateTextContent()) {
                     return true
                 }
-                viewModel.saveCategory(binding.newCategoryTitle.text.toString(), selectedParent)
+                viewModel.saveCategory(binding.newCategoryTitle.text.toString())
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -89,14 +87,15 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        selectedParent = when (position) {
+        val selectedItem = when (position) {
             0 -> null
             else -> parent.getItemAtPosition(position) as Category
         }
-        Log.d("Spinner Selection", "object id: ${selectedParent?.id}, title: ${selectedParent?.title}")
+        Log.d("Spinner Selection", "object id: ${selectedItem?.id}, title: ${selectedItem?.title}")
+        viewModel.selectParent(selectedItem)
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        selectedParent = null
+        viewModel.selectParent(null)
     }
 }

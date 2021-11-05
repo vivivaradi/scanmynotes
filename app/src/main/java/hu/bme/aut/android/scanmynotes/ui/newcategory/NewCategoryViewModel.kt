@@ -14,6 +14,8 @@ class NewCategoryViewModel @Inject constructor(
     class NewCategorySavedEvent(val id: String): OneShotEvent
     class CategorySaveEventError(val message: String): OneShotEvent
 
+    private var selectedParent: Category? = null
+
     fun loadCategories() = execute {
         viewState = Loading
         val result = interactor.getCategories()
@@ -23,13 +25,17 @@ class NewCategoryViewModel @Inject constructor(
         }
     }
 
-    fun saveCategory(name: String, parent: Category?) = execute {
+    fun saveCategory(name: String) = execute {
         viewState = Loading
-        val category = Category("", name, parent?.id)
+        val category = Category("", name, selectedParent?.id)
         val result = interactor.saveCategory(category)
         when (result) {
             is Result.Success -> postEvent(NewCategorySavedEvent(result.data))
             is Result.Failure -> postEvent(CategorySaveEventError(result.message))
         }
+    }
+
+    fun selectParent(category: Category?) {
+        selectedParent = category
     }
 }

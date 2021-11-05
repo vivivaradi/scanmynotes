@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,16 +18,18 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import com.vmadalin.easypermissions.EasyPermissions
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteDetailsBinding
+import hu.bme.aut.android.scanmynotes.domain.models.Category
 import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
 
-class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>(), EasyPermissions.PermissionCallbacks {
+class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetailsViewModel>(), EasyPermissions.PermissionCallbacks, AdapterView.OnItemSelectedListener {
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource() = R.layout.fragment_note_details
 
     private lateinit var binding: FragmentNoteDetailsBinding
+    private lateinit var adapter: ArrayAdapter<Category>
 
     val args: NoteDetailsFragmentArgs by navArgs()
     var isEditing = false
@@ -56,6 +60,14 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
+        binding.editNoteView.categorySelectorSpinner.adapter = adapter
+        binding.editNoteView.categorySelectorSpinner.onItemSelectedListener = this
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_details, menu)
     }
@@ -63,7 +75,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
     override fun onStart() {
         super.onStart()
         Log.d("DEBUG", "Loading current note with id: ${args.noteId}")
-        viewModel.loadCurrentNote(args.noteId)
+        viewModel.loadData(args.noteId)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -123,6 +135,11 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 binding.viewFlipper.displayedChild = Flipper.EDITING
                 binding.editNoteView.editNoteTitle.setText(viewState.note.title)
                 binding.editNoteView.editNoteContent.setText(viewState.note.content)
+
+                adapter.clear()
+                adapter.add(Category("", "None"))
+                adapter.addAll(viewModel.categoriesList)
+                binding.editNoteView.categorySelectorSpinner.setSelection(adapter.getPosition(viewModel.selectedParent))
             }
         }
     }
@@ -184,6 +201,14 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         takePhoto()
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 
     fun validateTextFields(): Boolean = binding.editNoteView.editNoteTitle.validateTextContent() && binding.editNoteView.editNoteContent.validateTextContent()

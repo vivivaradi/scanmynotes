@@ -1,19 +1,11 @@
 package hu.bme.aut.android.scanmynotes.data.network
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.google.api.services.vision.v1.model.Image
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.data.models.Result
 import hu.bme.aut.android.scanmynotes.domain.models.Category
-import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import hu.bme.aut.android.scanmynotes.domain.models.ListItem
 import hu.bme.aut.android.scanmynotes.domain.models.Note
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
 class NetworkDataSource @Inject constructor(
@@ -49,7 +41,11 @@ class NetworkDataSource @Inject constructor(
     }
 
     suspend fun getSingleNote(id: String): Result<Note> {
-        return firebaseApi.getUserNote(id)
+        return firebaseApi.getSingleNote(id)
+    }
+
+    suspend fun getSingleCategory(id: String): Result<Category> {
+        return firebaseApi.getSingleCategory(id)
     }
 
     suspend fun saveNote(note: Note): Result<String> {
@@ -62,6 +58,10 @@ class NetworkDataSource @Inject constructor(
 
     suspend fun deleteNote(id: String): Result<String> {
         return firebaseApi.deleteNote(id)
+    }
+
+    suspend fun deleteCategory(id: String): Result<String> {
+        return firebaseApi.deleteCategory(id)
     }
 
     private fun buildList(categories: List<Category>, notes: List<Note>): List<ListItem> {

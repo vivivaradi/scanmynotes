@@ -1,7 +1,5 @@
 package hu.bme.aut.android.scanmynotes.domain.models
 
-import hu.bme.aut.android.scanmynotes.util.Behaviour
-
 class Category(id: String = "",
                title: String = "",
                parentId: String? = null,
