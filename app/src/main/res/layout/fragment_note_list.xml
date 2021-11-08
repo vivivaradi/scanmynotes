@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:src="@drawable/outline_note_add_black_24"
+        android:src="@drawable/outline_note_add_24"
         app:layout_constraintBottom_toTopOf="@+id/floatingButton"
         app:layout_constraintEnd_toEndOf="@+id/floatingButton"
         android:visibility="gone"/>
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:src="@drawable/outline_create_new_folder_black_24"
+        android:src="@drawable/outline_create_new_folder_24"
         app:layout_constraintBottom_toTopOf="@+id/addNoteButton"
         app:layout_constraintEnd_toEndOf="@+id/addNoteButton"
         android:visibility="gone"/>
