@@ -139,8 +139,13 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 adapter.clear()
                 adapter.add(Category("", "None"))
                 adapter.addAll(viewModel.categoriesList)
-                binding.editNoteView.categorySelectorSpinner.setSelection(adapter.getPosition(viewModel.selectedParent))
+                val selectedPosition = when (viewModel.selectedParent) {
+                    null -> 0
+                    else -> adapter.getPosition(viewModel.selectedParent)
+                }
+                binding.editNoteView.categorySelectorSpinner.setSelection(selectedPosition)
             }
+            is Failure -> Log.d("DEBUG", viewState.message)
         }
     }
 
@@ -203,12 +208,17 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         takePhoto()
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        TODO("Not yet implemented")
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        val selectedItem = when (position) {
+            0 -> null
+            else -> parent.getItemAtPosition(position) as Category
+        }
+        Log.d("Spinner Selection", "object id: ${selectedItem?.id}, title: ${selectedItem?.title}")
+        viewModel.selectParent(selectedItem)
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
+        viewModel.selectParent(null)
     }
 
     fun validateTextFields(): Boolean = binding.editNoteView.editNoteTitle.validateTextContent() && binding.editNoteView.editNoteContent.validateTextContent()

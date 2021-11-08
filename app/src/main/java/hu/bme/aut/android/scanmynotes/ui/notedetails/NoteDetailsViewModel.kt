@@ -13,7 +13,7 @@ class NoteDetailsViewModel @Inject constructor(
     private val interactor: Interactor
 ): RainbowCakeViewModel<NoteDetailsViewState>(Initial) {
 
-    var currentNote: Note? = null
+    lateinit var currentNote: Note
     var selectedParent: Category? = null
     lateinit var categoriesList: List<Category>
 
@@ -23,7 +23,6 @@ class NoteDetailsViewModel @Inject constructor(
     class NoteNotFoundEvent(val noteId: String): OneShotEvent
     object NoteDeletedEvent: OneShotEvent
 
-    // TODO: lekezelni amikor nincs parent
     fun loadData(noteId: String) = execute {
         viewState = Loading
         val noteResult = interactor.getSingleNote(noteId)
@@ -31,14 +30,13 @@ class NoteDetailsViewModel @Inject constructor(
         viewState = when {
             noteResult is Result.Success && categoriesResult is Result.Success -> {
                 currentNote = noteResult.data
-                currentNote?.let { note ->
-                    categoriesList = categoriesResult.data
+                categoriesList = categoriesResult.data
+                if (currentNote.parentId != null) {
                     selectedParent = categoriesList.find { elem ->
-                        elem.id == note.parentId
+                        elem.id == currentNote.parentId
                     }
-                    Viewing(note)
                 }
-                Failure("CurrentNote is null")
+                Viewing(currentNote)
             }
             noteResult is Result.Failure -> Failure(noteResult.message)
             categoriesResult is Result.Failure -> Failure(categoriesResult.message)
@@ -46,23 +44,22 @@ class NoteDetailsViewModel @Inject constructor(
         }
     }
 
+
     fun editNote() {
-        currentNote?.let { note ->
-            viewState = Editing(note)
-        }
+        viewState = Editing(currentNote)
     }
 
     fun saveNote(title: String, content: String) = execute {
-        val updatedNote = Note(currentNote!!.id, title, currentNote!!.parentId, content)
         viewState = Loading
+        val updatedNote = Note(currentNote.id, title, selectedParent?.id, content)
         interactor.saveNote(updatedNote)
         currentNote = updatedNote
-        viewState = Viewing(currentNote!!)
+        viewState = Viewing(currentNote)
     }
 
     fun deleteNote() = execute {
         viewState = Loading
-        interactor.deleteNote(currentNote!!.id)
+        interactor.deleteNote(currentNote.id)
         postEvent(NoteDeletedEvent)
     }
 
@@ -73,7 +70,10 @@ class NoteDetailsViewModel @Inject constructor(
             postEvent(TextReady(text))
         else
             postEvent(NoTextFoundEvent)
-        viewState = Editing(Note(currentNote!!.id, currentNote!!.title, currentNote!!.content + text))
+        viewState = Editing(Note(currentNote.id, currentNote.title, currentNote.content + text))
     }
 
+    fun selectParent(category: Category?) {
+        selectedParent = category
+    }
 }
