@@ -1,26 +1,16 @@
 package hu.bme.aut.android.scanmynotes.data.network
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.data.models.Result
 import hu.bme.aut.android.scanmynotes.domain.models.Category
-import hu.bme.aut.android.scanmynotes.domain.models.DomainNote
 import hu.bme.aut.android.scanmynotes.domain.models.Note
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import java.util.concurrent.TimeUnit
 
 class FirebaseApi {
 
