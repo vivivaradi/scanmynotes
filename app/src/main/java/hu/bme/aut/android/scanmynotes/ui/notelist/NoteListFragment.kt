@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.view.View.GONE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -36,10 +38,11 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         return R.layout.fragment_note_list
     }
 
-    private lateinit var adapter: GroupieAdapter
+    private lateinit var adapter: NoteListAdapter
     private lateinit var binding: FragmentNoteListBinding
 
     private var isFloatingMenuOpen = false
+    private var lastSelectedNavItem: SelectedNavItem = SelectedNavItem.CATEGORIES
 
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_open_anim) }
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_close_anim) }
@@ -60,7 +63,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentNoteListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -72,7 +75,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = GroupieAdapter()
+        adapter = NoteListAdapter()
         binding.listNotes.adapter = adapter
         adapter.setOnItemClickListener(onItemClicked)
 
@@ -87,11 +90,15 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         binding.addCategoryButton.setOnClickListener {
             findNavController().navigate(NoteListFragmentDirections.newCategoryAction())
         }
+
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            onBottomNavItemSelected(item)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.load()
+        viewModel.load(lastSelectedNavItem)
     }
 
     override fun render(viewState: NoteListViewState) {
@@ -99,8 +106,8 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
             is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
             is Success -> {
-                adapter.clear()
-                adapter.add(populateList(viewState.noteList))
+                setSearchVisibility()
+                adapter.showList(viewState.noteList)
                 Log.d(getString(R.string.debug_tag), "Notes Ready")
             }
             is Error -> {
@@ -112,7 +119,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_logout -> {
-                // Not the best solution, should restrict this into the API, but good enough for now
+                // TODO: Not the best solution, should restrict this into the API, but good enough for now
                 viewModel.getAuth().signOut()
                 findNavController().navigate(NoteListFragmentDirections.logoutAction())
                 true
@@ -142,6 +149,38 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         }
     }
 
+
+    private fun onBottomNavItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.categories_item -> {
+                lastSelectedNavItem = SelectedNavItem.CATEGORIES
+                setSearchVisibility()
+                adapter.showList(viewModel.complexList)
+                true
+            }
+            R.id.notes_item -> {
+                lastSelectedNavItem = SelectedNavItem.NOTES
+                setSearchVisibility()
+                adapter.showList(viewModel.noteList)
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun setSearchVisibility() {
+        when (lastSelectedNavItem) {
+            SelectedNavItem.CATEGORIES -> {
+                binding.noteSearchView.isVisible = false
+                binding.orderButton.isVisible = false
+            }
+            SelectedNavItem.NOTES -> {
+                binding.noteSearchView.isVisible = true
+                binding.orderButton.isVisible = true
+            }
+        }
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -189,34 +228,6 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         takePhoto()
-    }
-
-    private fun populateList(itemList: List<ListItem>): Section {
-        val mainSection = Section()
-        for(item in itemList) {
-            when (item) {
-                is Category -> {
-                    val group = ExpandableGroup(CategoryItem(item))
-                    populateCategory(item.listItems, group)
-                    mainSection.add(group)
-                }
-                is Note -> mainSection.add(NoteItem(item))
-            }
-        }
-        return mainSection
-    }
-
-    private fun populateCategory(itemList: List<ListItem>, section: ExpandableGroup) {
-        for (item in itemList) {
-            when (item) {
-                is Category -> {
-                    val group = ExpandableGroup(CategoryItem(item))
-                    populateCategory(item.listItems, group)
-                    section.add(group)
-                }
-                is Note -> section.add(NoteItem(item))
-            }
-        }
     }
 
 

@@ -7,7 +7,7 @@ import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
 import hu.bme.aut.android.scanmynotes.domain.models.ListItem
 import hu.bme.aut.android.scanmynotes.data.models.Result
-import hu.bme.aut.android.scanmynotes.domain.models.Category
+import hu.bme.aut.android.scanmynotes.domain.models.Note
 import javax.inject.Inject
 
 class NoteListViewModel @Inject constructor(
@@ -17,18 +17,32 @@ class NoteListViewModel @Inject constructor(
     class NewNoteReadyEvent(val text: String): OneShotEvent
     object NoTextFoundEvent: OneShotEvent
 
-    fun getUser() = interactor.getUser()
+    lateinit var complexList: List<ListItem>
+    lateinit var noteList: List<Note>
 
     fun getAuth() = interactor.getAuth()
 
-    fun load() = execute {
+    fun load(selectedNavItem: SelectedNavItem) = execute {
         viewState = Loading
         Log.d("DEBUG", "Calling interactor for notes")
-        val result = interactor.getNoteList()
+        val complexResult = interactor.getComplexList()
         Log.d("DEBUG", "Received notes")
-        viewState = when (result) {
-            is Result.Success<List<ListItem>> -> Success(result.data)
-            is Result.Failure<List<ListItem>> -> Error(result.message)
+        viewState = when (complexResult) {
+            is Result.Success -> {
+                val notesResult = interactor.getNotes()
+                when(notesResult) {
+                    is Result.Success -> {
+                        complexList = complexResult.data
+                        noteList = notesResult.data
+                        when(selectedNavItem) {
+                            SelectedNavItem.CATEGORIES -> Success(complexList)
+                            SelectedNavItem.NOTES -> Success(noteList)
+                        }
+                    }
+                    is Result.Failure -> Error(notesResult.message)
+                }
+            }
+            is Result.Failure -> Error(complexResult.message)
         }
     }
 

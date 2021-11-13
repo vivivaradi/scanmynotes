@@ -3,6 +3,7 @@ package hu.bme.aut.android.scanmynotes
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
-
     }
 
 

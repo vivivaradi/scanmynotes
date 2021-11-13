@@ -28,9 +28,13 @@ class Interactor @Inject constructor(
         networkDataSource.detectText(inputImage)
     }
 
-    suspend fun getNoteList() = withIOContext {
+    suspend fun getComplexList() = withIOContext {
         Log.d("DEBUG", "Interactor reached")
-        networkDataSource.getNoteList()
+        networkDataSource.getComplexList()
+    }
+
+    suspend fun getNotes() = withIOContext {
+        networkDataSource.getNotes()
     }
 
     suspend fun getCategories() = withIOContext {
