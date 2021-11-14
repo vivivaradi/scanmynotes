@@ -55,5 +55,9 @@ class NoteListViewModel @Inject constructor(
             postEvent(NoTextFoundEvent)
     }
 
-
+    fun filterList(filterText: String): List<Note> {
+        return noteList.filter { note ->
+            note.title.contains(filterText)
+        }
+    }
 }

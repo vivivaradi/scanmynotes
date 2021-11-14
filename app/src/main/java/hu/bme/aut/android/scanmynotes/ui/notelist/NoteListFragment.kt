@@ -7,32 +7,25 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
-import android.view.View.GONE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import com.vmadalin.easypermissions.EasyPermissions
-import com.xwray.groupie.ExpandableGroup
-import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.OnItemClickListener
-import com.xwray.groupie.Section
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteListBinding
-import hu.bme.aut.android.scanmynotes.domain.models.Category
-import hu.bme.aut.android.scanmynotes.domain.models.ListItem
-import hu.bme.aut.android.scanmynotes.domain.models.Note
-import hu.bme.aut.android.scanmynotes.ui.notelist.items.CategoryItem
 import hu.bme.aut.android.scanmynotes.ui.notelist.items.NoteItem
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
 
-class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), EasyPermissions.PermissionCallbacks {
+class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), EasyPermissions.PermissionCallbacks, SearchView.OnQueryTextListener{
     override fun provideViewModel() = getViewModelFromFactory()
     override fun getViewResource(): Int {
         return R.layout.fragment_note_list
@@ -94,6 +87,9 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             onBottomNavItemSelected(item)
         }
+
+        binding.noteSearchView.setIconifiedByDefault(false)
+        binding.noteSearchView.setOnQueryTextListener(this)
     }
 
     override fun onStart() {
@@ -254,5 +250,19 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         binding.addCategoryButton.startAnimation(toBottom)
         binding.addNoteButton.startAnimation(toBottom)
         binding.floatingButton.startAnimation(rotateClose)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText.isNullOrEmpty()) {
+            adapter.showList(viewModel.noteList)
+        }
+        else {
+            adapter.showList(viewModel.filterList(newText))
+        }
+        return true
     }
 }
