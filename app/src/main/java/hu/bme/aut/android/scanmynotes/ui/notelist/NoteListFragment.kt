@@ -89,12 +89,13 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             animateButtons()
         }
 
-        // TODO: reset floating button state
         noteListView.addNoteButton.setOnClickListener {
+            isFloatingMenuOpen = !isFloatingMenuOpen
             takePhoto()
         }
 
         noteListView.addCategoryButton.setOnClickListener {
+            isFloatingMenuOpen = !isFloatingMenuOpen
             findNavController().navigate(NoteListFragmentDirections.newCategoryAction())
         }
 

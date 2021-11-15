@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@+id/categories_item"
-        android:title="@string/bottom_menu_categories_item_title"
-        android:icon="@drawable/ic_baseline_folder_24" />
+        android:id="@+id/complex_list_item"
+        android:title="@string/bottom_menu_categorized_list_item_title"
+        android:icon="@drawable/ic_baseline_list_24"/>
 
     <item
         android:id="@+id/notes_item"
         android:title="@string/bottom_menu_notes_item_title"
-        android:icon="@drawable/ic_baseline_notes_24"/>
+        android:icon="@drawable/ic_baseline_note_24"/>
+
+    <item
+        android:id="@+id/categories_item"
+        android:title="@string/bottom_menu_categories_item_title"
+        android:icon="@drawable/ic_baseline_folder_24" />
 
 </menu>

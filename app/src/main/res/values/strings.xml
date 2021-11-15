@@ -43,4 +43,5 @@
     <string name="text_detection_no_text_found">Couldn\'t find any text on the image!</string>
     <string name="spinner_none_item_title">None</string>
     <string name="analytics_signup_method_text">emailpassword</string>
+    <string name="bottom_menu_categorized_list_item_title">Categorized List</string>
 </resources>
