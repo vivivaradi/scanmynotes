@@ -15,6 +15,8 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNewNoteBinding
 import hu.bme.aut.android.scanmynotes.domain.models.Category
+import hu.bme.aut.android.scanmynotes.ui.newnote.NewNoteFragment.Flipper.LOADING
+import hu.bme.aut.android.scanmynotes.ui.newnote.NewNoteFragment.Flipper.VIEWING
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
 
 class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>(), AdapterView.OnItemSelectedListener {
@@ -24,6 +26,11 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     val args : NewNoteFragmentArgs by navArgs()
     private lateinit var binding: FragmentNewNoteBinding
     private lateinit var adapter: ArrayAdapter<Category>
+
+    object Flipper {
+        val LOADING = 0
+        val VIEWING = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +51,8 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
-        binding.categorySelectorSpinner.adapter = adapter
-        binding.categorySelectorSpinner.onItemSelectedListener = this
+        binding.newNoteView.categorySelectorSpinner.adapter = adapter
+        binding.newNoteView.categorySelectorSpinner.onItemSelectedListener = this
     }
 
     override fun onStart() {
@@ -69,7 +76,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                     return true
                 }
                 Log.d("DEBUG", "Reached the saveNote part")
-                viewModel.saveNote(binding.newNoteTitle.text.toString(), binding.newNoteText.text.toString())
+                viewModel.saveNote(binding.newNoteView.newNoteTitle.text.toString(), binding.newNoteView.newNoteText.text.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -90,13 +97,14 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
     override fun render(viewState: NewNoteViewState) {
         when (viewState) {
             is Initial -> Log.d("New Note", "Initial")
-            is Loading -> Log.d("New Note", "Loading")
+            is Loading -> binding.newNoteViewFlipper.displayedChild = LOADING
             is Success -> {
                 Log.d("New Note", "Success")
                 adapter.clear()
                 adapter.add(Category("", "None"))
                 adapter.addAll(viewState.categories)
-                binding.newNoteText.setText(args.noteText)
+                binding.newNoteView.newNoteText.setText(args.noteText)
+                binding.newNoteViewFlipper.displayedChild = VIEWING
             }
             is Failure -> Log.d("New Note", "Failure")
         }
@@ -116,5 +124,5 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         viewModel.selectParent(null)
     }
 
-    fun validateTextFields(): Boolean = binding.newNoteTitle.validateTextContent() && binding.newNoteText.validateTextContent()
+    fun validateTextFields(): Boolean = binding.newNoteView.newNoteTitle.validateTextContent() && binding.newNoteView.newNoteText.validateTextContent()
 }

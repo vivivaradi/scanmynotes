@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ViewFlipper  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/newCategoryViewFlipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/newCategoryTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include layout="@layout/layout_loading"
+        android:id="@+id/loadingView"/>
 
-    <Spinner
-        android:id="@+id/categorySelectorSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newCategoryTitle" />
+    <include layout="@layout/layout_new_category"
+        android:id="@+id/newCategoryView"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ViewFlipper>

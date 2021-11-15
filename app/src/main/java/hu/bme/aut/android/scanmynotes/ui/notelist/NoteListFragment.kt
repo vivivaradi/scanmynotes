@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -21,6 +22,8 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.xwray.groupie.OnItemClickListener
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteListBinding
+import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment.Flipper.LOADING
+import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment.Flipper.VIEWING
 import hu.bme.aut.android.scanmynotes.ui.notelist.items.NoteItem
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
@@ -33,14 +36,21 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     private lateinit var adapter: NoteListAdapter
     private lateinit var binding: FragmentNoteListBinding
+    private val sortingDialog = SortDialog(0)
 
     private var isFloatingMenuOpen = false
     private var lastSelectedNavItem: SelectedNavItem = SelectedNavItem.CATEGORIES
+    private var lastSelectedSorting: SortOptions = SortOptions.ALPHA_ASC
 
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_open_anim) }
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_close_anim) }
     private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.from_bottom_anim) }
     private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.to_bottom_anim) }
+
+    object Flipper {
+        val LOADING = 0
+        val VIEWING = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,28 +78,43 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val noteListView = binding.noteListView
+
         adapter = NoteListAdapter()
-        binding.listNotes.adapter = adapter
+        noteListView.listNotes.adapter = adapter
         adapter.setOnItemClickListener(onItemClicked)
 
-        binding.floatingButton.setOnClickListener {
+        noteListView.floatingButton.setOnClickListener {
             animateButtons()
         }
 
-        binding.addNoteButton.setOnClickListener {
+        noteListView.addNoteButton.setOnClickListener {
             takePhoto()
         }
 
-        binding.addCategoryButton.setOnClickListener {
+        noteListView.addCategoryButton.setOnClickListener {
             findNavController().navigate(NoteListFragmentDirections.newCategoryAction())
         }
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+        noteListView.bottomNavigationView.setOnItemSelectedListener { item ->
             onBottomNavItemSelected(item)
         }
 
-        binding.noteSearchView.setIconifiedByDefault(false)
-        binding.noteSearchView.setOnQueryTextListener(this)
+        noteListView.noteSearchView.setIconifiedByDefault(false)
+        noteListView.noteSearchView.setOnQueryTextListener(this)
+
+        noteListView.orderButton.setOnClickListener {
+            parentFragmentManager.setFragmentResultListener("SortOption", viewLifecycleOwner, { requestKey, result ->
+                if (requestKey == "SortOption"){
+                    val sorting = result["chosenOption"] as SortOptions
+                    if (sorting != lastSelectedSorting) {
+                        adapter.showList(viewModel.sortList(sorting))
+                        lastSelectedSorting = sorting
+                    }
+                }
+            })
+            sortingDialog.show(parentFragmentManager, "SortDialog")
+        }
     }
 
     override fun onStart() {
@@ -100,10 +125,11 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun render(viewState: NoteListViewState) {
         when(viewState){
             is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
-            is Loading -> Log.d(getString(R.string.debug_tag), "Loading")
+            is Loading -> binding.noteListViewFlipper.displayedChild = LOADING
             is Success -> {
                 setSearchVisibility()
                 adapter.showList(viewState.noteList)
+                binding.noteListViewFlipper.displayedChild = VIEWING
                 Log.d(getString(R.string.debug_tag), "Notes Ready")
             }
             is Error -> {
@@ -167,12 +193,12 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     private fun setSearchVisibility() {
         when (lastSelectedNavItem) {
             SelectedNavItem.CATEGORIES -> {
-                binding.noteSearchView.isVisible = false
-                binding.orderButton.isVisible = false
+                binding.noteListView.noteSearchView.isVisible = false
+                binding.noteListView.orderButton.isVisible = false
             }
             SelectedNavItem.NOTES -> {
-                binding.noteSearchView.isVisible = true
-                binding.orderButton.isVisible = true
+                binding.noteListView.noteSearchView.isVisible = true
+                binding.noteListView.orderButton.isVisible = true
             }
         }
 
@@ -237,19 +263,21 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     }
 
     private fun openMenu() {
-        binding.addCategoryButton.visibility = View.VISIBLE
-        binding.addNoteButton.visibility = View.VISIBLE
-        binding.addCategoryButton.startAnimation(fromBottom)
-        binding.addNoteButton.startAnimation(fromBottom)
-        binding.floatingButton.startAnimation(rotateOpen)
+        val noteListView = binding.noteListView
+        noteListView.addCategoryButton.visibility = View.VISIBLE
+        noteListView.addNoteButton.visibility = View.VISIBLE
+        noteListView.addCategoryButton.startAnimation(fromBottom)
+        noteListView.addNoteButton.startAnimation(fromBottom)
+        noteListView.floatingButton.startAnimation(rotateOpen)
     }
 
     private fun closeMenu() {
-        binding.addNoteButton.visibility = View.GONE
-        binding.addCategoryButton.visibility = View.GONE
-        binding.addCategoryButton.startAnimation(toBottom)
-        binding.addNoteButton.startAnimation(toBottom)
-        binding.floatingButton.startAnimation(rotateClose)
+        val noteListView = binding.noteListView
+        noteListView.addNoteButton.visibility = View.GONE
+        noteListView.addCategoryButton.visibility = View.GONE
+        noteListView.addCategoryButton.startAnimation(toBottom)
+        noteListView.addNoteButton.startAnimation(toBottom)
+        noteListView.floatingButton.startAnimation(rotateClose)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

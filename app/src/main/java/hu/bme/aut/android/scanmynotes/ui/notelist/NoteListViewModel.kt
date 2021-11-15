@@ -18,7 +18,7 @@ class NoteListViewModel @Inject constructor(
     object NoTextFoundEvent: OneShotEvent
 
     lateinit var complexList: List<ListItem>
-    lateinit var noteList: List<Note>
+    lateinit var noteList: MutableList<Note>
 
     fun getAuth() = interactor.getAuth()
 
@@ -33,7 +33,7 @@ class NoteListViewModel @Inject constructor(
                 when(notesResult) {
                     is Result.Success -> {
                         complexList = complexResult.data
-                        noteList = notesResult.data
+                        noteList = notesResult.data.toMutableList()
                         when(selectedNavItem) {
                             SelectedNavItem.CATEGORIES -> Success(complexList)
                             SelectedNavItem.NOTES -> Success(noteList)
@@ -58,6 +58,23 @@ class NoteListViewModel @Inject constructor(
     fun filterList(filterText: String): List<Note> {
         return noteList.filter { note ->
             note.title.contains(filterText)
+        }
+    }
+
+    fun sortList(sortOptions: SortOptions): List<Note> {
+        return when (sortOptions) {
+            SortOptions.ALPHA_ASC -> {
+                noteList.sortBy { note ->
+                    note.title
+                }
+                noteList
+            }
+            SortOptions.ALPHA_DESC -> {
+                noteList.sortByDescending { note ->
+                    note.title
+                }
+                noteList
+            }
         }
     }
 }

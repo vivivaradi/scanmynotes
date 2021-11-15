@@ -122,18 +122,18 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         when(viewState) {
             is Loading -> {
                 isEditing = false
-                binding.viewFlipper.displayedChild = Flipper.LOADING
+                binding.detailsViewFlipper.displayedChild = Flipper.LOADING
             }
             is Viewing -> {
                 Log.d("DEBUG", "Current note is ${viewState.note.title}")
                 isEditing = false
-                binding.viewFlipper.displayedChild = Flipper.VIEWING
+                binding.detailsViewFlipper.displayedChild = Flipper.VIEWING
                 binding.noteView.noteTitle.text = viewState.note.title
                 binding.noteView.noteContent.text = viewState.note.content
             }
             is Editing -> {
                 isEditing = true
-                binding.viewFlipper.displayedChild = Flipper.EDITING
+                binding.detailsViewFlipper.displayedChild = Flipper.EDITING
                 binding.editNoteView.editNoteTitle.setText(viewState.note.title)
                 binding.editNoteView.editNoteContent.setText(viewState.note.content)
 

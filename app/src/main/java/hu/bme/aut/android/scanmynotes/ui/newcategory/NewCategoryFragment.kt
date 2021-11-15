@@ -15,6 +15,8 @@ import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNewCategoryBinding
 import hu.bme.aut.android.scanmynotes.domain.models.Category
+import hu.bme.aut.android.scanmynotes.ui.newcategory.NewCategoryFragment.Flipper.LOADING
+import hu.bme.aut.android.scanmynotes.ui.newcategory.NewCategoryFragment.Flipper.VIEWING
 import hu.bme.aut.android.scanmynotes.util.validateTextContent
 
 class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategoryViewModel>(), AdapterView.OnItemSelectedListener {
@@ -23,6 +25,11 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
 
     private lateinit var binding: FragmentNewCategoryBinding
     private lateinit var adapter: ArrayAdapter<Category>
+
+    object Flipper {
+        val LOADING = 0
+        val VIEWING = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +50,8 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
-        binding.categorySelectorSpinner.adapter = adapter
-        binding.categorySelectorSpinner.onItemSelectedListener = this
+        binding.newCategoryView.categorySelectorSpinner.adapter = adapter
+        binding.newCategoryView.categorySelectorSpinner.onItemSelectedListener = this
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -59,12 +66,13 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
     override fun render(viewState: NewCategoryViewState) {
         when (viewState) {
             is Initial -> Log.d("New Category", "Initial")
-            is Loading -> Log.d("New Category", "Loading")
+            is Loading -> binding.newCategoryViewFlipper.displayedChild = LOADING
             is Success -> {
                 Log.d("New Category", "Success")
                 adapter.clear()
                 adapter.add(Category("", "None"))
                 adapter.addAll(viewState.categories)
+                binding.newCategoryViewFlipper.displayedChild = VIEWING
             }
             is Failure -> Log.d("New Category", "Failure")
         }
@@ -73,10 +81,10 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                if (!binding.newCategoryTitle.validateTextContent()) {
+                if (!binding.newCategoryView.newCategoryTitle.validateTextContent()) {
                     return true
                 }
-                viewModel.saveCategory(binding.newCategoryTitle.text.toString())
+                viewModel.saveCategory(binding.newCategoryView.newCategoryTitle.text.toString())
                 return true
             }
             else -> super.onOptionsItemSelected(item)
