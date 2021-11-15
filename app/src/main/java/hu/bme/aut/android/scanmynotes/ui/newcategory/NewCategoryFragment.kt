@@ -52,6 +52,7 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
         binding.newCategoryView.categorySelectorSpinner.adapter = adapter
         binding.newCategoryView.categorySelectorSpinner.onItemSelectedListener = this
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -70,7 +71,7 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
             is Success -> {
                 Log.d("New Category", "Success")
                 adapter.clear()
-                adapter.add(Category("", "None"))
+                adapter.add(Category("", getString(R.string.spinner_none_item_title)))
                 adapter.addAll(viewState.categories)
                 binding.newCategoryViewFlipper.displayedChild = VIEWING
             }
@@ -102,7 +103,6 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
             0 -> null
             else -> parent.getItemAtPosition(position) as Category
         }
-        Log.d("Spinner Selection", "object id: ${selectedItem?.id}, title: ${selectedItem?.title}")
         viewModel.selectParent(selectedItem)
     }
 

@@ -106,16 +106,15 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         noteListView.noteSearchView.setOnQueryTextListener(this)
 
         noteListView.orderButton.setOnClickListener {
-            parentFragmentManager.setFragmentResultListener("SortOption", viewLifecycleOwner, { requestKey, result ->
-                if (requestKey == "SortOption"){
-                    val sorting = result["chosenOption"] as SortOptions
-                    if (sorting != lastSelectedSorting) {
-                        adapter.showList(viewModel.sortList(sorting))
-                        lastSelectedSorting = sorting
-                    }
+            parentFragmentManager.setFragmentResultListener(getString(R.string.sort_dialog_result_requestkey), viewLifecycleOwner, { requestKey, result ->
+                val chosenOption = getString(R.string.sort_dialog_selected_option_key)
+                val sorting = result[chosenOption] as SortOptions
+                if (sorting != lastSelectedSorting) {
+                    adapter.showList(viewModel.sortList(sorting))
+                    lastSelectedSorting = sorting
                 }
             })
-            sortingDialog.show(parentFragmentManager, "SortDialog")
+            sortingDialog.show(parentFragmentManager, getString(R.string.sort_dialog_tag))
         }
     }
 
@@ -135,7 +134,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
                 Log.d(getString(R.string.debug_tag), "Notes Ready")
             }
             is Error -> {
-                Log.d("ERROR", viewState.message)
+                Log.d(getString(R.string.error_tag), viewState.message)
             }
         }
     }
@@ -153,7 +152,6 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     }
 
     private val onItemClicked = OnItemClickListener { item, _ ->
-        Log.d("DEBUG", "Note clicked: ${item.id}")
         if (item is NoteItem) {
             val note = item.note
             findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
@@ -168,7 +166,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
                     startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE)
                 } } }
         else {
-            Toast.makeText(requireContext(), "You need to grant camera access to the application, if you want to use this feature", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.camera_no_permission_toast_text), Toast.LENGTH_LONG).show()
             requestCameraPermission(PERMISSION_CAMERA_REQUEST_CODE)
         }
     }
@@ -210,7 +208,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             data.also {
-                val image = it?.extras?.get("data") as Bitmap
+                val image = it?.extras?.get(getString(R.string.text_detection_result_data_key)) as Bitmap
                 viewModel.digitalizePhoto(image)
             }
         }
@@ -219,11 +217,10 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onEvent(event: OneShotEvent) {
         when (event) {
             is NoteListViewModel.NewNoteReadyEvent -> {
-                Log.d(getString(R.string.debug_tag), "New Note Ready")
                 findNavController().navigate(NoteListFragmentDirections.newNoteAction(event.text))
             }
             is NoteListViewModel.NoTextFoundEvent -> {
-                Toast.makeText(requireContext(), "Couldn't find any text on the image!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.text_detection_no_text_found), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -244,7 +241,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            Toast.makeText(requireContext(), "You need to manually grant camera permission, in order to use this app.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.camera_permission_denied_toast_text), Toast.LENGTH_LONG).show()
         } else {
             requestCameraPermission(PERMISSION_CAMERA_REQUEST_CODE)
         }

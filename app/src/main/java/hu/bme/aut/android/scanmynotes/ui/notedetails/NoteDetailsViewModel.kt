@@ -3,6 +3,7 @@ package hu.bme.aut.android.scanmynotes.ui.notedetails
 import android.graphics.Bitmap
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
+import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
 import hu.bme.aut.android.scanmynotes.domain.models.Note
 import hu.bme.aut.android.scanmynotes.data.models.Result
@@ -40,7 +41,7 @@ class NoteDetailsViewModel @Inject constructor(
             }
             noteResult is Result.Failure -> Failure(noteResult.message)
             categoriesResult is Result.Failure -> Failure(categoriesResult.message)
-            else -> Failure("Unknown error.")
+            else -> Failure(R.string.failure_unknown_error_text.toString())
         }
     }
 

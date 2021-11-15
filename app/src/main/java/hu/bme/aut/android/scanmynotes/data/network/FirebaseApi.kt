@@ -17,12 +17,20 @@ class FirebaseApi {
     private val db = Firebase.firestore
     val auth = Firebase.auth
 
+    companion object {
+        const val usersCollection = "users"
+        const val notesCollection = "notes"
+        const val categoriesCollection = "categories"
+        const val titleString = "title"
+    }
+
     suspend fun fetchNotes(): Result<List<Note>> {
         Log.d("DEBUG", "FirebaseApi reached")
 
-        val notesRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes")
+        val notesRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            notesCollection)
         val notesSnapshot = try {
-            notesRef.orderBy("title").get().await()
+            notesRef.orderBy(titleString).get().await()
         } catch (error: FirebaseFirestoreException) {
             return Result.failure(error.message.toString())
         }
@@ -37,9 +45,10 @@ class FirebaseApi {
     }
 
     suspend fun fetchCategories(): Result<List<Category>> {
-        val categoriesRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories")
+        val categoriesRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            categoriesCollection)
         val categoriesSnapshot = try {
-            categoriesRef.orderBy("title").get().await()
+            categoriesRef.orderBy(titleString).get().await()
         } catch (error: FirebaseFirestoreException) {
             return Result.failure(error.message.toString())
         }
@@ -58,7 +67,8 @@ class FirebaseApi {
     suspend fun getSingleNote(id: String) : Result<Note> {
         Log.d("DEBUG", "API received id: $id")
         var note: Note
-        val noteRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id)
+        val noteRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            notesCollection).document(id)
         val noteSnapshot = try {
             noteRef.get().await()
         } catch (error: FirebaseFirestoreException) {
@@ -76,7 +86,8 @@ class FirebaseApi {
 
     suspend fun getSingleCategory(id: String): Result<Category> {
         var category: Category
-        val categoryRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(id)
+        val categoryRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            categoriesCollection).document(id)
         val categorySnapshot = try {
             categoryRef.get().await()
         } catch (error: FirebaseFirestoreException) {
@@ -101,14 +112,16 @@ class FirebaseApi {
             "parentId" to note.parentId
         )
         if (note.id.isEmpty()) {
-            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document()
+            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+                notesCollection).document()
             try {
                 docRef.set(data).await()
             } catch (error: FirebaseFirestoreException) {
                 return Result.failure(error.message.toString())
             }
         } else {
-            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(note.id)
+            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+                notesCollection).document(note.id)
             try {
                 docRef.set(data).await()
             } catch (error: FirebaseFirestoreException) {
@@ -128,14 +141,16 @@ class FirebaseApi {
         )
 
         if (category.id.isEmpty()) {
-            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document()
+            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+                categoriesCollection).document()
             try {
                 docRef.set(data).await()
             } catch (error: FirebaseFirestoreException) {
                 return Result.failure(error.message.toString())
             }
         } else {
-            docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(category.id)
+            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+                categoriesCollection).document(category.id)
             try {
                 docRef.set(data).await()
             } catch (error: FirebaseFirestoreException) {
@@ -147,7 +162,8 @@ class FirebaseApi {
     }
 
     suspend fun deleteNote(id: String): Result<String> {
-        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("notes").document(id)
+        val docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            notesCollection).document(id)
         try {
             docRef.delete().await()
         } catch (error: FirebaseFirestoreException) {
@@ -157,7 +173,8 @@ class FirebaseApi {
     }
 
     suspend fun deleteCategory(id: String): Result<String> {
-        val docRef = db.collection("users").document(auth.currentUser!!.uid).collection("categories").document(id)
+        val docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            categoriesCollection).document(id)
         try {
             docRef.delete().await()
         } catch (error: FirebaseFirestoreException) {

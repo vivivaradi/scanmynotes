@@ -13,9 +13,11 @@ import hu.bme.aut.android.scanmynotes.BuildConfig
 
 class VisionApi {
 
+    companion object {
+        const val textDetectionFeature = "DOCUMENT_TEXT_DETECTION"
+    }
 
     suspend fun detectText(image: Image): String? {
-        Log.d("DEBUG", "VisionApi reached")
         val vision: Vision
         val visionBuilder = Vision.Builder(
             NetHttpTransport(),
@@ -29,7 +31,7 @@ class VisionApi {
 
         vision = visionBuilder.build()
         val desiredFeature = Feature()
-        desiredFeature.type = "DOCUMENT_TEXT_DETECTION"
+        desiredFeature.type = textDetectionFeature
         val request = AnnotateImageRequest()
         request.image = image
         request.features = listOf(desiredFeature)
@@ -38,7 +40,6 @@ class VisionApi {
         val batchResponse = vision.images().annotate(batchRequest).execute()
 
         val detectionResult = batchResponse.responses[0].fullTextAnnotation
-        Log.d("DEBUG", "Detection done")
         return detectionResult.text
     }
 }

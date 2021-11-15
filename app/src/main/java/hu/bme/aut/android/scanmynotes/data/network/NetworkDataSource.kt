@@ -14,12 +14,10 @@ class NetworkDataSource @Inject constructor(
 ){
 
     suspend fun getComplexList(): Result<List<ListItem>> {
-        Log.d("DEBUG", "Datasource reached")
         val notesResult = firebaseApi.fetchNotes()
         val categoriesResult = firebaseApi.fetchCategories()
         return when {
             categoriesResult is Result.Success<List<Category>> && notesResult is Result.Success<List<Note>> -> {
-                Log.d("DEBUG", "Successful API call")
                 Result.success(buildList(categoriesResult.data, notesResult.data))
             }
             categoriesResult is Result.Failure -> Result.failure(categoriesResult.message)
@@ -93,14 +91,12 @@ class NetworkDataSource @Inject constructor(
                 if (parent != null) {
                     parent.listItems.add(note)
                 } else {
-                    // note.parentId = null
                     noteList.add(note)
                 }
             } else {
                 noteList.add(note)
             }
         }
-        Log.d("DEBUG", noteList.toString())
         return noteList
     }
 }

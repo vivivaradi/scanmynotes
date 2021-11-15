@@ -21,4 +21,26 @@
     <string name="sign_up_button_text">Sign up</string>
     <string name="loading_text">Loading...</string>
     <string name="search_hint">Search notes</string>
+    <string name="searchview_query_hint">Search notes by title</string>
+    <string name="bottom_menu_categories_item_title">Categories</string>
+    <string name="bottom_menu_notes_item_title">Notes</string>
+    <string name="details_menu_append_item_title">Append</string>
+    <string name="details_menu_edit_item_title">Edit</string>
+    <string name="details_menu_save_item_title">Save</string>
+    <string name="details_menu_delete_item_title">Delete</string>
+    <string name="list_menu_logout_item_title">Logout</string>
+    <string name="new_menu_save_item_title">Save</string>
+    <string name="sort_dialog_title">Sort by</string>
+    <string name="sort_dialog_selected_option_key">chosenOption</string>
+    <string name="sort_dialog_result_requestkey">SortOption</string>
+    <string name="exception_message_activity_cannot_be_null">Activity cannot be null</string>
+    <string name="sort_dialog_tag">SortDialog</string>
+    <string name="error_tag">ERROR</string>
+    <string name="camera_no_permission_toast_text">You need to grant camera access to the application, if you want to use this feature</string>
+    <string name="text_detection_result_data_key">data</string>
+    <string name="camera_permission_denied_toast_text">You need to manually grant camera permission, in order to use this app.</string>
+    <string name="failure_unknown_error_text">Unknown error.</string>
+    <string name="text_detection_no_text_found">Couldn\'t find any text on the image!</string>
+    <string name="spinner_none_item_title">None</string>
+    <string name="analytics_signup_method_text">emailpassword</string>
 </resources>

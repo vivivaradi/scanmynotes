@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -24,7 +26,14 @@ import hu.bme.aut.android.scanmynotes.util.validatePasswordContent
 class LoginFragment: Fragment(R.layout.fragment_login) {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var binding: FragmentLoginBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        firebaseAnalytics = Firebase.analytics
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,7 +71,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                 } else {
                     Toast.makeText(context, task.exception.toString(),
                         Toast.LENGTH_LONG).show()
-                    Log.e("ERROR", task.exception.toString())
+                    Log.e(getString(R.string.error_tag), task.exception.toString())
                 }
             }
     }
@@ -75,11 +84,15 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
+                    val bundle = Bundle()
+                    val method = getString(R.string.analytics_signup_method_text)
+                    bundle.putString(FirebaseAnalytics.Param.METHOD, method)
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
                     findNavController().navigate(R.id.noteListFragment)
                 } else {
                     Toast.makeText(context, task.exception.toString(),
                         Toast.LENGTH_LONG).show()
-                    Log.e("ERROR", task.exception.toString())
+                    Log.e(getString(R.string.error_tag), task.exception.toString())
                 }
             }
     }

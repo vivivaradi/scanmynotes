@@ -29,7 +29,6 @@ class Interactor @Inject constructor(
     }
 
     suspend fun getComplexList() = withIOContext {
-        Log.d("DEBUG", "Interactor reached")
         networkDataSource.getComplexList()
     }
 
@@ -41,10 +40,6 @@ class Interactor @Inject constructor(
         networkDataSource.getCategories()
     }
 
-    suspend fun createNote(title: String, text: String, parentId: String?): Result<String> = withIOContext{
-        networkDataSource.saveNote(Note("", title, parentId, text))
-    }
-
     suspend fun saveNote(note: Note) = withIOContext {
         networkDataSource.saveNote(note)
     }
@@ -54,7 +49,6 @@ class Interactor @Inject constructor(
     }
 
     suspend fun getSingleNote(id: String): Result<Note> = withIOContext {
-        Log.d("DEBUG", "Getting single note with id: $id")
         networkDataSource.getSingleNote(id)
     }
 

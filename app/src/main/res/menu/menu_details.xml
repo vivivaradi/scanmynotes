@@ -6,24 +6,24 @@
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/ic_baseline_add_24"
-        android:title="Append"
+        android:title="@string/details_menu_append_item_title"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_edit"
         android:icon="@drawable/baseline_edit_24"
-        android:title="Edit"
+        android:title="@string/details_menu_edit_item_title"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/baseline_save_24"
-        android:title="Save"
+        android:title="@string/details_menu_save_item_title"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_delete"
         android:icon="@drawable/baseline_delete_24"
-        android:title="Delete"
+        android:title="@string/details_menu_delete_item_title"
         app:showAsAction="ifRoom"/>
 
 

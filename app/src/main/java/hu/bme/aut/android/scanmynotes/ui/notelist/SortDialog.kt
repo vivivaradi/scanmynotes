@@ -14,15 +14,15 @@ class SortDialog(var selectedItem: Int): DialogFragment() {
         return activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
             val list = resources.getStringArray(R.array.sortingOptions)
-            builder.setTitle("Sort by")
+            builder.setTitle(getString(R.string.sort_dialog_title))
                 .setSingleChoiceItems(list, selectedItem) { _, selected ->
                     val sorting = SortOptions.values()[selected]
-                    val data = Pair("chosenOption", sorting)
+                    val data = Pair(getString(R.string.sort_dialog_selected_option_key), sorting)
                     selectedItem = selected
-                    parentFragmentManager.setFragmentResult("SortOption", bundleOf(data))
+                    parentFragmentManager.setFragmentResult(getString(R.string.sort_dialog_result_requestkey), bundleOf(data))
                     dismiss()
                 }
             builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+        } ?: throw IllegalStateException(getString(R.string.exception_message_activity_cannot_be_null))
     }
 }

@@ -24,9 +24,7 @@ class NoteListViewModel @Inject constructor(
 
     fun load(selectedNavItem: SelectedNavItem) = execute {
         viewState = Loading
-        Log.d("DEBUG", "Calling interactor for notes")
         val complexResult = interactor.getComplexList()
-        Log.d("DEBUG", "Received notes")
         viewState = when (complexResult) {
             is Result.Success -> {
                 val notesResult = interactor.getNotes()

@@ -72,10 +72,8 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         return when (item.itemId) {
             R.id.action_save -> {
                 if (!validateTextFields()) {
-                    Log.d("DEBUG", "Empty field found")
                     return true
                 }
-                Log.d("DEBUG", "Reached the saveNote part")
                 viewModel.saveNote(binding.newNoteView.newNoteTitle.text.toString(), binding.newNoteView.newNoteText.text.toString())
                 true
             }
@@ -101,7 +99,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
             is Success -> {
                 Log.d("New Note", "Success")
                 adapter.clear()
-                adapter.add(Category("", "None"))
+                adapter.add(Category("", getString(R.string.spinner_none_item_title)))
                 adapter.addAll(viewState.categories)
                 binding.newNoteView.newNoteText.setText(args.noteText)
                 binding.newNoteViewFlipper.displayedChild = VIEWING
@@ -116,7 +114,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
             0 -> null
             else -> parent.getItemAtPosition(position) as Category
         }
-        Log.d("Spinner Selection", "object id: ${selectedItem?.id}, title: ${selectedItem?.title}")
         viewModel.selectParent(selectedItem)
     }
 

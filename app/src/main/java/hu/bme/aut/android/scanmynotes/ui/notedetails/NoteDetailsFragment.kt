@@ -75,7 +75,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
 
     override fun onStart() {
         super.onStart()
-        Log.d("DEBUG", "Loading current note with id: ${args.noteId}")
         viewModel.loadData(args.noteId)
     }
 
@@ -125,7 +124,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 binding.detailsViewFlipper.displayedChild = Flipper.LOADING
             }
             is Viewing -> {
-                Log.d("DEBUG", "Current note is ${viewState.note.title}")
                 isEditing = false
                 binding.detailsViewFlipper.displayedChild = Flipper.VIEWING
                 binding.noteView.noteTitle.text = viewState.note.title
@@ -138,7 +136,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 binding.editNoteView.editNoteContent.setText(viewState.note.content)
 
                 adapter.clear()
-                adapter.add(Category("", "None"))
+                adapter.add(Category("", getString(R.string.spinner_none_item_title)))
                 adapter.addAll(viewModel.categoriesList)
                 val selectedPosition = when (viewModel.selectedParent) {
                     null -> 0
@@ -146,7 +144,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 }
                 binding.editNoteView.categorySelectorSpinner.setSelection(selectedPosition)
             }
-            is Failure -> Log.d("DEBUG", viewState.message)
+            is Failure -> Log.d(getString(R.string.debug_tag), viewState.message)
         }
     }
 
@@ -159,7 +157,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 binding.editNoteView.editNoteContent.append(event.text)
             }
             is NoteDetailsViewModel.NoTextFoundEvent -> {
-                Toast.makeText(requireContext(), "Couldn't find any text on the image!", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.text_detection_no_text_found), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -172,7 +170,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                     startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE)
                 } } }
         else {
-            Toast.makeText(requireContext(), "You need to grant camera access to the application, if you want to use this feature", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.camera_no_permission_toast_text), Toast.LENGTH_LONG).show()
             requestCameraPermission(NoteListFragment.PERMISSION_CAMERA_REQUEST_CODE)
         }
     }
@@ -182,7 +180,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             data.also {
-                val image = it?.extras?.get("data") as Bitmap
+                val image = it?.extras?.get(getString(R.string.text_detection_result_data_key)) as Bitmap
                 viewModel.digitalizePhoto(image)
             }
         }
@@ -199,7 +197,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            Toast.makeText(requireContext(), "You need to manually grant camera permission, in order to use this app.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.camera_permission_denied_toast_text), Toast.LENGTH_LONG).show()
         } else {
             requestCameraPermission(PERMISSION_CAMERA_REQUEST_CODE)
         }
@@ -214,7 +212,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
             0 -> null
             else -> parent.getItemAtPosition(position) as Category
         }
-        Log.d("Spinner Selection", "object id: ${selectedItem?.id}, title: ${selectedItem?.title}")
         viewModel.selectParent(selectedItem)
     }
 

@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toStartOf="@+id/orderButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="Search notes by title" />
+        app:queryHint="@string/searchview_query_hint" />
 
     <ImageButton
         android:id="@+id/orderButton"
