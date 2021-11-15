@@ -27,6 +27,7 @@ import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment.Flipper.VIEWI
 import hu.bme.aut.android.scanmynotes.ui.notelist.items.NoteItem
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
+import java.lang.IllegalStateException
 
 class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), EasyPermissions.PermissionCallbacks, SearchView.OnQueryTextListener{
     override fun provideViewModel() = getViewModelFromFactory()
@@ -88,6 +89,7 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
             animateButtons()
         }
 
+        // TODO: reset floating button state
         noteListView.addNoteButton.setOnClickListener {
             takePhoto()
         }
