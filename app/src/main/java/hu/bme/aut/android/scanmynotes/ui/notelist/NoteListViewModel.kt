@@ -22,7 +22,7 @@ class NoteListViewModel @Inject constructor(
 
     fun getAuth() = interactor.getAuth()
 
-    // TODO: get category list 
+    // TODO: get category list
     fun load(selectedNavItem: SelectedNavItem) = execute {
         viewState = Loading
         val complexResult = interactor.getComplexList()

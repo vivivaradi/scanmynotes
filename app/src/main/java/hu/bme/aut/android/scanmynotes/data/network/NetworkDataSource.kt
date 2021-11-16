@@ -1,6 +1,5 @@
 package hu.bme.aut.android.scanmynotes.data.network
 
-import android.util.Log
 import com.google.api.services.vision.v1.model.Image
 import hu.bme.aut.android.scanmynotes.data.models.Result
 import hu.bme.aut.android.scanmynotes.domain.models.Category
@@ -63,6 +62,25 @@ class NetworkDataSource @Inject constructor(
     }
 
     suspend fun deleteCategory(id: String): Result<String> {
+        val categoriesResult = firebaseApi.fetchCategories()
+        val notesResult = firebaseApi.fetchNotes()
+        when {
+            categoriesResult is Result.Success && notesResult is Result.Success -> {
+                val categories = categoriesResult.data
+                val notes = notesResult.data
+                notes.filter { note ->
+                    note.parentId == id
+                }.forEach { note ->
+                    firebaseApi.deleteNote(note.id)
+                }
+                categories.filter { category ->
+                    category.parentId == id
+                }.forEach { category ->
+                    firebaseApi.deleteCategory(category.id)
+                }
+            }
+            else -> return Result.Failure("Error while deleting category.")
+        }
         return firebaseApi.deleteCategory(id)
     }
 

@@ -27,7 +27,7 @@ class CategoryItem(val category: Category): BindableItem<CategoryRowBinding>(), 
     override fun bind(viewBinding: CategoryRowBinding, position: Int) {
         viewBinding.tvCategoryTitle.text = category.title
         viewBinding.arrowIcon.setImageResource(if (expandableGroup.isExpanded) R.drawable.outline_expand_less_24 else R.drawable.outline_expand_more_24)
-        viewBinding.categoryItem.setOnClickListener {
+        viewBinding.arrowIcon.setOnClickListener {
             expandableGroup.onToggleExpanded()
             changeIcon(viewBinding)
         }

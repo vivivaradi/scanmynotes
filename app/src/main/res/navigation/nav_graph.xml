@@ -33,6 +33,9 @@
         <action
             android:id="@+id/newCategoryAction"
             app:destination="@id/newCategoryFragment" />
+        <action
+            android:id="@+id/openCategoryAction"
+            app:destination="@id/categoryDetailsFragment" />
     </fragment>
     <fragment
         android:name="hu.bme.aut.android.scanmynotes.ui.notedetails.NoteDetailsFragment"
@@ -43,8 +46,7 @@
             app:argType="string"/>
         <action
             android:id="@+id/noteDeletedAction"
-            app:destination="@+id/noteListFragment"
-            app:popUpTo="@id/noteListFragment"
+            app:popUpTo="@id/noteDetailsFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -71,6 +73,19 @@
             android:id="@+id/popAction"
             app:destination="@id/noteListFragment"
             app:popUpTo="@id/newCategoryFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryDetailsFragment"
+        android:name="hu.bme.aut.android.scanmynotes.ui.categorydetails.CategoryDetailsFragment"
+        android:label="fragment_category_details"
+        tools:layout="@layout/fragment_category_details" >
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <action
+            android:id="@+id/categoryDeletedAction"
+            app:popUpTo="@id/categoryDetailsFragment"
             app:popUpToInclusive="true" />
     </fragment>
 

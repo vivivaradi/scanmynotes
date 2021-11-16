@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -70,7 +69,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_details, menu)
+        inflater.inflate(R.menu.menu_note_details, menu)
     }
 
     override fun onStart() {

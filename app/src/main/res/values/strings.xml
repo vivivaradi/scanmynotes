@@ -44,4 +44,6 @@
     <string name="spinner_none_item_title">None</string>
     <string name="analytics_signup_method_text">emailpassword</string>
     <string name="bottom_menu_categorized_list_item_title">Categorized List</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

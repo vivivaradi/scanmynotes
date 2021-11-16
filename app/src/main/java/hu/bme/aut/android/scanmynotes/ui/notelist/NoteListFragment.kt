@@ -24,6 +24,7 @@ import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.databinding.FragmentNoteListBinding
 import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment.Flipper.LOADING
 import hu.bme.aut.android.scanmynotes.ui.notelist.NoteListFragment.Flipper.VIEWING
+import hu.bme.aut.android.scanmynotes.ui.notelist.items.CategoryItem
 import hu.bme.aut.android.scanmynotes.ui.notelist.items.NoteItem
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
@@ -153,9 +154,15 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     }
 
     private val onItemClicked = OnItemClickListener { item, _ ->
-        if (item is NoteItem) {
-            val note = item.note
-            findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
+        when (item) {
+            is NoteItem -> {
+                val note = item.note
+                findNavController().navigate(NoteListFragmentDirections.openNoteAction(note.id))
+            }
+            is CategoryItem -> {
+                val category = item.category
+                findNavController().navigate(NoteListFragmentDirections.openCategoryAction(category.id))
+            }
         }
 
     }
