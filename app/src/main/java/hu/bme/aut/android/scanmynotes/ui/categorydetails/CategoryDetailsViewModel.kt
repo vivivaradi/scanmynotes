@@ -25,7 +25,9 @@ class CategoryDetailsViewModel @Inject constructor(
         viewState = when {
             categoryResult is Result.Success && categoriesResult is Result.Success  -> {
                 currentCategory = categoryResult.data
-                categoriesList = categoriesResult.data
+                categoriesList = categoriesResult.data.filterNot { category ->
+                    category.id == currentCategory.id
+                }
                 if (currentCategory.parentId != null) {
                     selectedParent = categoriesList.find { elem ->
                         elem.id == currentCategory.parentId

@@ -46,4 +46,8 @@
     <string name="bottom_menu_categorized_list_item_title">Categorized List</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="warning_dialog_confirm_button_text">Confirm</string>
+    <string name="warning_dialog_cancel_button_text">Cancel</string>
+    <string name="delete_dialog_result_requestkey">DeleteConfirmation</string>
+    <string name="delete_confirm_dialog_tag">DeleteConfirmDialog</string>
 </resources>

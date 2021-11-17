@@ -56,6 +56,7 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
         binding.editCategoryView.categorySelectorSpinner.adapter = adapter
         binding.editCategoryView.categorySelectorSpinner.onItemSelectedListener = this
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -93,7 +94,11 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
                 true
             }
             R.id.action_delete -> {
-                viewModel.deleteCategory()
+                val dialog = DeleteWarningDialog()
+                parentFragmentManager.setFragmentResultListener(getString(R.string.delete_dialog_result_requestkey), viewLifecycleOwner, { _, _ ->
+                    viewModel.deleteCategory()
+                })
+                dialog.show(parentFragmentManager, getString(R.string.delete_confirm_dialog_tag))
                 true
             }
             else -> super.onOptionsItemSelected(item)
