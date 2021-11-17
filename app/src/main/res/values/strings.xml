@@ -50,4 +50,6 @@
     <string name="warning_dialog_cancel_button_text">Cancel</string>
     <string name="delete_dialog_result_requestkey">DeleteConfirmation</string>
     <string name="delete_confirm_dialog_tag">DeleteConfirmDialog</string>
+    <string name="delete_confirm_dialog_title">Delete category?</string>
+    <string name="delete_confirm_dialog_message">This will delete all categories and notes in this category.</string>
 </resources>
