@@ -21,7 +21,7 @@ class NewNoteViewModel @Inject constructor(
         viewState = Loading
         val result = interactor.getCategories()
         viewState = when (result) {
-            is Result.Success -> Success(result.data)
+            is Result.Success -> CategoriesLoaded(result.data)
             is Result.Failure -> Failure(result.message)
         }
     }

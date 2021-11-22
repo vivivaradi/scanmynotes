@@ -5,9 +5,6 @@ import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toolbar
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -68,7 +65,7 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
         when (viewState) {
             is Initial -> Log.d("New Category", "Initial")
             is Loading -> binding.newCategoryViewFlipper.displayedChild = LOADING
-            is Success -> {
+            is CategoriesLoaded -> {
                 Log.d("New Category", "Success")
                 adapter.clear()
                 adapter.add(Category("", getString(R.string.spinner_none_item_title)))

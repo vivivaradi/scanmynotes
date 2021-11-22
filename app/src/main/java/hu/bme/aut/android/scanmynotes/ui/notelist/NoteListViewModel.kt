@@ -1,7 +1,6 @@
 package hu.bme.aut.android.scanmynotes.ui.notelist
 
 import android.graphics.Bitmap
-import android.util.Log
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
@@ -34,8 +33,8 @@ class NoteListViewModel @Inject constructor(
                         complexList = complexResult.data
                         noteList = notesResult.data.toMutableList()
                         when(selectedNavItem) {
-                            SelectedNavItem.CATEGORIES -> Success(complexList)
-                            SelectedNavItem.NOTES -> Success(noteList)
+                            SelectedNavItem.CATEGORIES -> ListLoaded(complexList)
+                            SelectedNavItem.NOTES -> ListLoaded(noteList)
                         }
                     }
                     is Result.Failure -> Error(notesResult.message)

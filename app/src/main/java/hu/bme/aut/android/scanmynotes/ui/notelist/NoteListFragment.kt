@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.fragment.findNavController
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
@@ -28,7 +27,6 @@ import hu.bme.aut.android.scanmynotes.ui.notelist.items.CategoryItem
 import hu.bme.aut.android.scanmynotes.ui.notelist.items.NoteItem
 import hu.bme.aut.android.scanmynotes.util.hasCameraPermission
 import hu.bme.aut.android.scanmynotes.util.requestCameraPermission
-import java.lang.IllegalStateException
 
 class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewModel>(), EasyPermissions.PermissionCallbacks, SearchView.OnQueryTextListener{
     override fun provideViewModel() = getViewModelFromFactory()
@@ -127,13 +125,11 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     override fun render(viewState: NoteListViewState) {
         when(viewState){
-            is Initial -> Log.d(getString(R.string.debug_tag), "Initial")
             is Loading -> binding.noteListViewFlipper.displayedChild = LOADING
-            is Success -> {
+            is ListLoaded -> {
                 setSearchVisibility()
                 adapter.showList(viewState.noteList)
                 binding.noteListViewFlipper.displayedChild = VIEWING
-                Log.d(getString(R.string.debug_tag), "Notes Ready")
             }
             is Error -> {
                 Log.d(getString(R.string.error_tag), viewState.message)
