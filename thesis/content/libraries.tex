@@ -1,0 +1,30 @@
+%--------------------
+\chapter{Felhasznált könyvtárak}
+%--------------------
+%TODO write
+%TODO intro
+
+\section{Google Cloud Vision API}
+
+A Vision API a Google Cloud szolgáltatásainak képfelismerésre specializált része. Használata csak egy bizonyos, havonta újuló kvótáig ingyenes, mely szerencsére bőven elegendő volt a projekt elkészítése és tesztelése során. Számos előre betanított modellt tartalmaz, melyekkel detektálhatunk és osztályozhatunk tárgyakat, arcokat, szövegeket vagy akár felnőtt tartalmakat is. \cite{Vision}
+
+A jegyzetek digitalizálásához szövegfelismerésre van szükség, ami optikai karakterfelismerés alkalmazásával valósítható meg. Ez az API \emph{DOCUMENT\_TEXT\_DETECTION} funkciójával lehetséges, mely optimalizálva van mind nagy sűrűségű dokumentumok, mind kézírás detektálására. Ennek során a kiválasztott képet egy base64 kódolt string formájában kell az API-nak elküldeni, mely a kívánt felismerés elvégzése után az eredményt egy \emph{TextAnnotation} típusú objektumban kapjuk vissza. Ez egy strukturált reprezentációja a kinyert szövegnek, amit oldalakra, paragrafusokra vagy akár szavakra is bonthatunk. A projekt esetében elegendő volt az objektumon a \emph{text} property használata, mely az eredményt egyetlen stringben adja vissza. 
+
+A szolgáltatás számtalan nyelvet támogat, többek között a magyart is, és végül emiatt esett erre a választásom. Nincs is igazán sok elérhető API, mely képes lenne kézírás-felismerésre, de ez az egyetlen ami ezt magyarul is támogatja. Esetleg a Microsoft Azure Computer Vision szállhatna vele versenybe, de ilyen téren az is elmarad, mert jelenleg csak nyomtatott dokumentumok detektálására képes magyarul. Kerestem más alternatívákat is, de a legtöbb kézírás-felismerő szolgáltatás a digitális jegyzetelésre koncentrál - amikor a felhasználó egy érintőképernyőre ír egy speciálisan erre készített "tollal" -, így ezeket sajnálatos módon ki kellett zárni.
+
+Az API kézírás-felismerő képességének megvannak a korlátai, amik kevésbé használhatóvá teszik az alkalmazást, mint amennyire én terveztem. Ma már az Egyesült Államokban elég ritkán írnak kézzel az emberek, és ez meglátszik a modell teljesítményén. Az én kézírásom szinte megfejthetetlen a Vision API számára, nagyon gondosan és odafigyelve kell formálnom a betűket ahhoz, hogy felismerje. A szép kézírást viszont egészen megbízhatóan teljesíti, illetve az írott nagybetűkkel is elboldogul. Így sajnos nem sikerült egy olyan szinten használható alkalmazást készíteni belőle, mint ahogy én elképzeltem, de szebben írt, rövidebb szövegek digitalizálására tökéletesen megfelel. 
+
+\section{Firebase}
+
+A Firebase szintén a Google terméke fejlesztők számára, mely megkönnyíti és felgyorsítja a fejlesztési folyamatokat azáltal, hogy egy teljes backend-infrastruktúrát biztosít. Így a fejlesztőnek elég csak ezeket a szolgáltatásokat integrálnia az alkalmazásába ahelyett, hogy azt is külön írnia kellene. Lehetőséget kínál felhasználó-kezelésre, adattárolásra, teljesítményfigyelésre, biztosít analitikát, crash-elemzést és még sok mást. 
+
+Alább találhatók azon Firebase-szolgáltatások, melyeket felhasználtam az applikáció fejlesztése során; most ezekre fogok kicsit bővebben kitérni.
+
+\subsection{Autentikáció}
+\subsection{Cloud Firestore}
+\subsection{Analytics}
+\subsection{Crashlytics}
+
+\section{Groupie}
+
+\section{EasyPermissions}

@@ -1,0 +1,77 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{ShareStat}
+S.~O'Dea.
+\newblock \emph{Mobile operating systems' market share worldwide from january
+  2012 to june 2021}.
+\newblock
+  \url{https://www.statista.com/statistics/272698/global-market-share-held-by-mobile-operating-systems-since-2009/},
+  2021, [2021-11-21].
+
+\bibitem{MobWeb}
+Péter Ekler.
+\newblock \emph{Mobil- és webes szoftverek előadásanyag}, 2020,
+  [2021-11-20].
+
+\bibitem{PlatformGuide}
+Android Developers.
+\newblock \emph{Platform architecture}.
+\newblock \url{https://developer.android.com/guide/platform/index.html}, 2021,
+  [2021-11-21].
+
+\bibitem{AndroidStudio}
+Android Developers.
+\newblock \emph{Meet android studio}.
+\newblock \url{https://developer.android.com/studio/intro}.
+
+\bibitem{ProjectStructure}
+Android Developers.
+\newblock \emph{Projects overview}.
+\newblock \url{https://developer.android.com/studio/projects}.
+
+\bibitem{Manifest}
+Android Developers.
+\newblock \emph{App manifest overview}.
+\newblock
+  \url{https://developer.android.com/guide/topics/manifest/manifest-intro}.
+
+\bibitem{Rainbowcake}
+Márton Braun.
+\newblock \emph{Rainbowcake - a modern android architecture framework}.
+\newblock \url{https://rainbowcake.dev/}.
+
+\bibitem{DepInjection}
+Android Developers.
+\newblock \emph{Dependency injection in android}.
+\newblock \url{https://developer.android.com/training/dependency-injection}.
+
+\bibitem{ViewState}
+Márton Braun.
+\newblock \emph{Designing and working with single view states on android}.
+\newblock
+  \url{https://zsmb.co/designing-and-working-with-single-view-states-on-android/},
+  2020, [2021-11-22].
+
+\bibitem{ViewFlipper}
+Márton Braun.
+\newblock \emph{Viewflipper documentation}.
+\newblock \url{https://rainbowcake.dev/best-practices/view-flippers/},
+  [2021-11-23].
+
+\bibitem{Events}
+Márton Braun.
+\newblock \emph{Events documentation}.
+\newblock \url{https://rainbowcake.dev/features/events/}, [2021-11-23].
+
+\bibitem{Vision}
+Google.
+\newblock \emph{Vision [ai]}.
+\newblock \url{https://cloud.google.com/vision}, [2021-11-26].
+
+\end{thebibliography}

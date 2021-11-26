@@ -1,0 +1,73 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: thesis.aux
+Reallocating 'name_of_file' (item size: 1) to 7 items.
+The style file: custom.bst
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: include/guideline.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: include/project.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: include/titlepage.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: include/declaration.aux
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+A level-1 auxiliary file: content/abstract.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+A level-1 auxiliary file: content/introduction.aux
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+A level-1 auxiliary file: content/platform.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+A level-1 auxiliary file: content/architecture.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+A level-1 auxiliary file: content/libraries.aux
+Reallocating 'name_of_file' (item size: 1) to 27 items.
+A level-1 auxiliary file: content/implementation.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: content/summary.aux
+Reallocating 'name_of_file' (item size: 1) to 10 items.
+Database file #1: bib/mybib.bib
+Warning--entry type for "MobWeb" isn't style-file defined
+--line 15 of file bib/mybib.bib
+You've used 12 entries,
+            2344 wiz_defined-function locations,
+            587 strings with 6082 characters,
+and the built_in function-call counts, 2323 in all, are:
+= -- 124
+> -- 48
+< -- 0
++ -- 24
+- -- 12
+* -- 45
+:= -- 267
+add.period$ -- 35
+call.type$ -- 12
+change.case$ -- 12
+chr.to.int$ -- 0
+cite$ -- 12
+duplicate$ -- 246
+empty$ -- 331
+format.name$ -- 12
+if$ -- 527
+int.to.chr$ -- 0
+int.to.str$ -- 12
+missing$ -- 48
+newline$ -- 67
+num.names$ -- 12
+pop$ -- 146
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 58
+stack$ -- 0
+substring$ -- 0
+swap$ -- 126
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 12
+width$ -- 14
+write$ -- 120
+(There was 1 warning)
