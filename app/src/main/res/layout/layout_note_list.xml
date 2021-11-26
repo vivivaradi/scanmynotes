@@ -21,14 +21,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="@string/searchview_query_hint" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/orderButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_baseline_sort_24"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:theme="@style/Theme.MaterialComponents"
+        app:icon="@drawable/ic_baseline_sort_24"
+        app:iconGravity="end"
+        app:iconTint="@color/purple_500"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/listNotes"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +43,7 @@
         android:id="@+id/listNotes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

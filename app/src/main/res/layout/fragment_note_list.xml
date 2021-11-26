@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ViewFlipper  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/noteListViewFlipper"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <ViewFlipper  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/noteListViewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <include layout="@layout/layout_loading"
-        android:id="@+id/loadingView"/>
+        <include layout="@layout/layout_loading"
+            android:id="@+id/loadingView"/>
 
-    <include layout="@layout/layout_note_list"
-        android:id="@+id/noteListView"/>
+        <include layout="@layout/layout_note_list"
+            android:id="@+id/noteListView"/>
 
-</ViewFlipper>
+    </ViewFlipper>
