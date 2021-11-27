@@ -47,9 +47,10 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
-        binding.newCategoryView.categorySelectorSpinner.adapter = adapter
-        binding.newCategoryView.categorySelectorSpinner.onItemSelectedListener = this
-
+        val categoryView = binding.newCategoryView
+        categoryView.categorySelectorSpinner.spinner.setAdapter(adapter)
+        categoryView.categorySelectorSpinner.spinner.onItemSelectedListener = this
+        categoryView.newCategoryTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -79,10 +80,11 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                if (!binding.newCategoryView.newCategoryTitle.validateTextContent()) {
+                val isValid = binding.newCategoryView.newCategoryTitle.textField.validateTextContent() ?: false
+                if (!isValid) {
                     return true
                 }
-                viewModel.saveCategory(binding.newCategoryView.newCategoryTitle.text.toString())
+                viewModel.saveCategory(binding.newCategoryView.newCategoryTitle.textField.text.toString())
                 return true
             }
             else -> super.onOptionsItemSelected(item)

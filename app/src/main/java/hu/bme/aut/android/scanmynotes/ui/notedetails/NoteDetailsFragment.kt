@@ -64,8 +64,11 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
-        binding.editNoteView.categorySelectorSpinner.adapter = adapter
-        binding.editNoteView.categorySelectorSpinner.onItemSelectedListener = this
+        val noteView = binding.editNoteView
+        noteView.categorySelectorSpinner.spinner.adapter = adapter
+        noteView.categorySelectorSpinner.spinner.onItemSelectedListener = this
+        noteView.editNoteTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
+        noteView.editNoteContent.inputLayout.hint = getString(R.string.content_text_field_hint)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,7 +103,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
             R.id.action_save -> {
                 if (!validateTextFields())
                     return true
-                viewModel.saveNote(binding.editNoteView.editNoteTitle.text.toString(), binding.editNoteView.editNoteContent.text.toString())
+                viewModel.saveNote(binding.editNoteView.editNoteTitle.textField.text.toString(), binding.editNoteView.editNoteContent.textField.text.toString())
                 requireActivity().invalidateOptionsMenu()
                 true
             }
@@ -131,8 +134,8 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
             is Editing -> {
                 isEditing = true
                 binding.detailsViewFlipper.displayedChild = Flipper.EDITING
-                binding.editNoteView.editNoteTitle.setText(viewState.note.title)
-                binding.editNoteView.editNoteContent.setText(viewState.note.content)
+                binding.editNoteView.editNoteTitle.textField.setText(viewState.note.title)
+                binding.editNoteView.editNoteContent.textField.setText(viewState.note.content)
 
                 adapter.clear()
                 adapter.add(Category("", getString(R.string.spinner_none_item_title)))
@@ -141,7 +144,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                     null -> 0
                     else -> adapter.getPosition(viewModel.selectedParent)
                 }
-                binding.editNoteView.categorySelectorSpinner.setSelection(selectedPosition)
+                binding.editNoteView.categorySelectorSpinner.spinner.setSelection(selectedPosition)
             }
             is Failure -> Log.d(getString(R.string.debug_tag), viewState.message)
         }
@@ -153,7 +156,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 findNavController().navigate(NoteDetailsFragmentDirections.noteDeletedAction())
             }
             is NoteDetailsViewModel.TextReady -> {
-                binding.editNoteView.editNoteContent.append(event.text)
+                binding.editNoteView.editNoteContent.textField.append(event.text)
             }
             is NoteDetailsViewModel.NoTextFoundEvent -> {
                 Toast.makeText(requireContext(), getString(R.string.text_detection_no_text_found), Toast.LENGTH_LONG).show()
@@ -218,6 +221,6 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
         viewModel.selectParent(null)
     }
 
-    fun validateTextFields(): Boolean = binding.editNoteView.editNoteTitle.validateTextContent() && binding.editNoteView.editNoteContent.validateTextContent()
+    fun validateTextFields(): Boolean = binding.editNoteView.editNoteTitle.textField.validateTextContent() && binding.editNoteView.editNoteContent.textField.validateTextContent()
 
 }

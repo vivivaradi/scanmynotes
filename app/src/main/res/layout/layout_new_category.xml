@@ -4,22 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <include layout="@layout/element_title_textfield"
         android:id="@+id/newCategoryTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <Spinner
+    <include layout="@layout/spinner_hint"/>
+
+    <include layout="@layout/element_styled_spinner"
         android:id="@+id/categorySelectorSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newCategoryTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/newCategoryTitle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

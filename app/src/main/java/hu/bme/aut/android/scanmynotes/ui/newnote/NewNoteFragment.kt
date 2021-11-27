@@ -49,8 +49,11 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
-        binding.newNoteView.categorySelectorSpinner.adapter = adapter
-        binding.newNoteView.categorySelectorSpinner.onItemSelectedListener = this
+        val noteView = binding.newNoteView
+        noteView.categorySelectorSpinner.spinner.adapter = adapter
+        noteView.categorySelectorSpinner.spinner.onItemSelectedListener = this
+        noteView.newNoteTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
+        noteView.newNoteText.inputLayout.hint = getString(R.string.content_text_field_hint)
     }
 
     override fun onStart() {
@@ -72,7 +75,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                 if (!validateTextFields()) {
                     return true
                 }
-                viewModel.saveNote(binding.newNoteView.newNoteTitle.text.toString(), binding.newNoteView.newNoteText.text.toString())
+                viewModel.saveNote(binding.newNoteView.newNoteTitle.textField.text.toString(), binding.newNoteView.newNoteText.textField.text.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -99,7 +102,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                 adapter.clear()
                 adapter.add(Category("", getString(R.string.spinner_none_item_title)))
                 adapter.addAll(viewState.categories)
-                binding.newNoteView.newNoteText.setText(args.noteText)
+                binding.newNoteView.newNoteText.textField.setText(args.noteText)
                 binding.newNoteViewFlipper.displayedChild = VIEWING
             }
             is Failure -> Log.d("New Note", "Failure")
@@ -119,5 +122,5 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         viewModel.selectParent(null)
     }
 
-    fun validateTextFields(): Boolean = binding.newNoteView.newNoteTitle.validateTextContent() && binding.newNoteView.newNoteText.validateTextContent()
+    fun validateTextFields(): Boolean = binding.newNoteView.newNoteTitle.textField.validateTextContent() ?: false && binding.newNoteView.newNoteText.textField.validateTextContent() ?: false
 }

@@ -52,4 +52,7 @@
     <string name="delete_confirm_dialog_tag">DeleteConfirmDialog</string>
     <string name="delete_confirm_dialog_title">Delete category?</string>
     <string name="delete_confirm_dialog_message">This will delete all categories and notes in this category.</string>
+    <string name="title_text_field_hint">Title</string>
+    <string name="content_text_field_hint">Content</string>
+    <string name="parent_spinner_hint">Choose a category</string>
 </resources>

@@ -54,9 +54,9 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
-        binding.editCategoryView.categorySelectorSpinner.adapter = adapter
-        binding.editCategoryView.categorySelectorSpinner.onItemSelectedListener = this
-
+        binding.editCategoryView.categorySelectorSpinner.spinner.setAdapter(adapter)
+        binding.editCategoryView.categorySelectorSpinner.spinner.onItemSelectedListener = this
+        binding.editCategoryView.editCategoryTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -83,7 +83,7 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
             R.id.action_save -> {
                 if (!validateTextField())
                     return true
-                val newTitle = binding.editCategoryView.editCategoryTitle.text.toString()
+                val newTitle = binding.editCategoryView.editCategoryTitle.textField.text.toString()
                 viewModel.saveCategory(newTitle)
                 requireActivity().invalidateOptionsMenu()
                 true
@@ -119,7 +119,7 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
             is Editing -> {
                 isEditing = true
                 binding.detailsViewFlipper.displayedChild = EDITING
-                binding.editCategoryView.editCategoryTitle.setText(viewState.category.title)
+                binding.editCategoryView.editCategoryTitle.textField.setText(viewState.category.title)
 
                 adapter.clear()
                 adapter.add(Category("", getString(R.string.spinner_none_item_title)))
@@ -128,7 +128,7 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
                     null -> 0
                     else -> adapter.getPosition(viewModel.selectedParent)
                 }
-                binding.editCategoryView.categorySelectorSpinner.setSelection(selectedPosition)
+                binding.editCategoryView.categorySelectorSpinner.spinner.setSelection(selectedPosition)
             }
         }
     }
@@ -153,5 +153,5 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
         viewModel.selectParent(null)
     }
 
-    fun validateTextField(): Boolean = binding.editCategoryView.editCategoryTitle.validateTextContent()
+    fun validateTextField(): Boolean = binding.editCategoryView.editCategoryTitle.textField.validateTextContent() ?: false
 }

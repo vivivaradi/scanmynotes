@@ -10,21 +10,20 @@
         android:orientation="vertical"
         tools:context=".ui.newnote.NewNoteFragment">
 
-        <EditText
+        <include layout="@layout/element_title_textfield"
+            android:id="@+id/newNoteTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/newNoteTitle"/>
+            android:layout_height="wrap_content"/>
 
-        <EditText
+        <include layout="@layout/spinner_hint"/>
+
+        <include layout="@layout/element_styled_spinner"
+            android:id="@+id/categorySelectorSpinner"/>
+
+        <include layout="@layout/element_content_textfield"
+            android:id="@+id/newNoteText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/newNoteText"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/categorySelectorSpinner" />
-
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </ScrollView>
