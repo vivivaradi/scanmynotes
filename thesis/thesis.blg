@@ -4,10 +4,6 @@ The top-level auxiliary file: thesis.aux
 Reallocating 'name_of_file' (item size: 1) to 7 items.
 The style file: custom.bst
 Reallocating 'name_of_file' (item size: 1) to 22 items.
-A level-1 auxiliary file: include/guideline.aux
-Reallocating 'name_of_file' (item size: 1) to 20 items.
-A level-1 auxiliary file: include/project.aux
-Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: include/titlepage.aux
 Reallocating 'name_of_file' (item size: 1) to 24 items.
 A level-1 auxiliary file: include/declaration.aux
@@ -29,45 +25,45 @@ Reallocating 'name_of_file' (item size: 1) to 10 items.
 Database file #1: bib/mybib.bib
 Warning--entry type for "MobWeb" isn't style-file defined
 --line 15 of file bib/mybib.bib
-You've used 12 entries,
-            2344 wiz_defined-function locations,
-            587 strings with 6082 characters,
-and the built_in function-call counts, 2323 in all, are:
-= -- 124
-> -- 48
+You've used 18 entries,
+            2298 wiz_defined-function locations,
+            603 strings with 6577 characters,
+and the built_in function-call counts, 3453 in all, are:
+= -- 190
+> -- 72
 < -- 0
-+ -- 24
-- -- 12
-* -- 45
-:= -- 267
-add.period$ -- 35
-call.type$ -- 12
-change.case$ -- 12
++ -- 36
+- -- 18
+* -- 69
+:= -- 399
+add.period$ -- 53
+call.type$ -- 18
+change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 12
-duplicate$ -- 246
-empty$ -- 331
-format.name$ -- 12
-if$ -- 527
+cite$ -- 18
+duplicate$ -- 354
+empty$ -- 463
+format.name$ -- 18
+if$ -- 779
 int.to.chr$ -- 0
-int.to.str$ -- 12
-missing$ -- 48
-newline$ -- 67
-num.names$ -- 12
-pop$ -- 146
+int.to.str$ -- 18
+missing$ -- 90
+newline$ -- 95
+num.names$ -- 18
+pop$ -- 236
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 58
+skip$ -- 82
 stack$ -- 0
 substring$ -- 0
-swap$ -- 126
+swap$ -- 210
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 12
-width$ -- 14
-write$ -- 120
+while$ -- 18
+width$ -- 20
+write$ -- 178
 (There was 1 warning)

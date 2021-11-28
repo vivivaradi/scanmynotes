@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  26 NOV 2021 01:32
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  28 NOV 2021 02:14
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -658,10 +658,10 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 39.
 \c@currtheoremctr=\count322
 \c@endtheoremctr=\count323
 \c@theorem=\count324
-) (thesis.aux (include/guideline.aux) (include/project.aux) (include/titlepage.
-aux) (include/declaration.aux) (content/abstract.aux)
-(content/introduction.aux) (content/platform.aux) (content/architecture.aux)
-(content/libraries.aux) (content/implementation.aux) (content/summary.aux))
+) (thesis.aux (include/titlepage.aux)
+(include/declaration.aux) (content/abstract.aux) (content/introduction.aux)
+(content/platform.aux) (content/architecture.aux) (content/libraries.aux)
+(content/implementation.aux) (content/summary.aux))
 \openout1 = `thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
@@ -783,41 +783,24 @@ Package caption Info: End \AtBeginDocument code.
 LaTeX Info: Redefining \cal on input line 577.
 LaTeX Info: Redefining \mit on input line 578.
 )
-\openout2 = `include/guideline.aux'.
+\openout2 = `include/titlepage.aux'.
 
 
-(include/guideline.tex
-LaTeX Font Info:    Trying to load font information for U+msa on input line 29.
+(include/titlepage.tex
+Package hyperref Info: Option `pageanchor' set `false' on input line 1.
+File: figures/bme_logo.pdf Graphic file (type pdf)
+<use figures/bme_logo.pdf>
+LaTeX Font Info:    Trying to load font information for U+msa on input line 20.
 
  (D:\Programok\MikTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 29.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
 
 
 (D:\Programok\MikTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)) [1
-
-
-
-]
-\openout2 = `include/project.aux'.
-
- (include/project.tex)
-[2
-
-
-
-
-]
-\openout2 = `include/titlepage.aux'.
-
- (include/titlepage.tex
-Package hyperref Info: Option `pageanchor' set `false' on input line 1.
-File: figures/bme_logo.pdf Graphic file (type pdf)
-<use figures/bme_logo.pdf>
- [1
+) [1
 
 
 
@@ -834,8 +817,8 @@ Package hyperref Info: Option `pageanchor' set `false' on input line 32.
  [2]
 \openout2 = `include/declaration.aux'.
 
- (include/declaration.tex
-[1
+
+(include/declaration.tex [1
 
 ])
 \openout2 = `content/abstract.aux'.
@@ -853,7 +836,8 @@ Package hyperref Info: Option `pageanchor' set `false' on input line 32.
 ]
 \openout2 = `content/introduction.aux'.
 
- (content/introduction.tex
+
+(content/introduction.tex
 1. fejezet.
 ) [1
 
@@ -899,12 +883,23 @@ File: figures/view_flipper_usage.png Graphic file (type bmp)
 
 
 
-]) [11]
+]
+File: figures/rules.png Graphic file (type bmp)
+<figures/rules.png>
+ [11]
+File: figures/analytics_platform.png Graphic file (type bmp)
+<figures/analytics_platform.png>
+File: figures/analytics_countries.png Graphic file (type bmp)
+<figures/analytics_countries.png>
+ [12]
+File: figures/crashlytics_crashfree.png Graphic file (type bmp)
+<figures/crashlytics_crashfree.png>
+ [13]) [14]
 \openout2 = `content/implementation.aux'.
 
  (content/implementation.tex
 5. fejezet.
-) [12
+) [15
 
 
 
@@ -914,60 +909,60 @@ File: figures/view_flipper_usage.png Graphic file (type bmp)
 
  (content/summary.tex
 6. fejezet.
-) [13
+) [16
 
 
 
 
 ] (thesis.bbl
-Underfull \hbox (badness 3919) in paragraph at lines 10--16
+Underfull \hbox (badness 1990) in paragraph at lines 8--14
 []\TU/lmr/m/n/10.95 S. O’Dea.  \TU/lmr/m/it/10.95 Mobile operating systems’ mar
-ket share worldwide from ja-
+ket share worldwide from Janu-
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 10--16
-\TU/lmr/m/it/10.95 nuary 2012 to june 2021\TU/lmr/m/n/10.95 .  [][]$[][][][][] 
-[] [] [] [][][] [] [][][][][][][][] [] [][][] [] [][][][][][][][][][] [] [][][]
-[][][] []
+Underfull \hbox (badness 2970) in paragraph at lines 8--14
+\TU/lmr/m/it/10.95 ary 2012 to June 2021\TU/lmr/m/n/10.95 .  [][]$[][][][][] []
+ [] [] [][][] [] [][][][][][][][] [] [][][] [] [][][][][][][][][][] [] [][][][]
+[][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--60
+Underfull \hbox (badness 10000) in paragraph at lines 53--58
 [] [] [][][][] [] [][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]$[
 ][]\TU/lmr/m/n/10.95 ,
  []
 
 
-Underfull \hbox (badness 5119) in paragraph at lines 62--66
-[]\TU/lmr/m/n/10.95 Márton Braun.  \TU/lmr/m/it/10.95 Viewflipper documentation
+Underfull \hbox (badness 4193) in paragraph at lines 60--64
+[]\TU/lmr/m/n/10.95 Márton Braun.  \TU/lmr/m/it/10.95 ViewFlipper documentation
 \TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][][][][][][][][][] [] [][][] 
 []
  []
 
-)
+[17
+
+
+
+])
 \tf@thm=\write5
 \openout5 = `thesis.thm'.
 
- [14
-
-
-
-] (thesis.aux (include/guideline.aux) (include/project.aux)
-(include/titlepage.aux) (include/declaration.aux) (content/abstract.aux)
-(content/introduction.aux) (content/platform.aux) (content/architecture.aux)
-(content/libraries.aux) (content/implementation.aux) (content/summary.aux))
+ [18] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
+(content/abstract.aux) (content/introduction.aux) (content/platform.aux)
+(content/architecture.aux) (content/libraries.aux) (content/implementation.aux)
+(content/summary.aux))
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 41CF9708C014E196CE97555F506A3107;4699.
+(rerunfilecheck)             Checksum: 3BCF790B9EAEE0740C26833D15325073;4852.
  ) 
 Here is how much of TeX's memory you used:
- 17001 strings out of 411295
- 306236 string characters out of 2836941
- 718790 words of memory out of 3000000
- 37116 multiletter control sequences out of 15000+600000
- 410772 words of font info for 73 fonts, out of 8000000 for 9000
+ 17031 strings out of 411295
+ 307170 string characters out of 2836941
+ 715949 words of memory out of 3000000
+ 37154 multiletter control sequences out of 15000+600000
+ 410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191
- 78i,7n,84p,1054b,544s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 78i,8n,84p,905b,544s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.pdf (22 pages).
+Output written on thesis.pdf (24 pages).

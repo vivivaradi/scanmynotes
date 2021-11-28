@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=latex 2021.11.23)  23 NOV 2021 15:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=latex 2021.11.23)  27 NOV 2021 15:22
 entering extended mode
 **D:/Programok/MikTeX/tex/latex/custom-bib/makebst.tex
 (D:/Programok/MikTeX/tex/latex/custom-bib/makebst.tex
@@ -18,21 +18,7 @@ It makes up a docstrip batch job to produce
 a customized .bst file for running with BibTeX
 Do you want a description of the usage? (NO)
 
-\yn=y
-In the interactive dialogue that follows,
-you will be presented with a series of menus.
-In each case, one answer is the default, marked as (*),
-and a mere carriage-return is sufficient to select it.
-(If there is no * choice, then the default is the last choice.)
-For the other choices, a letter is indicated
-in brackets for selecting that option. If you select
-a letter not in the list, default is taken.
-
-The final output is a file containing a batch job
-which may be (La)TeXed to produce the desired BibTeX
-bibliography style file. The batch job may be edited
-to make minor changes, rather than running this program
-once again.
+\yn=n
 
 Enter the name of the MASTER file (default=merlin.mbs)
 
@@ -45,7 +31,7 @@ Name of the final OUTPUT .bst file? (default extension=bst)
 Give a comment line to include in the style file.
 Something like for which journals it is applicable.
 
-\ans=Made for my thesis
+\ans=Created for thesis
 \openout3 = `custom.dbj'.
 
 Do you want verbose comments? (NO)
@@ -236,8 +222,16 @@ SUPPRESS MONTH:
 (x) Date is year only 
   Select:
 
-\ans=x
-  You have selected: Date is year only
+\ans=
+  You have selected: Date is month and year
+
+REVERSED DATE (if including month)
+(*) Date as month year 
+(r) Date as year month 
+  Select:
+
+\ans=
+  You have selected: Date as month year
 
 DATE FONT:
 (*) Date in normal font 
@@ -266,8 +260,8 @@ CAPITALIZATION OF ARTICLE TITLE:
 (t) Title style (just as in bib entry)
   Select:
 
-\ans=
-  You have selected: Sentence style
+\ans=t
+  You have selected: Title style
 
 ARTICLE TITLE PRESENT:
 (*) Article title present in journals and proceedings
@@ -717,8 +711,8 @@ URL ADDRESS: (without REVTeX fields)
 (l) URL on new line after rest of reference
   Select:
 
-\ans=l
-  You have selected: URL on new line
+\ans=
+  You have selected: No URL
 
 REFERENCE COMPONENT TAGS:
 (*) No reference component tags in the \bibitem entries
@@ -803,8 +797,8 @@ Generating file(s) ./custom.bst
 \openout0 = `./custom.bst'.
 
 
-Processing file merlin.mbs (seq-no,ed-au,xmth,tit-it,num-xser,isbn,issn,doi,xed
-n,url,url-nl,nfss,) -> custom.bst
+Processing file merlin.mbs (seq-no,ed-au,tit-it,atit-u,num-xser,isbn,issn,doi,x
+edn,nfss,) -> custom.bst
 Lines  processed: 9446
 Comments removed: 3867
 Comments  passed: 1
@@ -813,8 +807,8 @@ Codelines passed: 3732
  ) ) 
 Here is how much of TeX's memory you used:
  847 strings out of 478928
- 7315 string characters out of 2864338
- 306172 words of memory out of 3000000
+ 7349 string characters out of 2864338
+ 306127 words of memory out of 3000000
  18791 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191

@@ -8,9 +8,9 @@
 
 A Vision API a Google Cloud szolgáltatásainak képfelismerésre specializált része. Használata csak egy bizonyos, havonta újuló kvótáig ingyenes, mely szerencsére bőven elegendő volt a projekt elkészítése és tesztelése során. Számos előre betanított modellt tartalmaz, melyekkel detektálhatunk és osztályozhatunk tárgyakat, arcokat, szövegeket vagy akár felnőtt tartalmakat is. \cite{Vision}
 
-A jegyzetek digitalizálásához szövegfelismerésre van szükség, ami optikai karakterfelismerés alkalmazásával valósítható meg. Ez az API \emph{DOCUMENT\_TEXT\_DETECTION} funkciójával lehetséges, mely optimalizálva van mind nagy sűrűségű dokumentumok, mind kézírás detektálására. Ennek során a kiválasztott képet egy base64 kódolt string formájában kell az API-nak elküldeni, mely a kívánt felismerés elvégzése után az eredményt egy \emph{TextAnnotation} típusú objektumban kapjuk vissza. Ez egy strukturált reprezentációja a kinyert szövegnek, amit oldalakra, paragrafusokra vagy akár szavakra is bonthatunk. A projekt esetében elegendő volt az objektumon a \emph{text} property használata, mely az eredményt egyetlen stringben adja vissza. 
+A jegyzetek digitalizálásához szövegfelismerésre van szükség, ami optikai karakterfelismerés alkalmazásával valósítható meg. Ez az API \emph{DOCUMENT\_TEXT\_DETECTION} funkciójával lehetséges, mely optimalizálva van mind nagy sűrűségű dokumentumok, mind kézírás detektálására. Ennek során a kiválasztott képet egy base64 kódolt string formájában kell az API-nak elküldeni, a kívánt felismerés elvégzése után pedig az eredményt egy \emph{TextAnnotation} típusú objektumban kapjuk vissza. Ez egy strukturált reprezentációja a kinyert szövegnek, amit oldalakra, paragrafusokra vagy akár szavakra is bonthatunk. A projekt esetében elegendő volt az objektumon a \emph{text} property használata, mely az eredményt egyetlen stringben adja vissza. 
 
-A szolgáltatás számtalan nyelvet támogat, többek között a magyart is, és végül emiatt esett erre a választásom. Nincs is igazán sok elérhető API, mely képes lenne kézírás-felismerésre, de ez az egyetlen ami ezt magyarul is támogatja. Esetleg a Microsoft Azure Computer Vision szállhatna vele versenybe, de ilyen téren az is elmarad, mert jelenleg csak nyomtatott dokumentumok detektálására képes magyarul. Kerestem más alternatívákat is, de a legtöbb kézírás-felismerő szolgáltatás a digitális jegyzetelésre koncentrál - amikor a felhasználó egy érintőképernyőre ír egy speciálisan erre készített "tollal" -, így ezeket sajnálatos módon ki kellett zárni.
+A szolgáltatás számtalan nyelvet támogat, többek között a magyart is, és végül emiatt esett erre a választásom. Nincs is igazán sok elérhető API, mely képes lenne kézírás-felismerésre, de ez az egyetlen ami ezt magyarul is támogatja. Esetleg a Microsoft Azure Computer Vision szállhatna vele versenybe, de ilyen téren az is elmarad, mert jelenleg csak nyomtatott dokumentumok detektálására képes magyarul. Kerestem más alternatívákat is, de a legtöbb kézírás-felismerő szolgáltatás a digitális jegyzetelésre koncentrál - amikor a felhasználó egy érintőképernyőre ír egy speciálisan erre készített "tollal" -, de nekem a use case-t tekintve ezek nem feleltek meg.
 
 Az API kézírás-felismerő képességének megvannak a korlátai, amik kevésbé használhatóvá teszik az alkalmazást, mint amennyire én terveztem. Ma már az Egyesült Államokban elég ritkán írnak kézzel az emberek, és ez meglátszik a modell teljesítményén. Az én kézírásom szinte megfejthetetlen a Vision API számára, nagyon gondosan és odafigyelve kell formálnom a betűket ahhoz, hogy felismerje. A szép kézírást viszont egészen megbízhatóan teljesíti, illetve az írott nagybetűkkel is elboldogul. Így sajnos nem sikerült egy olyan szinten használható alkalmazást készíteni belőle, mint ahogy én elképzeltem, de szebben írt, rövidebb szövegek digitalizálására tökéletesen megfelel. 
 
@@ -20,11 +20,68 @@ A Firebase szintén a Google terméke fejlesztők számára, mely megkönnyíti 
 
 Alább találhatók azon Firebase-szolgáltatások, melyeket felhasználtam az applikáció fejlesztése során; most ezekre fogok kicsit bővebben kitérni.
 
-\subsection{Autentikáció}
 \subsection{Cloud Firestore}
+Egy alkalmazásban a felhasználó által bevitt adatokat valamilyen módon el kell tárolnunk, hogy aztán később is hozzá lehessen férni. Erre két lehetőségünk van: lokális adatbázis használata a készüléken (pl.: Room) vagy a felhőalapú adattárolás. Én az utóbbit választottam, mert felhasználói szempontból sokkal kényelmesebb egyszer egy fiókot csinálni és ahhoz kötni az adatokat, mint mondjuk egy esetleges készülékcserénél kutatni, hogy hogyan lehet átemelni az adatokat az újra. A Firebase két szolgáltatást is biztosít erre a célra, ezek név szerint a Realtime Database és a Cloud Firestore. 
+
+A Realtime Database régebb óta létezik, és az adatok JSON formátumú tárolására ad lehetőséget. Ez egyszerű adatszerkezet esetén ideális, de a komplex, hierarchikus adatok szervezésére nem a legjobb választás. Ezen okból döntöttem inkább a Cloud Firestore használata mellett. 
+
+A Cloud Firestore a Firebase legújabb adatbázis-szolgáltatása, mely egy új, intuitívabb adatmodellre épít gyorsabb lekérdezésekkel és jobb skálázódással. \cite{RealtimevsFirestore} Adatmodelljét tekintve egy NoSQL adatbázisról van szó, melyben táblák és sorok helyett dokumentumokba és kollekciókba rendezve tároljuk az adatot. A dokumentumok kulcs-érték párokból állnak, de tartalmazhatnak kollekciókat is, melyekben további dokumentumok találhatók. \cite{FirestoreDataModel} Az adatbázisnak nincs sémája, így szabadon alkothatjuk meg az adataink struktúráját - akár ugyanazon a kollekción belül található két dokumentum tartalma is eltérhet egymástól. 
+
+Emellett a Firestore biztosít még egy rugalmas szabályrendszert, melynek segítségével kontrollálhatjuk a hozzáférést az adatbázisunk különböző részeihez. Itt úgynevezett \emph{match} kifejezésekkel illesztjük rá a szabályokat a megadott elérési útvonalakra, és ha a szabályok nem teljesülnek akkor a lekérdezés meghiúsul. Különböző szabályokat adhatunk meg olvasásra és írásra, de akár lebontva a \emph{get, list, create, update, delete} műveletekre is. 
+
+Az applikáció biztonsági szabályai a következőképpen néznek ki (\refstruc{fig:FirestoreRules}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=120mm, keepaspectratio]{figures/rules.png}
+	\caption{A projekt biztonsági szabályai.}
+	\label{fig:FirestoreRules}
+\end{figure}
+
+A fenti szabály minden dokumentumra illeszkedik, és megenged minden írást és minden olvasást abban az esetben, hogyha a lekérdezés 2022. január 31. előtt érkezik be. Ez egy tesztszabály, melyet a Firestore generál a projekt létrehozásakor a fejlesztés megkönnyítése céljából. Természetesen ezt éles alkalmazásban mindenképpen le kell cserélni, hiszen így bárki hozzáférhet az adatbázishoz, aki tudja a projektazonosítót, ám a tesztelési fázisban még bőven elegendő.
+
+\subsection{Autentikáció}
+Ahhoz, hogy a felhasználók csak és kizárólag a saját adataikhoz férjenek hozzá, valamilyen módon tárolni és azonosítani kell őket. Erre kínál megoldást a Firebase Authentication, mely backend-szolgáltatásokat, könnyen használható SDK-kat és UI könyvtárakat biztosít a felhasználók autentikációjára. Lehetővé tesz többek között jelszavas, telefonszámos, illetve harmadik fél általi (pl.: Google, Facebook, Twitter) bejelentkezést is. Automatikusan integrálódik más Firebase szolgáltatásokkal, de saját fejlesztésű háttérrendszerekkel is könnyedén használható.  \cite{Auth}  
+
 \subsection{Analytics}
+A Firebase Analytics egy ingyenes analitikai megoldás, mely szintén integrálódik más Firebase szolgáltatásokkal. Automatikusan elkap előre definiált eseményeket, de lehetővé teszi a fejlesztő számára saját események létrehozását. Az aktivitást, és a megfigyelt események alapján alkotott statisztikákat pedig bejelentkezés után el lehet érni a Firebase console\footnote{\url{https://console.firebase.google.com}}-ban az alkalmazás adatai alatt. \cite{Analytics} Számos hasznos metrikát és diagramot készít az applikáció stabilitásáról, használatáról vagy éppen bevételéről. A fejlesztő figyelemmel kísérheti, hogy hányan használják az alkalmazást (\refstruc{fig:AnalyticsPlatform}), mely országokból (\refstruc{fig:AnalyticsCountries}), illetve információt kaphat a tevékenységek időtartamáról, platformokról és elkapott eseményekről. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=150mm, keepaspectratio]{figures/analytics_platform.png}
+	\caption{Platform megoszlása a felhasználók között, közelmúlt aktivitása.}
+	\label{fig:AnalyticsPlatform}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=150mm, keepaspectratio]{figures/analytics_countries.png}
+	\caption{Felhasználók megoszlása az országok között.}
+	\label{fig:AnalyticsCountries}
+\end{figure}
+
+Ezen statisztikák nyilvánvalóan nem annyira látványosak ilyen kis mértékű felhasználással, de egy nagyobb felhasználóbázisnál már jelentősen segíthetik az alkalmazás fejlődését. Mindez nem csak a fejlesztőknek lényeges, hanem az üzleti résztvevőknek is, hiszen az Analytics számos statisztikát készít a bevételekről és az ügyfélszerzésről is. 
+
 \subsection{Crashlytics}
+A Firebase Crashlytics jelentéseket készít a fejlesztőknek a felhasználókat érő crashekről. Segít nyomon követni és priorizálni a hibákat, csoportosítja őket, és kiemeli a hozzájuk vezető körülményeket. Valósidejű figyelmeztetést küld az újonnan felbukkanó vagy éppen növekvő problémákról, melyek azonnali figyelmet igényelhetnek. \cite{Crashlytics} 
+
+Szintén a Firebase console-ban érhető el, ahol láthatjuk a crash-free statisztikát (\refstruc{fig:CrashlyticsCrashfree}), a trendeket és az aktuális problémákat. Utóbbira kattintva még bővebb információt kaphatunk az előfordulási gyakoriságról, az érintett felhasználókról és verziókról, és a crash teljes stack trace-ét megtekinthetjük, kiemelve a keletkezés helyét és okát. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=110mm, keepaspectratio]{figures/crashlytics_crashfree.png}
+	\caption{Crash-free felhasználók aránya napokra lebontva.}
+	\label{fig:CrashlyticsCrashfree}
+\end{figure}
 
 \section{Groupie}
 
+Android alkalmazásokban szinte mindig található legalább egy darab listanézet, mely ugyanolyan típusú elemeket sorol fel a képernyőn. Ezt legegyszerűbben a \emph{RecyclerView} komponens segítségével lehet megoldani, mely a megvalósítás mélységeit elfedi előlünk. Két dolgot kell megadnunk a működéséhez: egy sor kinézetét, illetve a megjelenítendő adatokat. A RecyclerView - ahogy a neve is sejteti - újrahasznosítja a lista elemeit, ami annyit jelent, hogy a képernyőről eltűnő sorokat nem megszünteti, hanem azokat használja fel az éppen megjelenő sorok létrehozásakor. Mindez jelentősen javítja az alkalmazás teljesítményét és csökkenti az energiafelhasználást. \cite{RecyclerView}
+
+Azonban a projekt során szükségem volt egy funkcióra, amit a RecyclerView alapértelmezetten nem tud, ez pedig a lista elemeinek kinyitható/becsukható csoportokba szervezése. Így találtam rá a Groupie névre hallgató könyvtárra, mely kiküszöböli ezt a hiányosságot. 
+
+A Groupie nagyban megkönnyíti a listák kezelését, ugyanis a tartalmat logikai csoportokként kezeli. Használata rendkívül egyszerű: mindenhol, ahol eddig \emph{RecyclerView.Adapter}-t kellett használni ezután \emph{GroupieAdapter} szerepel majd.
+
 \section{EasyPermissions}
+
+\section{Material Components}

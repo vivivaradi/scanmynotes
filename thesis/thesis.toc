@@ -27,12 +27,13 @@
 \select@language {magyar} \contentsline {chapter}{\numberline {4}Felhasznált könyvtárak}{10}{chapter.4}%
 \select@language {magyar} \contentsline {section}{\numberline {4.1}Google Cloud Vision API}{10}{section.4.1}%
 \select@language {magyar} \contentsline {section}{\numberline {4.2}Firebase}{10}{section.4.2}%
-\select@language {magyar} \contentsline {subsection}{\numberline {4.2.1}Autentikáció}{11}{subsection.4.2.1}%
-\select@language {magyar} \contentsline {subsection}{\numberline {4.2.2}Cloud Firestore}{11}{subsection.4.2.2}%
-\select@language {magyar} \contentsline {subsection}{\numberline {4.2.3}Analytics}{11}{subsection.4.2.3}%
-\select@language {magyar} \contentsline {subsection}{\numberline {4.2.4}Crashlytics}{11}{subsection.4.2.4}%
-\select@language {magyar} \contentsline {section}{\numberline {4.3}Groupie}{11}{section.4.3}%
-\select@language {magyar} \contentsline {section}{\numberline {4.4}EasyPermissions}{11}{section.4.4}%
-\select@language {magyar} \contentsline {chapter}{\numberline {5}Implementáció}{12}{chapter.5}%
-\select@language {magyar} \contentsline {chapter}{\numberline {6}Összefoglalás}{13}{chapter.6}%
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{14}{chapter.6}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.1}Cloud Firestore}{11}{subsection.4.2.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.2}Autentikáció}{12}{subsection.4.2.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.3}Analytics}{12}{subsection.4.2.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.4}Crashlytics}{12}{subsection.4.2.4}%
+\select@language {magyar} \contentsline {section}{\numberline {4.3}Groupie}{13}{section.4.3}%
+\select@language {magyar} \contentsline {section}{\numberline {4.4}EasyPermissions}{14}{section.4.4}%
+\select@language {magyar} \contentsline {section}{\numberline {4.5}Material Components}{14}{section.4.5}%
+\select@language {magyar} \contentsline {chapter}{\numberline {5}Implementáció}{15}{chapter.5}%
+\select@language {magyar} \contentsline {chapter}{\numberline {6}Összefoglalás}{16}{chapter.6}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{17}{chapter.6}%

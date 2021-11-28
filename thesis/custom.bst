@@ -4,9 +4,9 @@
 %%
 %% The original source files were:
 %%
-%% merlin.mbs  (with options: `seq-no,ed-au,xmth,tit-it,num-xser,isbn,issn,doi,xedn,url,url-nl,nfss,')
+%% merlin.mbs  (with options: `seq-no,ed-au,tit-it,atit-u,num-xser,isbn,issn,doi,xedn,nfss,')
 %% ----------------------------------------
-%% *** Made for my thesis ***
+%% *** Created for thesis ***
 %% 
 %% Copyright 1994-2011 Patrick W Daly
  % ===============================================================
@@ -61,7 +61,6 @@ ENTRY
     series
     title
     type
-    url
     volume
     year
   }
@@ -361,15 +360,6 @@ FUNCTION {bibinfo.warn}
     }
   if$
 }
-FUNCTION {write.url}
-{
-  url
-  duplicate$ empty$
-    { pop$ }
-    { "\newline\urlprefix\url{" swap$ * "}" * write$ newline$ }
-  if$
-}
-
 INTEGERS { nameptr namesleft numnames }
 
 
@@ -492,9 +482,6 @@ FUNCTION {format.note}
 
 FUNCTION {format.title}
 { title
-  duplicate$ empty$ 'skip$
-    { "t" change.case$ }
-  if$
   "title" bibinfo.check
   duplicate$ empty$ 'skip$
     {
@@ -544,7 +531,7 @@ FUNCTION {word.in}
 
 FUNCTION {format.date}
 {
-  ""
+  month "month" bibinfo.check
   duplicate$ empty$
   year  "year"  bibinfo.check duplicate$ empty$
     { swap$ 'skip$
@@ -923,7 +910,6 @@ FUNCTION {article}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 FUNCTION {book}
 { output.bibitem
@@ -958,7 +944,6 @@ FUNCTION {book}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 FUNCTION {booklet}
 { output.bibitem
@@ -974,7 +959,6 @@ FUNCTION {booklet}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {inbook}
@@ -1016,7 +1000,6 @@ FUNCTION {inbook}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {incollection}
@@ -1044,7 +1027,6 @@ FUNCTION {incollection}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 FUNCTION {inproceedings}
 { output.bibitem
@@ -1076,7 +1058,6 @@ FUNCTION {inproceedings}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 FUNCTION {conference} { inproceedings }
 FUNCTION {manual}
@@ -1114,7 +1095,6 @@ FUNCTION {manual}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {mastersthesis}
@@ -1132,7 +1112,6 @@ FUNCTION {mastersthesis}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {misc}
@@ -1147,7 +1126,6 @@ FUNCTION {misc}
   new.block
   format.note output
   fin.entry
-  write.url
   empty.misc.check
 }
 FUNCTION {phdthesis}
@@ -1165,7 +1143,6 @@ FUNCTION {phdthesis}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {proceedings}
@@ -1207,7 +1184,6 @@ FUNCTION {proceedings}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {techreport}
@@ -1225,7 +1201,6 @@ FUNCTION {techreport}
   new.block
   format.note output
   fin.entry
-  write.url
 }
 
 FUNCTION {unpublished}
@@ -1238,7 +1213,6 @@ FUNCTION {unpublished}
   new.block
   format.note "note" output.check
   fin.entry
-  write.url
 }
 
 FUNCTION {default.type} { misc }
@@ -1268,10 +1242,6 @@ FUNCTION {begin.bib}
     { preamble$ write$ newline$ }
   if$
   "\begin{thebibliography}{"  longest.label  * "}" *
-  write$ newline$
-  "\providecommand{\url}[1]{\texttt{#1}}"
-  write$ newline$
-  "\providecommand{\urlprefix}{URL }"
   write$ newline$
   "\expandafter\ifx\csname urlstyle\endcsname\relax"
   write$ newline$
