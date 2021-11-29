@@ -106,4 +106,16 @@ Android Developers.
   \url{https://developer.android.com/guide/topics/ui/layout/recyclerview},
   [2021-11-28].
 
+\bibitem{Groupie}
+Lisa Wray.
+\newblock \emph{Groupie}.
+\newblock \url{https://github.com/lisawray/groupie}, 2017, [2021-11-29].
+
+\bibitem{Permissions}
+Android Developers.
+\newblock \emph{Permissions on Android}.
+\newblock
+  \url{https://developer.android.com/guide/topics/permissions/overview},
+  [2021-11-28].
+
 \end{thebibliography}

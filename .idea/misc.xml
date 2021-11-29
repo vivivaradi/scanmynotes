@@ -11,12 +11,14 @@
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/outline_note_add_24.xml" value="0.20416666666666666" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/spinner_active_outline.xml" value="0.16614583333333333" />
+        <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/spinner_inactive_outline.xml" value="0.16614583333333333" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/spinner_outline.xml" value="0.16614583333333333" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/category_row.xml" value="0.21693840579710144" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/fragment_new_category.xml" value="0.12291666666666666" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/fragment_note_details.xml" value="0.2318840579710145" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/fragment_note_list.xml" value="0.264" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_edit_category.xml" value="0.20606884057971014" />
+        <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_edit_note.xml" value="0.20923913043478262" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_loading.xml" value="0.16302083333333334" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_view_category.xml" value="0.20606884057971014" />
       </map>

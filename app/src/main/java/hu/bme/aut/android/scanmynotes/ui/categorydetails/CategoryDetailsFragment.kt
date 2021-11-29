@@ -115,6 +115,13 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
                 isEditing = false
                 binding.detailsViewFlipper.displayedChild = VIEWING
                 binding.categoryView.categoryTitle.text = viewState.category.title
+                if (viewState.category.parentId == null) {
+                    binding.categoryView.categoryPrefix.visibility = View.GONE
+                    binding.categoryView.parentCategory.visibility = View.GONE
+                } else {
+                    val categoryTitle = viewModel.getParentName(viewState.category.parentId)
+                    binding.categoryView.parentCategory.text = categoryTitle ?: ""
+                }
             }
             is Editing -> {
                 isEditing = true

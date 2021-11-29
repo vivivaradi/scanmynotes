@@ -33,7 +33,11 @@
 \select@language {magyar} \contentsline {subsection}{\numberline {4.2.4}Crashlytics}{12}{subsection.4.2.4}%
 \select@language {magyar} \contentsline {section}{\numberline {4.3}Groupie}{13}{section.4.3}%
 \select@language {magyar} \contentsline {section}{\numberline {4.4}EasyPermissions}{14}{section.4.4}%
-\select@language {magyar} \contentsline {section}{\numberline {4.5}Material Components}{14}{section.4.5}%
-\select@language {magyar} \contentsline {chapter}{\numberline {5}Implementáció}{15}{chapter.5}%
-\select@language {magyar} \contentsline {chapter}{\numberline {6}Összefoglalás}{16}{chapter.6}%
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{17}{chapter.6}%
+\select@language {magyar} \contentsline {section}{\numberline {4.5}Material Components}{15}{section.4.5}%
+\select@language {magyar} \contentsline {chapter}{\numberline {5}Alkalmazás}{16}{chapter.5}%
+\select@language {magyar} \contentsline {section}{\numberline {5.1}Követelmények}{16}{section.5.1}%
+\select@language {magyar} \contentsline {section}{\numberline {5.2}Működés}{16}{section.5.2}%
+\select@language {magyar} \contentsline {section}{\numberline {5.3}Megvalósítás}{16}{section.5.3}%
+\select@language {magyar} \contentsline {section}{\numberline {5.4}Tesztelés}{16}{section.5.4}%
+\select@language {magyar} \contentsline {chapter}{\numberline {6}Összefoglalás}{17}{chapter.6}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{18}{chapter.6}%

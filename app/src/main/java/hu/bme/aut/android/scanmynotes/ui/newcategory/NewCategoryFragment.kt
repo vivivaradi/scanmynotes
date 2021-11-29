@@ -50,7 +50,7 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
         val categoryView = binding.newCategoryView
         categoryView.categorySelectorSpinner.spinner.setAdapter(adapter)
         categoryView.categorySelectorSpinner.spinner.onItemSelectedListener = this
-        categoryView.newCategoryTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
+        categoryView.editCategoryTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -80,11 +80,11 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                val isValid = binding.newCategoryView.newCategoryTitle.textField.validateTextContent() ?: false
+                val isValid = binding.newCategoryView.editCategoryTitle.textField.validateTextContent() ?: false
                 if (!isValid) {
                     return true
                 }
-                viewModel.saveCategory(binding.newCategoryView.newCategoryTitle.textField.text.toString())
+                viewModel.saveCategory(binding.newCategoryView.editCategoryTitle.textField.text.toString())
                 return true
             }
             else -> super.onOptionsItemSelected(item)

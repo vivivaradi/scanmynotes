@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  28 NOV 2021 02:14
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  29 NOV 2021 02:51
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -894,12 +894,12 @@ File: figures/analytics_countries.png Graphic file (type bmp)
  [12]
 File: figures/crashlytics_crashfree.png Graphic file (type bmp)
 <figures/crashlytics_crashfree.png>
- [13]) [14]
+ [13] [14]) [15]
 \openout2 = `content/implementation.aux'.
 
  (content/implementation.tex
 5. fejezet.
-) [15
+) [16
 
 
 
@@ -909,7 +909,7 @@ File: figures/crashlytics_crashfree.png Graphic file (type bmp)
 
  (content/summary.tex
 6. fejezet.
-) [16
+) [17
 
 
 
@@ -941,7 +941,7 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 []
  []
 
-[17
+[18
 
 
 
@@ -949,20 +949,20 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 \tf@thm=\write5
 \openout5 = `thesis.thm'.
 
- [18] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
+ [19] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
 (content/abstract.aux) (content/introduction.aux) (content/platform.aux)
 (content/architecture.aux) (content/libraries.aux) (content/implementation.aux)
 (content/summary.aux))
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 3BCF790B9EAEE0740C26833D15325073;4852.
+(rerunfilecheck)             Checksum: FDBBC19FD68706E610093F82ADEE1CF7;5286.
  ) 
 Here is how much of TeX's memory you used:
- 17031 strings out of 411295
- 307170 string characters out of 2836941
- 715949 words of memory out of 3000000
- 37154 multiletter control sequences out of 15000+600000
+ 17038 strings out of 411295
+ 307283 string characters out of 2836941
+ 717462 words of memory out of 3000000
+ 37161 multiletter control sequences out of 15000+600000
  410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191
- 78i,8n,84p,905b,544s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 78i,8n,84p,1142b,544s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.pdf (24 pages).
+Output written on thesis.pdf (25 pages).

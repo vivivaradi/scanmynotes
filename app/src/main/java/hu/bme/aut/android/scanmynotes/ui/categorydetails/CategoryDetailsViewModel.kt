@@ -67,4 +67,11 @@ class CategoryDetailsViewModel @Inject constructor(
     fun selectParent(category: Category?) {
         selectedParent = category
     }
+
+    fun getParentName(parentId: String?) : String? {
+        val parent = categoriesList.find { category ->
+            category.id == parentId
+        }
+        return parent?.title
+    }
 }

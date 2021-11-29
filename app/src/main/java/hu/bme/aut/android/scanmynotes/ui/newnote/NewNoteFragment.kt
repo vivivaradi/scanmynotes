@@ -52,8 +52,8 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         val noteView = binding.newNoteView
         noteView.categorySelectorSpinner.spinner.adapter = adapter
         noteView.categorySelectorSpinner.spinner.onItemSelectedListener = this
-        noteView.newNoteTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
-        noteView.newNoteText.inputLayout.hint = getString(R.string.content_text_field_hint)
+        noteView.editNoteTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
+        noteView.editNoteContent.inputLayout.hint = getString(R.string.content_text_field_hint)
     }
 
     override fun onStart() {
@@ -75,7 +75,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                 if (!validateTextFields()) {
                     return true
                 }
-                viewModel.saveNote(binding.newNoteView.newNoteTitle.textField.text.toString(), binding.newNoteView.newNoteText.textField.text.toString())
+                viewModel.saveNote(binding.newNoteView.editNoteTitle.textField.text.toString(), binding.newNoteView.editNoteContent.textField.text.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -102,7 +102,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                 adapter.clear()
                 adapter.add(Category("", getString(R.string.spinner_none_item_title)))
                 adapter.addAll(viewState.categories)
-                binding.newNoteView.newNoteText.textField.setText(args.noteText)
+                binding.newNoteView.editNoteContent.textField.setText(args.noteText)
                 binding.newNoteViewFlipper.displayedChild = VIEWING
             }
             is Failure -> Log.d("New Note", "Failure")
@@ -122,5 +122,5 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         viewModel.selectParent(null)
     }
 
-    fun validateTextFields(): Boolean = binding.newNoteView.newNoteTitle.textField.validateTextContent() ?: false && binding.newNoteView.newNoteText.textField.validateTextContent() ?: false
+    fun validateTextFields(): Boolean = binding.newNoteView.editNoteTitle.textField.validateTextContent() && binding.newNoteView.editNoteContent.textField.validateTextContent()
 }

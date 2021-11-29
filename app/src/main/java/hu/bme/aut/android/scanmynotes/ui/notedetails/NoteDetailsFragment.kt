@@ -129,6 +129,12 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 isEditing = false
                 binding.detailsViewFlipper.displayedChild = Flipper.VIEWING
                 binding.noteView.noteTitle.text = viewState.note.title
+                if (viewState.note.parentId == null) {
+                    binding.noteView.categoryLayout.visibility = View.GONE
+                } else {
+                    val categoryTitle = viewModel.getParentName(viewState.note.parentId)
+                    binding.noteView.parentCategory.text = categoryTitle ?: ""
+                }
                 binding.noteView.noteContent.text = viewState.note.content
             }
             is Editing -> {
