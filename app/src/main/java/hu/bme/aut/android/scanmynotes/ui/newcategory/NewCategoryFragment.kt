@@ -50,7 +50,6 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
         val categoryView = binding.newCategoryView
         categoryView.categorySelectorSpinner.spinner.setAdapter(adapter)
         categoryView.categorySelectorSpinner.spinner.onItemSelectedListener = this
-        categoryView.editCategoryTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

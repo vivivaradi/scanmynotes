@@ -12,7 +12,9 @@
             android:id="@+id/noteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:id="@+id/categoryLayout"
@@ -25,12 +27,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="@string/category_prefix"/>
+                android:text="@string/category_prefix"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
             <TextView
                 android:id="@+id/parentCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textStyle="bold"
                 />
 
         </LinearLayout>
@@ -39,7 +44,8 @@
             android:id="@+id/noteContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:textSize="14dp"/>
 
 
     </LinearLayout>

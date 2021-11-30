@@ -56,4 +56,6 @@
     <string name="content_text_field_hint">Content</string>
     <string name="parent_spinner_hint">Choose a category</string>
     <string name="category_prefix">in category:</string>
+    <string name="email_address_textfield_hint">E-mail address</string>
+    <string name="password_textfield_hint">Password</string>
 </resources>

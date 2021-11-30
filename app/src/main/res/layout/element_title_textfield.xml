@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textField"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:hint="@string/title_text_field_hint" />
 
 </com.google.android.material.textfield.TextInputLayout>

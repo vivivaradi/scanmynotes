@@ -62,8 +62,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     fun loginUser(){
         if (!validateForm())
             return
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
@@ -79,8 +79,8 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     fun signupUser(){
         if (!validateForm())
             return
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
@@ -97,5 +97,5 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             }
     }
 
-    fun validateForm() = binding.etEmail.validateEmailContent() && binding.etPassword.validatePasswordContent()
+    fun validateForm() = binding.email.validateEmailContent() && binding.password.validatePasswordContent()
 }

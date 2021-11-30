@@ -56,7 +56,6 @@ class CategoryDetailsFragment : RainbowCakeFragment<CategoryDetailsViewState, Ca
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item)
         binding.editCategoryView.categorySelectorSpinner.spinner.setAdapter(adapter)
         binding.editCategoryView.categorySelectorSpinner.spinner.onItemSelectedListener = this
-        binding.editCategoryView.editCategoryTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

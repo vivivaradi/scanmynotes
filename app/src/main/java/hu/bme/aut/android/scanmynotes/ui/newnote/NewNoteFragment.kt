@@ -52,8 +52,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         val noteView = binding.newNoteView
         noteView.categorySelectorSpinner.spinner.adapter = adapter
         noteView.categorySelectorSpinner.spinner.onItemSelectedListener = this
-        noteView.editNoteTitle.inputLayout.hint = getString(R.string.title_text_field_hint)
-        noteView.editNoteContent.inputLayout.hint = getString(R.string.content_text_field_hint)
     }
 
     override fun onStart() {

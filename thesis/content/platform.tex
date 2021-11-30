@@ -27,23 +27,23 @@ Az operációs rendszer alapját a Linux kernel képezi, ezáltal ki tudja haszn
 Közvetlenül a kernel felett található a hardver absztrakciós réteg - hardware abstraction layer, röviden HAL -, mely a készülék hardveres adottságait (pl.: kamera, szenzorok) ajánlja ki a felette található Java API keretrendszernek. Több modulból áll, melyek egy-egy specifikus hardverkomponens interfészt valósítanak meg, és a rendszer dinamikusan tölti be ezeket amikor az API hozzá akar férni valamelyikhez. \cite{PlatformGuide}
 
 \subsection{Android Runtime}
-A következő komponens az Android Runtime, röviden ART. Ez egy virtuális gép, melyből mindegyik alkalmazás rendelkezik egy saját példánnyal, így egymástól és az operációs rendszertől izoláltan futhatnak. Mind az ART, mind az elődje, a Dalvik Virtual Machine specifikusan Androidra készültek. Az elődjéhez képest az Android Runtime rendelkezik plusz funkciókkal, ilyen többek között a telepítésidejű fordítás, az optimalizált szemétgyűjtés vagy a jobb hibakeresési támogatás.
+A következő komponens az Android Runtime, röviden ART. Ez egy virtuális gép, melyből mindegyik alkalmazás rendelkezik egy saját példánnyal, így egymástól és az operációs rendszertől izoláltan futhatnak. Mind az ART, mind az elődje, a Dalvik Virtual Machine specifikusan Androidra készültek. Az elődjéhez képest az Android Runtime rendelkezik plusz funkciókkal, ilyen többek között a telepítésidejű fordítás, az optimalizált szemétgyűjtés vagy a jobb hibakeresési támogatás. \cite{PlatformGuide}
 
 \subsection{Natív C/C++ könyvtárak}
-Ahogy azt a \refstruc{fig:AndroidPlatform} mutatja, natív C/C++ könyvtárak is helyet kaptak a rendszerben. Ezek a kernelen futnak, és sok rendszerkomponensnek szüksége van rájuk. A platform biztosít Java API-t néhányhoz, így például hozzáférhetünk az OpenGL grafikai könyvtárhoz natív kódból. 
+Ahogy azt a \refstruc{fig:AndroidPlatform} mutatja, natív C/C++ könyvtárak is helyet kaptak a rendszerben. Ezek a kernelen futnak, és sok rendszerkomponensnek szüksége van rájuk. A platform biztosít Java API-t néhányhoz, így például hozzáférhetünk az OpenGL grafikai könyvtárhoz natív kódból. \cite{PlatformGuide}
 
 \subsection{Java API keretrendszer}
 A fejlesztők számára a legfontosabb elem a Java API keretrendszer. Ez tartalmazza az operációs rendszer minden funkcióját, a moduláris, könnyedén újrahasznosítható építőelemeket, melyek felhasználásával a fejlesztők alkalmazásaikat elkészíthetik. Többek között magában foglalja az alábbiakat:
 \begin{itemize}
 	\item \emph{View System:} Felhasználói felületek létrehozásában van segítségünkre, kiterjedt és még tovább bővíthető elemkészlettel (pl.: listák, szövegmezők, gombok). 
 	\item \emph{Resource Manager:} Hozzáférést biztosít a fejlesztőnek minden erőforrásfájlhoz. Ezek tipikusan XML-fájlok, melyek leírják a projektben használatos lokalizált szövegeket, vektorgrafikus ábrákat és a fentebb is említett felhasználói felületeket.
-	\item \emph{Activity Manager:} Az Android alkalmazások alapkövei az Activityk, melyeknek meghatározott életciklus-szakaszai vannak a létrehozástól a megszűnésig. Ezt az életciklust kezeli az Activity Manager, illetve egy közös navigációs backstacket biztosít, mely tárolja, hogy az alkalmazásban milyen képernyőket látogattunk meg a használat folyamán.
+	\item \emph{Activity Manager:} Az Android alkalmazások alapkövei az Activityk, melyeknek meghatározott életciklus-szakaszai vannak a létrehozástól a megszűnésig. Ezt az életciklust kezeli az Activity Manager, illetve egy közös navigációs backstacket biztosít, mely tárolja, hogy az alkalmazásban milyen képernyőket látogattunk meg a használat folyamán. \cite{PlatformGuide}
 \end{itemize}
 
 \subsection{Rendszeralkalmazások}
 A rendszer beépített alkalmazásokkal érkezik a leggyakoribb feladatok elvégzésére. Ilyen például az SMS-küldés, internet böngészés, telefonálás, naptár és így tovább. Ezek, ahogy a fenti bevezetőben is említettem, néhány kivételével teljesen lecserélhetők felhasználó által letöltött alkalmazásokra. 
 
-Mindez nem csak a felhasználó számára lényeges - a fejlesztő is fel tudja használni. Például, ha a fejlesztő szeretne telefonhívást indítani a saját alkalmazásából, akkor nem kell ezt a funkcionalitást implementálnia, elég csak meghívnia a készüléken elérhető alapértelmezett alkalmazást, ami majd elvégzi ezt.
+Mindez nem csak a felhasználó számára lényeges - a fejlesztő is fel tudja használni. Például, ha a fejlesztő szeretne telefonhívást indítani a saját alkalmazásából, akkor nem kell ezt a funkcionalitást implementálnia, elég csak meghívnia a készüléken elérhető alapértelmezett alkalmazást, ami majd elvégzi ezt. \cite{PlatformGuide}
 
 \section{Fejlesztői környezet}
 

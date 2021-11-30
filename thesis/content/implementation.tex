@@ -1,9 +1,22 @@
 %-----------------------
 \chapter{Alkalmazás}
 %-----------------------
-
 %TODO 
+
+Egy alkalmazás megvalósítása mindig komplex folyamat, mely sok kisebb részfolyamatot foglal magába. Az alábbiakban a fejlesztés részleteiről fogok írni, kezdve az alkalmazással szemben támasztott követelményekkel, majd képernyőképek segítségével bemutatom a működését. Ezután a megvalósítás részleteibe fogok belemenni, és végül a tesztelésről is ejtek pár szót.
+
 \section{Követelmények}
+
+A fejlesztés során alapvető célom volt egy, a modern paradigmáknak és a felhasználók elvárásainak megfelelő applikáció megalkotása. Törekedtem az objektumorientált szemlélet alkalmazására, a felelősségek szétválasztására és a maximális felhasználói élmény nyújtására. Fontos volt, hogy az alkalmazás folyamatai ne térjenek el nagymértékben attól, mint amit a felhasználók más applikációkban megszokhattak, és minden művelet meg legyen valósítva az adatokon, amire szükségük lehet. 
+
+Ezek alapján az alábbi követelmények fogalmazódtak meg az alkalmazással szemben:
+\begin{itemize}
+	\item A felhasználónak legyen lehetősége fiókot létrehozni, e-mail cím és jelszó megadásával bejelentkezni, illetve fiókjából ki is lépni.
+	\item Az adatok legyenek perzisztensen tárolva, az alkalmazás bezárásával, abból való kilépéssel vagy egy esetleges készülékcsere esetén sem veszhetnek el.
+	\item Az adatok csak bejelentkezés után váljanak láthatóvá.
+	\item A felhasználó képes legyen kategóriákat létrehozni a jegyzetek számára, ezeket akár tetszőleges mélységben más kategóriákba ágyazni.
+	\item Legyen lehetőség jegyzetek létrehozására dokumentumok lefényképezése által
+\end{itemize}
 
 \section{Működés}
 
