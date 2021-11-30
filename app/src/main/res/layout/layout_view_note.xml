@@ -12,8 +12,9 @@
             android:id="@+id/noteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="@dimen/view_screen_title_size"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -28,24 +29,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/category_prefix"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+                android:textSize="@dimen/view_screen_parent_text_size"/>
 
             <TextView
                 android:id="@+id/parentCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textSize="@dimen/view_screen_parent_text_size"
                 android:textStyle="bold"
                 />
 
         </LinearLayout>
+
+        <View style="@style/Divider"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/noteContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="14dp"/>
+            android:textSize="16sp"/>
 
 
     </LinearLayout>

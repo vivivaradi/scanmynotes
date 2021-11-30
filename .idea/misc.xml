@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/baseline_save_24.xml" value="0.2703125" />
+        <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/content_divider.xml" value="0.2546875" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2703125" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.2703125" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/drawable/ic_baseline_notes_24.xml" value="0.2703125" />
@@ -22,6 +23,7 @@
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_edit_note.xml" value="0.20923913043478262" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_loading.xml" value="0.16302083333333334" />
         <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_view_category.xml" value="0.20606884057971014" />
+        <entry key="..\:/Documents/Vivi/AndroidStudioProjects/egyetem/ScanMyNotes/app/src/main/res/layout/layout_view_note.xml" value="0.1983695652173913" />
       </map>
     </option>
   </component>
