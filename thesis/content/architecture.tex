@@ -74,3 +74,7 @@ A ViewFlipper egy layout komponens, mely az állapotok olvasható elkülöníté
 A RainbowCake biztosít keretet arra is, hogyha egyszeri eseményeket szeretnénk a képernyőn megjeleníteni. Ilyen lehet például, ha hibába ütközik az alkalmazás, vagy a visszakapott adatok alapján navigálni szeretnénk egy másik képernyőre. Ezt nem tárolhatjuk az állapotban - hiszen nem olyan dolog, ami minden renderelésnél történik -, ezért megalkották a \emph{OneShotEvent} típust, mely az ilyen eseményeket reprezentálja. \cite{Events}
 
 Használata rendkívül egyszerű, minden lehetséges event típust definiálunk a ViewModelben, majd a megfelelő helyeken a \emph{postEvent} függvénnyel tudjuk elküldeni a fragmentnek, mely az \emph{onEvent} függvény felüldefiniálásával tudja ezeket kezelni. 
+
+\subsection{Tesztelés}
+
+%TODO testing

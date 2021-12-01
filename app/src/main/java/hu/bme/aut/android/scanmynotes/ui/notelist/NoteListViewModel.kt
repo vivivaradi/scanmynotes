@@ -7,6 +7,7 @@ import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
 import hu.bme.aut.android.scanmynotes.domain.models.ListItem
 import hu.bme.aut.android.scanmynotes.data.models.Result
 import hu.bme.aut.android.scanmynotes.domain.models.Note
+import java.util.*
 import javax.inject.Inject
 
 class NoteListViewModel @Inject constructor(
@@ -55,7 +56,7 @@ class NoteListViewModel @Inject constructor(
 
     fun filterList(filterText: String): List<Note> {
         return noteList.filter { note ->
-            note.title.contains(filterText)
+            note.title.contains(filterText, ignoreCase = true)
         }
     }
 

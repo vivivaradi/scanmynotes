@@ -15,10 +15,20 @@ Ezek alapján az alábbi követelmények fogalmazódtak meg az alkalmazással sz
 	\item Az adatok legyenek perzisztensen tárolva, az alkalmazás bezárásával, abból való kilépéssel vagy egy esetleges készülékcsere esetén sem veszhetnek el.
 	\item Az adatok csak bejelentkezés után váljanak láthatóvá.
 	\item A felhasználó képes legyen kategóriákat létrehozni a jegyzetek számára, ezeket akár tetszőleges mélységben más kategóriákba ágyazni.
-	\item Legyen lehetőség jegyzetek létrehozására dokumentumok lefényképezése által
+	\item Legyen lehetőség jegyzetek létrehozására dokumentumok lefényképezése által. A digitalizált szöveg visszakapása után a jegyzet lehessen címmel ellátható, kategóriába sorolható és a tartalma szerkeszthető.
+	\item Inkonzisztens adatok létrehozására ne adjon lehetőséget, a felhasználói input mindig legyen validálva.
+	\item A jegyzeteken és kategóriákon lehessen minden fő műveletet - létrehozás, olvasás, módosítás, törlés - elvégezni, ezek során a felhasználói felület és az adatbázis maradjanak konzisztensek egymással.
+	\item Módosítás során lehessen a jegyzetet újabb fényképek készítésével kiegészíteni, az ily módon digitalizált szöveg kerüljön hozzáfűzésre az eredeti tartalomhoz.
+	\item A UI esztétikai és felhasználói élmény szempontjából legyen megfelelő, a hosszú ideig tartó folyamatokat jelezze a felhasználónak töltőképernyő segítségével. 
+	\item A jegyzetek listája lehessen rendezhető és kereshető. 
 \end{itemize}
 
 \section{Működés}
+
+A telepítést követően a bejelentkezési képernyő az első, amivel a felhasználó találkozik. Ez már korábban megjelent a dolgozatban, a \refstruc{fig:MaterialBeforeAfter} bemutatásában. Itt a beviteli mezők segédszövegei egyértelműsítik, hogy milyen adatok elvártak a bejelentkezéshez illetve regisztrációhoz. Ezek gombnyomás hatására validálásra kerülnek, és amennyiben az e-mail formátuma nem érvényes vagy a jelszó hossza nem éri el a 6 karaktert, akkor a folyamat meghiúsul, és a felhasználó értesül róla, hogy mely mező(k) tartalmát kell javítania. 
+%TODO picture if short on pages
+
+
 
 \section{Megvalósítás}
 
