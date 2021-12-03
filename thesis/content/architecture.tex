@@ -76,5 +76,6 @@ A RainbowCake biztosít keretet arra is, hogyha egyszeri eseményeket szeretnén
 Használata rendkívül egyszerű, minden lehetséges event típust definiálunk a ViewModelben, majd a megfelelő helyeken a \emph{postEvent} függvénnyel tudjuk elküldeni a fragmentnek, mely az \emph{onEvent} függvény felüldefiniálásával tudja ezeket kezelni. 
 
 \subsection{Tesztelés}
+A könyvtár tartalmaz beépített támogatást a ViewModelek és a Presenterek tesztelésére, ezek közül a projekt szempontjából a ViewModel tesztelése releváns. Ennek a fő nehézségét az adja, hogy a beérkezett adatokra állapotváltozás illetve események formájában reagál a ViewModel, melyeket a validáláshoz meg kell figyelnünk valamilyen módon. \cite{RainbowcakeTest}
 
-%TODO testing
+Ehhez nyújt segítséget az architektúra \emph{ViewModelTest} osztálya. A tesztosztályunkat ebből leszármaztatva elérhetővé válik a \emph{observeStateAndEvents} függvény, mely biztosít egy \emph{stateObserver} és egy \emph{eventsObserver} objektumot. Az előbbi a teszt futása során előforduló \emph{ViewState}-eket figyeli, az utóbbi pedig az eseményeket. Mindkét \emph{observer} tartalmaz \emph{assert} függvényeket az eredmények ellenőrzésére, ilyen például az \emph{assertObserved}, amivel a futás során előforduló összes állapotot vagy eseményt hasonlíthatjuk az elvárthoz, illetve az \emph{assertObservedLast}, mely az előzővel ellentétben csak a legutolsót figyeli. 

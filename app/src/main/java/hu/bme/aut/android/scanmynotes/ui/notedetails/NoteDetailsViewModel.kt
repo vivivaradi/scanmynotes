@@ -21,7 +21,7 @@ class NoteDetailsViewModel @Inject constructor(
     object NoTextFoundEvent: OneShotEvent
     class TextReady(val text: String): OneShotEvent
 
-    class NoteNotFoundEvent(val noteId: String): OneShotEvent
+    class ErrorEvent(val message: String): OneShotEvent
     object NoteDeletedEvent: OneShotEvent
 
     fun loadData(noteId: String) = execute {
@@ -53,15 +53,24 @@ class NoteDetailsViewModel @Inject constructor(
     fun saveNote(title: String, content: String) = execute {
         viewState = Loading
         val updatedNote = Note(currentNote.id, title, selectedParent?.id, content)
-        interactor.saveNote(updatedNote)
-        currentNote = updatedNote
-        viewState = Viewing(currentNote)
+        val result = interactor.saveNote(updatedNote)
+        viewState = when (result) {
+            is Result.Success -> {
+                currentNote = updatedNote
+                Viewing(currentNote)
+            }
+            is Result.Failure -> Failure(result.message)
+        }
     }
 
     fun deleteNote() = execute {
         viewState = Loading
-        interactor.deleteNote(currentNote.id)
-        postEvent(NoteDeletedEvent)
+        val result = interactor.deleteNote(currentNote.id)
+        when (result) {
+            is Result.Success -> postEvent(NoteDeletedEvent)
+            is Result.Failure -> postEvent(ErrorEvent(result.message))
+        }
+
     }
 
     fun digitalizePhoto(image: Bitmap) = execute {

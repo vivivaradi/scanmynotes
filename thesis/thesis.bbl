@@ -67,6 +67,11 @@ Márton Braun.
 \newblock \emph{Events documentation}.
 \newblock \url{https://rainbowcake.dev/features/events/}, [2021-11-23].
 
+\bibitem{RainbowcakeTest}
+Márton Braun.
+\newblock \emph{Testing documentation}.
+\newblock \url{https://rainbowcake.dev/features/testing/}, [2021-12-02].
+
 \bibitem{Vision}
 Google.
 \newblock \emph{Vision AI}.
@@ -117,5 +122,29 @@ Android Developers.
 \newblock
   \url{https://developer.android.com/guide/topics/permissions/overview},
   [2021-11-28].
+
+\bibitem{IntegrationTest}
+Adam Carpenter.
+\newblock \emph{What is Integration Testing?}
+\newblock
+  \url{https://www.codecademy.com/resources/blog/what-is-integration-testing/},
+  2021, [2021-12-02].
+
+\bibitem{EndtoEndTest}
+Stan Georgian.
+\newblock \emph{What is End-to-End Testing and When Should You Use It?}
+\newblock \url{https://www.freecodecamp.org/news/end-to-end-testing-tutorial/},
+  2021, [2021-12-02].
+
+\bibitem{UITest}
+Carlos Schults.
+\newblock \emph{UI Testing: A Beginner’s Guide With Checklist and Examples}.
+\newblock \url{https://www.testim.io/blog/ui-testing-beginners-guide/}, 2020,
+  [2021-12-03].
+
+\bibitem{JUnit}
+JavaTPoint.
+\newblock \emph{JUnit Tutorial | Testing Framework for Java}.
+\newblock \url{https://www.javatpoint.com/junit-tutorial}, [2021-12-03].
 
 \end{thebibliography}

@@ -21,7 +21,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
@@ -32,6 +31,7 @@ class NoteListViewModelTest: ViewModelTest() {
 
     @Mock
     lateinit var mockInteractor: Interactor
+
     lateinit var noteListViewModel: NoteListViewModel
 
     @Before
@@ -65,7 +65,6 @@ class NoteListViewModelTest: ViewModelTest() {
     @Test
     fun loadViewModel_withError() = runBlocking {
         `when`(mockInteractor.getComplexList()).thenReturn(Result.failure("complexError"))
-        `when`(mockInteractor.getNotes()).thenReturn(Result.success(expectedNoteList))
 
         noteListViewModel.observeStateAndEvents { stateObserver, eventsObserver ->
             noteListViewModel.load(SelectedNavItem.CATEGORIES)

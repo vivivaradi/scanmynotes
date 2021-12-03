@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  1 DEC 2021 02:29
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  3 DEC 2021 03:43
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -873,7 +873,7 @@ File: figures/view_flipper_impl.png Graphic file (type bmp)
 <figures/view_flipper_impl.png>
 File: figures/view_flipper_usage.png Graphic file (type bmp)
 <figures/view_flipper_usage.png>
-) [8] [9]
+ [8]) [9]
 \openout2 = `content/libraries.aux'.
 
  (content/libraries.tex
@@ -899,22 +899,27 @@ File: figures/login_screenshot_before.png Graphic file (type bmp)
 <figures/login_screenshot_before.png>
 File: figures/login_screenshot_after.png Graphic file (type bmp)
 <figures/login_screenshot_after.png>
-) [15] [16]
+ [15] [16]) [17]
 \openout2 = `content/implementation.aux'.
 
  (content/implementation.tex
 5. fejezet.
-[17
+[18
 
 
 
 
-]) [18]
+]
+File: figures/notelist_closed.png Graphic file (type bmp)
+<figures/notelist_closed.png>
+File: figures/notelist_open.png Graphic file (type bmp)
+<figures/notelist_open.png>
+) [19] [20]
 \openout2 = `content/summary.aux'.
 
  (content/summary.tex
 6. fejezet.
-) [19
+) [21
 
 
 
@@ -946,28 +951,34 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 []
  []
 
-[20
+[22
 
 
 
-])
+]
+Underfull \hbox (badness 1052) in paragraph at lines 146--149
+[]\TU/lmr/m/n/10.95 JavaTPoint.  \TU/lmr/m/it/10.95 JUnit Tutorial | Testing Fr
+amework for Java\TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][] []
+ []
+
+)
 \tf@thm=\write5
 \openout5 = `thesis.thm'.
 
- [21] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
+ [23] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
 (content/abstract.aux) (content/introduction.aux) (content/platform.aux)
 (content/architecture.aux) (content/libraries.aux) (content/implementation.aux)
 (content/summary.aux))
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 9CB61BFE98B24D463933081363C15C3A;5905.
+(rerunfilecheck)             Checksum: EE9E2E58F62023C39DEBFB30699404B8;6315.
  ) 
 Here is how much of TeX's memory you used:
- 17056 strings out of 411295
- 307925 string characters out of 2836941
- 718260 words of memory out of 3000000
- 37177 multiletter control sequences out of 15000+600000
+ 17089 strings out of 411295
+ 308707 string characters out of 2836941
+ 718899 words of memory out of 3000000
+ 37208 multiletter control sequences out of 15000+600000
  410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191
  78i,8n,84p,1142b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.pdf (27 pages).
+Output written on thesis.pdf (29 pages).

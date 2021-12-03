@@ -1,7 +1,7 @@
 %--------------------
 \chapter{Felhasznált könyvtárak}
 %--------------------
-%TODO write
+%TODO spellcheck
 %TODO intro
 
 \section{Google Cloud Vision API}
@@ -116,4 +116,23 @@ Az alábbi két képen látható a minőségbeli különbség a Material haszná
 %TODO testing libs
 \section{JUnit 4}
 
+Egy applikáció tesztelésének számos aspektusa van, és egyedül ezen aspektusok összessége tudja maximálisan biztosítani a helyes működést. A unit teszteken\footnote{A unit tesztek célja, hogy a program különböző részeit izoláljuk egymástól, és más osztályoktól, moduloktól függetlenül validáljuk a működésüket.} kívül még integrációs\footnote{Az integrációs tesztek során a szoftver különböző moduljait együtt egy csoportként teszteljük, hogy a közös működés helyességét ellenőrizzük.\cite{IntegrationTest}}, end-to-end\footnote{End-to-end tesztelésnél teljes folyamatokat ellenőrzünk az elejétől a végéig, mint például egy bejelentkezés vagy egy online vásárlás.\cite{EndtoEndTest}} és UI tesztekre\footnote{A UI tesztek során a felhasználói input helyes kezelésén és a felület megfelelő elrendezésén kívül azt is ellenőrizni kell, hogy a felhasználó számára kellőképpen intuitív és könnyen kezelhető-e az alkalmazás.\cite{UITest}} is szükség lehet. 
+
+A fejlesztés során elsősorban a unit tesztekre koncentráltam, mert egy alkalmazás tesztelésének ez az első lépése. Kétféle módja van: manuális illetve automatizált tesztvégrehajtás. Ez utóbbiban könnyíti meg a dolgunkat a JUnit, mely egy Java nyelvhez készült, nyílt forráskódú tesztkeretrendszer. Mivel a Java és a Kotlin teljesen átjárható, így ez tökéletes Android teszteléshez is. Segítségével teszteseteket definiálhatunk, melyeket aztán lefuttathatunk bármikor, így például refaktorálás vagy új funkció bevezetése során megbizonyosodhatunk róla, hogy a változtatások nem törtek el semmit a kódbázisban.
+
+A keretrendszer annotáció alapú, ami annyit jelent, hogy a megfelelő kódrészletek megjelölésével jelezhetjük, hogy milyen funkciót tölt be. Az elérhető legfontosabb annotációk a következők:
+\begin{itemize}
+	\item \emph{@Test(timeout):} Az ezzel megjelölt függvények a tesztesetek, külön-külön végrehajthatók lesznek. A zárójelben található opcionális \emph{timeout} tulajdonság megadásával lekorlátozhatjuk a futás idejét, így ha a teszteset túllépi a megadott időt, akkor a teszt sikertelen lesz.
+	\item \emph{@Before:} Megjelöli a függvényt, mely minden teszteset előtt le fog futni, egyfajta előkészítésként.
+	\item \emph{@BeforeClass:} Hasonló, mint a \emph{Before}, de csak egyszer fut le, az összes teszt végrehajtása előtt.
+	\item \emph{@After:} A jelölt függvényt a keretrendszer minden egyes teszteset lefutása után meg fogja hívni.
+	\item \emph{@AfterClass:} A \emph{BeforeClass}-hoz hasonlóan működik, csak az összes teszt lefutása után hívódik meg egyszer.
+\end{itemize}
+
+Ezeken kívül a keretrendszer még biztosít egy \emph{Assert} nevű osztályt, mely számos függvényt tartalmaz az eredmények ellenőrzésére. Ezek közül a legtöbbet használt az \emph{assertEquals}, melynek paraméterként kell megadni az elvárt és a kapott eredményt, ő pedig összehasonlítja, és eltérés esetén meghiúsítja a tesztesetet. \cite{JUnit}
+
 \section{Mockito}
+
+A unit tesztelés során követelmény, hogy az alkalmazás többi részétől teljesen izoláltan validáljuk a működést. Ez felvet néhány problémát, mivel egy program működése során elég ritka az, hogy egy osztály teljesen független legyen a többitől. Ilyen esetekben \emph{mockolni} szoktuk a tesztelendő rendszer határain kívül eső objektumokat. 
+
+Ez annyit tesz, hogy az osztály függőségeit helyettesítjük nem valódi objektumokkal, az ezen objektumokon végzett hívások 
