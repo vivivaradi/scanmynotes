@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  3 DEC 2021 03:43
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  5 DEC 2021 03:26
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -909,17 +909,52 @@ File: figures/login_screenshot_after.png Graphic file (type bmp)
 
 
 
-]
+] [19]
+File: figures/auth_users.png Graphic file (type bmp)
+<figures/auth_users.png>
+ [20]
+File: figures/firestore.png Graphic file (type bmp)
+<figures/firestore.png>
+File: figures/firestore_query.png Graphic file (type bmp)
+<figures/firestore_query.png>
+ [21]
+File: figures/analytics_custom.png Graphic file (type bmp)
+<figures/analytics_custom.png>
 File: figures/notelist_closed.png Graphic file (type bmp)
 <figures/notelist_closed.png>
 File: figures/notelist_open.png Graphic file (type bmp)
 <figures/notelist_open.png>
-) [19] [20]
+ [22]
+File: figures/notelist_full.jpg Graphic file (type bmp)
+<figures/notelist_full.jpg>
+File: figures/notelist_search.jpg Graphic file (type bmp)
+<figures/notelist_search.jpg>
+File: figures/notelist_sort.jpg Graphic file (type bmp)
+<figures/notelist_sort.jpg>
+File: figures/newnote_photo.jpg Graphic file (type bmp)
+<figures/newnote_photo.jpg>
+File: figures/newnote_create.jpg Graphic file (type bmp)
+<figures/newnote_create.jpg>
+ [23]
+File: figures/note_view.png Graphic file (type bmp)
+<figures/note_view.png>
+File: figures/note_edit.png Graphic file (type bmp)
+<figures/note_edit.png>
+File: figures/floatingbutton_open.png Graphic file (type bmp)
+<figures/floatingbutton_open.png>
+File: figures/category_save.png Graphic file (type bmp)
+<figures/category_save.png>
+ [24]
+File: figures/category_view.png Graphic file (type bmp)
+<figures/category_view.png>
+File: figures/category_edit_error.png Graphic file (type bmp)
+<figures/category_edit_error.png>
+) [25] [26] [27] [28]
 \openout2 = `content/summary.aux'.
 
  (content/summary.tex
 6. fejezet.
-) [21
+) [29
 
 
 
@@ -951,7 +986,7 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 []
  []
 
-[22
+[30
 
 
 
@@ -965,20 +1000,26 @@ amework for Java\TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][] []
 \tf@thm=\write5
 \openout5 = `thesis.thm'.
 
- [23] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
+ [31] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
 (content/abstract.aux) (content/introduction.aux) (content/platform.aux)
 (content/architecture.aux) (content/libraries.aux) (content/implementation.aux)
 (content/summary.aux))
-Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: EE9E2E58F62023C39DEBFB30699404B8;6315.
+
+Package rerunfilecheck Warning: File `thesis.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `thesis.out':
+(rerunfilecheck)             Before: 6BE30C48E8838F738BA454F379E7E033;7424
+(rerunfilecheck)             After:  406F2EE962268BF880788256296998EF;8061.
  ) 
 Here is how much of TeX's memory you used:
- 17089 strings out of 411295
- 308707 string characters out of 2836941
- 718899 words of memory out of 3000000
- 37208 multiletter control sequences out of 15000+600000
+ 17220 strings out of 411295
+ 312347 string characters out of 2836941
+ 720932 words of memory out of 3000000
+ 37323 multiletter control sequences out of 15000+600000
  410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191
- 78i,8n,84p,1142b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 78i,8n,84p,1160b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.pdf (29 pages).
+Output written on thesis.pdf (37 pages).

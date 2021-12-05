@@ -3,6 +3,8 @@ package hu.bme.aut.android.scanmynotes.ui.notelist
 import android.graphics.Bitmap
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
 import hu.bme.aut.android.scanmynotes.domain.models.ListItem
 import hu.bme.aut.android.scanmynotes.data.models.Result
@@ -20,7 +22,7 @@ class NoteListViewModel @Inject constructor(
     lateinit var complexList: List<ListItem>
     lateinit var noteList: MutableList<Note>
 
-    fun getAuth() = interactor.getAuth()
+    fun getAuth() = Firebase.auth
 
     // TODO: get category list
     fun load(selectedNavItem: SelectedNavItem) = execute {

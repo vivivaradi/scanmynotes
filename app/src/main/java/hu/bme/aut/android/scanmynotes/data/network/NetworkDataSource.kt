@@ -33,10 +33,6 @@ class NetworkDataSource @Inject constructor(
         return firebaseApi.fetchCategories()
     }
 
-    fun getAuth() = firebaseApi.auth
-
-    fun getCurrentUser() = firebaseApi.getCurrentUser()
-
     suspend fun detectText(image: Image): String? {
         return visionApi.detectText(image)
     }

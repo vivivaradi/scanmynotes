@@ -14,11 +14,6 @@ import javax.inject.Inject
 class Interactor @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ){
-
-    fun getUser() = networkDataSource.getCurrentUser()
-
-    fun getAuth() = networkDataSource.getAuth()
-
     suspend fun digitalize(image: Bitmap): String? = withIOContext {
         val stream = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 80, stream)

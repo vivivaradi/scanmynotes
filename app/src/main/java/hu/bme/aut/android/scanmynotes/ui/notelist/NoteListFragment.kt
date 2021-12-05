@@ -141,7 +141,6 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_logout -> {
-                // TODO: Not the best solution, should restrict this into the API, but good enough for now
                 viewModel.getAuth().signOut()
                 findNavController().navigate(NoteListFragmentDirections.logoutAction())
                 true

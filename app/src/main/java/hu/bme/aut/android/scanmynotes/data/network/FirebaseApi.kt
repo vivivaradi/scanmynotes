@@ -15,7 +15,7 @@ import kotlinx.coroutines.tasks.await
 class FirebaseApi {
 
     private val db = Firebase.firestore
-    val auth = Firebase.auth
+    val userId = Firebase.auth.currentUser!!.uid
 
     companion object {
         const val usersCollection = "users"
@@ -27,7 +27,7 @@ class FirebaseApi {
     suspend fun fetchNotes(): Result<List<Note>> {
         Log.d("DEBUG", "FirebaseApi reached")
 
-        val notesRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+        val notesRef = db.collection(usersCollection).document(userId).collection(
             notesCollection)
         val notesSnapshot = try {
             notesRef.orderBy(titleString).get().await()
@@ -45,7 +45,7 @@ class FirebaseApi {
     }
 
     suspend fun fetchCategories(): Result<List<Category>> {
-        val categoriesRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+        val categoriesRef = db.collection(usersCollection).document(userId).collection(
             categoriesCollection)
         val categoriesSnapshot = try {
             categoriesRef.orderBy(titleString).get().await()
@@ -62,12 +62,10 @@ class FirebaseApi {
         return Result.success(categories)
     }
 
-    fun getCurrentUser() = auth.currentUser
-
     suspend fun getSingleNote(id: String) : Result<Note> {
         Log.d("DEBUG", "API received id: $id")
         var note: Note
-        val noteRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+        val noteRef = db.collection(usersCollection).document(userId).collection(
             notesCollection).document(id)
         val noteSnapshot = try {
             noteRef.get().await()
@@ -86,7 +84,7 @@ class FirebaseApi {
 
     suspend fun getSingleCategory(id: String): Result<Category> {
         var category: Category
-        val categoryRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+        val categoryRef = db.collection(usersCollection).document(userId).collection(
             categoriesCollection).document(id)
         val categorySnapshot = try {
             categoryRef.get().await()
@@ -112,7 +110,7 @@ class FirebaseApi {
             "parentId" to note.parentId
         )
         if (note.id.isEmpty()) {
-            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            docRef = db.collection(usersCollection).document(userId).collection(
                 notesCollection).document()
             try {
                 docRef.set(data).await()
@@ -120,7 +118,7 @@ class FirebaseApi {
                 return Result.failure(error.message.toString())
             }
         } else {
-            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            docRef = db.collection(usersCollection).document(userId).collection(
                 notesCollection).document(note.id)
             try {
                 docRef.set(data).await()
@@ -141,7 +139,7 @@ class FirebaseApi {
         )
 
         if (category.id.isEmpty()) {
-            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            docRef = db.collection(usersCollection).document(userId).collection(
                 categoriesCollection).document()
             try {
                 docRef.set(data).await()
@@ -149,7 +147,7 @@ class FirebaseApi {
                 return Result.failure(error.message.toString())
             }
         } else {
-            docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+            docRef = db.collection(usersCollection).document(userId).collection(
                 categoriesCollection).document(category.id)
             try {
                 docRef.set(data).await()
@@ -162,7 +160,7 @@ class FirebaseApi {
     }
 
     suspend fun deleteNote(id: String): Result<String> {
-        val docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+        val docRef = db.collection(usersCollection).document(userId).collection(
             notesCollection).document(id)
         try {
             docRef.delete().await()
@@ -173,7 +171,7 @@ class FirebaseApi {
     }
 
     suspend fun deleteCategory(id: String): Result<String> {
-        val docRef = db.collection(usersCollection).document(auth.currentUser!!.uid).collection(
+        val docRef = db.collection(usersCollection).document(userId).collection(
             categoriesCollection).document(id)
         try {
             docRef.delete().await()

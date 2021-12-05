@@ -10,9 +10,9 @@ A Vision API a Google Cloud szolgáltatásainak képfelismerésre specializált 
 
 A jegyzetek digitalizálásához szövegfelismerésre van szükség, ami optikai karakterfelismerés alkalmazásával valósítható meg. Ez az API \emph{DOCUMENT\_TEXT\_DETECTION} funkciójával lehetséges, mely optimalizálva van mind nagy sűrűségű dokumentumok, mind kézírás detektálására. Ennek során a kiválasztott képet egy base64 kódolt string formájában kell az API-nak elküldeni, a kívánt felismerés elvégzése után pedig az eredményt egy \emph{TextAnnotation} típusú objektumban kapjuk vissza. Ez egy strukturált reprezentációja a kinyert szövegnek, amit oldalakra, paragrafusokra vagy akár szavakra is bonthatunk. A projekt esetében elegendő volt az objektumon a \emph{text} property használata, mely az eredményt egyetlen stringben adja vissza. 
 
-A szolgáltatás számtalan nyelvet támogat, többek között a magyart is, és végül emiatt esett erre a választásom. Nincs is igazán sok elérhető API, mely képes lenne kézírás-felismerésre, de ez az egyetlen ami ezt magyarul is támogatja. Esetleg a Microsoft Azure Computer Vision szállhatna vele versenybe, de ilyen téren az is elmarad, mert jelenleg csak nyomtatott dokumentumok detektálására képes magyarul. Kerestem más alternatívákat is, de a legtöbb kézírás-felismerő szolgáltatás a digitális jegyzetelésre koncentrál - amikor a felhasználó egy érintőképernyőre ír egy speciálisan erre készített "tollal" -, de nekem a use case-t tekintve ezek nem feleltek meg.
+A szolgáltatás számtalan nyelvet támogat, többek között a magyart is, és végül emiatt esett erre a választásom. Nincs is igazán sok elérhető API, mely képes lenne kézírás-felismerésre, de ez az egyetlen ami ezt magyarul is támogatja. Esetleg a Microsoft Azure Computer Vision szállhatna vele versenybe, de ilyen téren az is elmarad, mert jelenleg csak nyomtatott dokumentumok detektálására képes magyarul. Emellett a Cloud Vision API mellett szól az is, hogy mivel mind ez, mind maga az Android Google termék, így sokkal egyszerűbb a kettő közti integráció, arról nem is beszélve, hogy a dokumentáció minősége is a Google-nél a legmagasabb. Természetesen kerestem más alternatívákat is, de a legtöbb kézírás-felismerő szolgáltatás a digitális jegyzetelésre koncentrál - amikor a felhasználó egy érintőképernyőre ír egy speciálisan erre készített "tollal" -, de nekem a use case-t tekintve ezek nem feleltek meg.
 
-Az API kézírás-felismerő képességének megvannak a korlátai, amik kevésbé használhatóvá teszik az alkalmazást, mint amennyire én terveztem. Ma már az Egyesült Államokban elég ritkán írnak kézzel az emberek, és ez meglátszik a modell teljesítményén. Az én kézírásom szinte megfejthetetlen a Vision API számára, nagyon gondosan és odafigyelve kell formálnom a betűket ahhoz, hogy felismerje. A szép kézírást viszont egészen megbízhatóan teljesíti, illetve az írott nagybetűkkel is elboldogul. Így sajnos nem sikerült egy olyan szinten használható alkalmazást készíteni belőle, mint ahogy én elképzeltem, de szebben írt, rövidebb szövegek digitalizálására tökéletesen megfelel. 
+Az API kézírás-felismerő képességének megvannak a korlátai, amik kevésbé használhatóvá teszik az alkalmazást, mint amennyire én terveztem. Ma már az Egyesült Államokban elég ritkán írnak kézzel az emberek, és ez meglátszik a modell teljesítményén. Az én kézírásom szinte megfejthetetlen a Vision API számára, nagyon gondosan és odafigyelve kell formálnom a betűket ahhoz, hogy felismerje. A szép kézírást viszont egészen megbízhatóan teljesíti, illetve az írott nagybetűkkel is elboldogul. Így sajnos nem sikerült egy olyan szinten használható alkalmazást készíteni belőle, mint ahogy én elképzeltem, de szebben írt, rövidebb szövegek digitalizálására megfelel. 
 
 \section{Firebase}
 
@@ -107,13 +107,12 @@ Az alábbi két képen látható a minőségbeli különbség a Material haszná
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=60mm, keepaspectratio]{figures/login_screenshot_before.png}
-	\includegraphics[width=60mm, keepaspectratio]{figures/login_screenshot_after.png}
+	\includegraphics[width=55mm, keepaspectratio]{figures/login_screenshot_before.png}
+	\includegraphics[width=55mm, keepaspectratio]{figures/login_screenshot_after.png}
 	\caption{Bejelentkezési képernyő a Material komponensek és alapelvek alkalmazása előtt és után.}
 	\label{fig:MaterialBeforeAfter}
 \end{figure}
 
-%TODO testing libs
 \section{JUnit 4}
 
 Egy applikáció tesztelésének számos aspektusa van, és egyedül ezen aspektusok összessége tudja maximálisan biztosítani a helyes működést. A unit teszteken\footnote{A unit tesztek célja, hogy a program különböző részeit izoláljuk egymástól, és más osztályoktól, moduloktól függetlenül validáljuk a működésüket.} kívül még integrációs\footnote{Az integrációs tesztek során a szoftver különböző moduljait együtt egy csoportként teszteljük, hogy a közös működés helyességét ellenőrizzük.\cite{IntegrationTest}}, end-to-end\footnote{End-to-end tesztelésnél teljes folyamatokat ellenőrzünk az elejétől a végéig, mint például egy bejelentkezés vagy egy online vásárlás.\cite{EndtoEndTest}} és UI tesztekre\footnote{A UI tesztek során a felhasználói input helyes kezelésén és a felület megfelelő elrendezésén kívül azt is ellenőrizni kell, hogy a felhasználó számára kellőképpen intuitív és könnyen kezelhető-e az alkalmazás.\cite{UITest}} is szükség lehet. 
@@ -133,6 +132,8 @@ Ezeken kívül a keretrendszer még biztosít egy \emph{Assert} nevű osztályt,
 
 \section{Mockito}
 
-A unit tesztelés során követelmény, hogy az alkalmazás többi részétől teljesen izoláltan validáljuk a működést. Ez felvet néhány problémát, mivel egy program működése során elég ritka az, hogy egy osztály teljesen független legyen a többitől. Ilyen esetekben \emph{mockolni} szoktuk a tesztelendő rendszer határain kívül eső objektumokat. 
+A unit tesztelés során követelmény, hogy az alkalmazás többi részétől teljesen izoláltan validáljuk a működést. Ez felvet néhány problémát, mivel egy program működése során elég ritka az, hogy egy osztály teljesen független legyen a többitől. Ilyen esetekben \emph{mockolni} szoktuk a tesztelendő rendszer határain kívül eső objektumokat. Ez annyit tesz, hogy az osztály függőségeit helyettesítjük nem valódi objektumokkal, és ezeknek specifikáljuk az elvárt működését. 
 
-Ez annyit tesz, hogy az osztály függőségeit helyettesítjük nem valódi objektumokkal, az ezen objektumokon végzett hívások 
+A Mockito ezt a folyamatot hivatott könnyebbé tenni. A \emph{@Mock} annotációval tudjuk megjelölni azokat a változókat, melyeket helyettesíteni szeretnénk, majd a \emph{MockitoAnnotations.openMocks} függvényt kell meghívni, hogy a keretrendszer ezeket legenerálja. Ezután a teszteseteinkben ellenőrizhetjük az interakciókat illetve a mockolt objektumok hívásait úgynevezett \emph{stub} metódushívásokkal helyettesíthetjük. Erre szolgál a \emph{when().thenReturn()} függvénypáros, ahol a \emph{when} paramétere a metódushívás, a \emph{thenReturn} paramétere pedig az eredmény, amit a mock objektum visszaad az adott hívás során. 
+
+Ezáltal a tesztjeink determinisztikussá válnak, mivel nem fognak függni egy létező objektum állapotától, és mindig az általunk várt eredményt adják. 
