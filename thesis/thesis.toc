@@ -42,20 +42,23 @@
 \select@language {magyar} \contentsline {section}{\numberline {5.2}Megvalósítás}{19}{section.5.2}%
 \select@language {magyar} \contentsline {subsection}{\numberline {5.2.1}Projektfelépítés}{19}{subsection.5.2.1}%
 \select@language {magyar} \contentsline {subsection}{\numberline {5.2.2}Szerveroldali komponensek integrációja}{19}{subsection.5.2.2}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.2.3}Képfelismerés integrációja}{22}{subsection.5.2.3}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.2.4}Modellek elkészítése}{22}{subsection.5.2.4}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.2.5}Összetett lista}{22}{subsection.5.2.5}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.2.6}Navigáció}{22}{subsection.5.2.6}%
-\select@language {magyar} \contentsline {section}{\numberline {5.3}Működés}{22}{section.5.3}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.1}Bejelentkezés}{22}{subsection.5.3.1}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.2}Kategorizált lista}{22}{subsection.5.3.2}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.3}Jegyzetlista}{23}{subsection.5.3.3}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.4}Jegyzet létrehozása}{23}{subsection.5.3.4}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.5}Jegyzet szerkesztése}{24}{subsection.5.3.5}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.6}Kategória létrehozása}{24}{subsection.5.3.6}%
-\select@language {magyar} \contentsline {subsection}{\numberline {5.3.7}Kategória szerkesztése}{25}{subsection.5.3.7}%
-\select@language {magyar} \contentsline {section}{\numberline {5.4}Tesztelés}{25}{section.5.4}%
-\select@language {magyar} \contentsline {chapter}{\numberline {6}Összefoglalás}{29}{chapter.6}%
-\select@language {magyar} \contentsline {section}{\numberline {6.1}Értékelés}{29}{section.6.1}%
-\select@language {magyar} \contentsline {section}{\numberline {6.2}Továbbfejlesztési lehetőségek}{29}{section.6.2}%
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{30}{section.6.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.3}Képfeldolgozás integrációja}{22}{subsection.5.2.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.4}Adatmodellek elkészítése}{23}{subsection.5.2.4}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.5}Egyedi FloatingActionButton}{24}{subsection.5.2.5}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.6}Képernyők felépítése}{25}{subsection.5.2.6}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.7}Kategorizált listanézet}{25}{subsection.5.2.7}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.8}Egyszerű listanézet}{25}{subsection.5.2.8}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.2.9}Navigáció}{25}{subsection.5.2.9}%
+\select@language {magyar} \contentsline {section}{\numberline {5.3}Működés}{25}{section.5.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.1}Bejelentkezés}{26}{subsection.5.3.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.2}Kategorizált lista}{26}{subsection.5.3.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.3}Jegyzetlista}{27}{subsection.5.3.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.4}Jegyzet létrehozása}{28}{subsection.5.3.4}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.5}Jegyzet szerkesztése}{29}{subsection.5.3.5}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.6}Kategória létrehozása}{30}{subsection.5.3.6}%
+\select@language {magyar} \contentsline {subsection}{\numberline {5.3.7}Kategória szerkesztése}{31}{subsection.5.3.7}%
+\select@language {magyar} \contentsline {section}{\numberline {5.4}Tesztelés}{31}{section.5.4}%
+\select@language {magyar} \contentsline {chapter}{\numberline {6}Összefoglalás}{32}{chapter.6}%
+\select@language {magyar} \contentsline {section}{\numberline {6.1}Értékelés}{32}{section.6.1}%
+\select@language {magyar} \contentsline {section}{\numberline {6.2}Továbbfejlesztési lehetőségek}{32}{section.6.2}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\'ek}{33}{section.6.2}%

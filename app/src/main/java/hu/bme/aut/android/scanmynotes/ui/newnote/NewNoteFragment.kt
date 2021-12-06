@@ -93,7 +93,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
 
     override fun render(viewState: NewNoteViewState) {
         when (viewState) {
-            is Initial -> Log.d("New Note", "Initial")
             is Loading -> binding.newNoteViewFlipper.displayedChild = LOADING
             is CategoriesLoaded -> {
                 Log.d("New Note", "Success")

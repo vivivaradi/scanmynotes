@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class NewCategoryViewModel @Inject constructor(
     private val interactor: Interactor
-): RainbowCakeViewModel<NewCategoryViewState>(Initial) {
+): RainbowCakeViewModel<NewCategoryViewState>(Loading) {
 
     class NewCategorySavedEvent(val id: String): OneShotEvent
     class CategorySaveEventError(val message: String): OneShotEvent

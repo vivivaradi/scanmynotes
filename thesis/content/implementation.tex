@@ -91,11 +91,77 @@ A harmadik szolgáltatás az Analytics, mely rengeteg hasznos információt szol
 
 Az utolsó Firebase szolgáltatás, amit az alkalmazásban felhasználtam, a Crashlytics. Az előzőektől ellentétben az első bekezdésben leírtakon kívül ennél még szükség van további integrációs lépésekre is a működéshez. Van ugyanis egy saját pluginja, amit a fentiekkel megegyező módon fel kell venni mindkét gradle fájlba. Ezt követően szükség van egy teszt crash előidézésére, majd az alkalmazás újraindítására, hogy az elküldhesse a hibajelentést a Crashlyticsnek. Ezt követően viszont nincs már szükség semmi másra, a kódba sem szükséges semmit felvenni, mert automatikusan figyeli az alkalmazást. Természetesen számos lehetőségünk van finomhangolni a működését egyéni kulcsok hozzáadásával, de akár a nem-végzetes hibák figyelésével is.
 
-\subsection{Képfelismerés integrációja}
+\subsection{Képfeldolgozás integrációja}
+Az alkalmazás fő funkciója a kézírás-digitalizálás, amit a Google Cloud Vision API végez. Ennek az ökoszisztémája nagyon hasonló a Firebase-hez, annyi különbséggel, hogy itt a Google Cloud Console\footnote{\url{https://console.cloud.google.com/}}-ban kell létrehozni a projektet. Ezt a kettőt akár össze is lehetne kötni, lévén Google rendszer mindkettő, de akkor a Firebase szolgáltatások is átkerülnek ingyenesről egy úgynevezett \emph{pay as you go}\footnote{A pay as you go olyan fizetési opció, mely során egy bizonyos kvóta alatt ingyenesen használhatók a szolgáltatások, afölött pedig annyit kell fizetni, amennyit használjuk.} plan-re. Én pedig szerettem volna minimalizálni az esetleges költségeket, így elvetettem ezt a lehetőséget.
+	
+Miután ez kész, célszerű a számlázás bekapcsolásával és egy \emph{billing account} létrehozásával kezdeni, mert bár mindent be lehet állítani enélkül is, addig nem fog működni az alkalmazásban az API, ameddig ez nincs rendben. 
 
-\subsection{Modellek elkészítése} 
+A következő lépés a kívánt API bekapcsolása, ugyanis itt is minden alapértelmezetten ki van kapcsolva. Ehhez az APIk közül kikerestem a Cloud Vision-t, majd egyetlen gombot kellett megnyomnom. A működéséhez azonban ennyi még nem elég, mert a használatához autentikálni is kell a kliensalkalmazást. Ehhez én egy API kulcsot hoztam létre, és létrehoztam egy apikey.properties nevű fájlt, melybe felvettem. Ezt úgy lehet felhasználni a projektben, hogy a \refstruc{fig:ApiKey} és a \refstruc{fig:ApiKeyConfig} kódrészleteit fel kell venni a modul szintű \emph{build.gradle} fájlba. A második ábrán látható, ahogy egy \emph{string} típusú és \emph{VISION\_API\_KEY} nevű változót csinálunk a fájlból kiolvasott kulcsból. Mindez azért szükséges, mert az API kulcs egy érzékeny adat, annak segítségével bárki felhasználhatja a saját alkalmazásában a szolgáltatást az én nevem alatt. Tekintve pedig, hogy fizetős szolgáltatásról van szó, ezt még komolyabban védeni kell, hogy ne szenvedjek anyagi kárt. Ezzel a módszerrel pedig rendkívül egyszerű ezt megtenni, hiszen a verziókezelő rendszerbe való feltöltés előtt csak annyit kell tenni, hogy az apikey.properties fájlt kivesszük a követés alól. 
 
-\subsection{Összetett lista}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=120mm, keepaspectratio]{figures/gradle_apikey.png}
+	\caption{A létrehozott apikey.properties fájl használata a projektben.}
+	\label{fig:ApiKey}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=130mm, keepaspectratio]{figures/apikey_configfield.png}
+	\caption{A megfelelő API kulcs kiolvasása a fájlból.}
+	\label{fig:ApiKeyConfig}
+\end{figure}
+
+A képfeldolgozás megvalósítása a következő: a fotózás befejezésével a kép egy Bitmap objektumként érkezik meg az interactorhoz, ahol a hívás háttérszálra kerül. Ezáltal már biztonságosan lehet hosszabb műveleteket végezni, így itt végzem el kép base64 kódolását, mely során egy Vision API által biztosított Image típusú objektumot állítok elő. A további hívások már ezt az objektumot kapják paraméterként, így a DataSource-on keresztül a \emph{VisionApi} osztályhoz jut. Ez végzi a további előkészítési folyamatot, küldi el detektálásra a képet, és az eredményt a megfelelő formában adja vissza. Mindez meglehetősen egyszerűen megoldható az API saját objektumainak használatával. Itt először megadom az API kulcsot, majd specifikálom a kívánt detektálási módot. Ez azért fontos, mert az API a kézírás-felismerésen kívül számtalan másra is képes, így nekem kell kiválasztanom, hogy pontosan mit szeretnék elvégeztetni. Ezután a képből és a választott funkcióból egy \emph{BatchAnnotateImageRequest} objektumot készítek (ami jelenleg egyetlen képet tartalmaz, de van lehetőség egyszerre több kép feldolgozására is), és az \emph{annotate} függvény segítségével megkapom ennek az annotációját. A teljes szöveget az eredmény \emph{fullTextAnnotation} tagváltozója tartalmazza.
+
+\subsection{Adatmodellek elkészítése} 
+Az alkalmazásban szükség volt olyan osztályokra, melyek az adatbázisból visszakapott adatokat fogják össze, és szállítják a rétegek között. Ezeket hívják adatmodellnek, és a megvalósítás során négy darabot készítettem. Ebből három a \emph{domain.models} package-ben található, ezek egyben a megjelenítési modellek is, egy pedig a \emph{data.models} package-be tartozik, ugyanis hálózati hívások eredményét reprezentálja.
+
+Ez utóbbi a Result nevű osztály, és tulajdonképpen a visszakapott adatokat vagy hibaüzenetet csomagolja be a könnyebb hibakezelés érdekében. Egy sablonosztályról\footnote{Olyan osztály, mely template paramétereket használ, ezáltal tetszőleges adattípussal használható.} van szó, mely két belső \emph{data class}-t tartalmaz: egy Success, illetve egy Failure nevűt. A Success a sikeres hívások eredményét tárolja egyetlen \emph{data} nevű paraméterében, mely tetszőleges adattípust felvehet, a Failure pedig a sikertelen hívások hibaüzenetét továbbítja. Emellett \emph{companion object}\footnote{Kotlinban a companion object tartalmazza tulajdonképpen azokat az adattagokat és függvényeket, amelyeket Javaban statikusnak hívtunk. Ezek osztályszintűek, ami annyit jelent, hogy nincs szükség az osztály példányosítására ahhoz, hogy elérjük őket.}-ben tartalmaz egy-egy függvényt, melyekkel a két állapot valamelyikét lehet inicializálni. A FirebaseApi összes függvényét úgy implementáltam, hogy valamilyen Result típust adjon vissza, így a fentebbi rétegekben minden esetet könnyedén le lehet kezelni. 
+
+A domain modellek közül az első és legalapvetőbb a ListItem osztály. Ő egy \emph{open class}, mivel Kotlinban csak akkor származtathatunk le egy osztályból egy másikat, hogyha a szülőt megjelöljük az \emph{open} kulcsszóval. A ListItemnek pedig pont ez a funkciója, hogy közös őst biztosítson a kategóriák és a jegyzetek számára, ami főleg a kategorizált lista építésénél fontos. Tartalmazza a két osztály közös adattagjait, melyek az \emph{id, title} és \emph{parentId} névre hallgatnak. Ezek közül az utolsónak lehet null az értéke, amennyiben az adott elemnek nincs szülője a listában. 
+
+Ennek leszármazottai a Note illetve a Category nevet kapták. Ők az alkalmazásban tárolt és megjelenített jegyzeteket, illetve kategóriákat reprezentálják. Ősükhöz képest egy-egy adattaggal bővültek, a Note \emph{content} adattagja a jegyzetek szövegét tárolja, míg a Category \emph{listItems} listájában a tartalmazott objektumai találhatók. Ez utóbbi nincs eltárolva az adatbázisban, hiszen könnyedén előállítható az adatok lekérdezése után a \emph{parentId} adattagok alapján.
+
+\subsection{Egyedi FloatingActionButton}
+Az új adatok fevételéhez szükség volt valamilyen gombra, aminek a megnyomásával a felhasználó a megfelelő oldalra navigálhat. Mivel ez egy elég fontos funkció, így célszerű kitüntetett helyre tenni az alkalmazásban, ahol a felhasználók azonnal láthatják. Az ilyen típusú gombok megvalósítására készült el a Material Components könyvtár FloatingActionButton névre keresztelt komponense. Ez egy általában a jobb alsó sarokban elhelyezkedő, tartalom felett megjelenő gomb, mely görgetéstől függetlenül a képernyőn marad, így biztosítva a folyamatos elérhetőséget. 
+
+Azonban funkcionalitás szempontjából a kategóriák és a jegyzetek létrehozásához nekem két ilyen gombra lett volna szükségem, ami viszont szembemegy a Material Design alapelveivel. Ezért döntöttem úgy, hogy ezt felhasználva megalkotom a gombot amire szükségem van (\refstruc{fig:FloatingActionButton}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=30mm, keepaspectratio]{figures/floatingbutton_closed.png}
+	\includegraphics[width=32mm, keepaspectratio]{figures/floatingbutton_open_small.png}
+	\caption{Az elkészített egyedi gomb alapértelmezett és kinyitott állapotban.}
+	\label{fig:FloatingActionButton}
+\end{figure}
+
+Működése a következő: alapértelmezett állapotban a bal oldali ábrán megjelenő egyetlen gomb látszik. Erre kattintva egy animációval elfordul 45 fokkal, és közben a másik kettő, kicsit kisebb gomb alulról beúszik és fokozatosan megjelenik. A két újonnan megjelent gomb biztosítja a jegyzetek és kategóriák létrehozásának lehetőségét, az eredeti gombot megnyomva pedig a kezdeti állapot áll vissza.
+
+Ehhez először is a listanézeten elhelyeztem három FloatingActionButtont a jobb alsó sarokba, egymás fölé. Létrehoztam három erőforrásfájlt az ikonoknak, a legalsó egy pluszjelet kapott, a felette lévő egy új jegyzet ikont, a felső pedig egy új mappa ikont. A felső kettő alapértelmezett láthatóságát \emph{gone}-ra állítottam, ami a helyes működéshez elengedhetetlen, ugyanis ha csak \emph{invisible} állapotban van egy UI elem, akkor ott marad a képernyőn, csak látszani nem fog, ami ezen gombok esetében azt eredményezné, hogy a mögötte lévő terület nem lenne kattintható.
+
+Ezután következtek az animációk, melyeket Androidon szintén erőforrásfájlokkal lehet megoldani XML-ben. A projektben ezeket a \emph{res/anim} mappába kell elhelyezni, és a kívánt hatás eléréséhez négy darabra volt szükségem. Egy ilyen XML fájl gyökér eleme egy set, melyben egy UI elem pozícióját, méretét, elforgatását és átlátszóságát animálhatjuk. Az alábbi képen a gomb kinyitási animációjának kódja látható (\refstruc{fig:ButtonAnimation}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=110mm, keepaspectratio]{figures/animation_example.png}
+	\caption{A kezdeti gomb elforgatásának animációja XML-ben.}
+	\label{fig:ButtonAnimation}
+\end{figure}
+
+Ami a legérdekesebb, hogy a pivotX és pivotY tulajdonságokkal meghatározhatjuk, hogy az adott elem forgatásakor a középpont hol legyen. Így egészen komplex animációk is létrehozhatók, habár nekem most csak egy egyszerű középpont körüli forgatás kellett.
+
+\subsection{Képernyők felépítése}
+Habár a legtöbb felület elrendezése és funkciója eltérő, a felszín alatt hasonlóképpen működnek. Az alkalmazás a \emph{single activity}\footnote{Évekkel ezelőtt Android fejlesztés során az Activity szinonimája volt a képernyőnek, azaz minden megjelenő felülethez egy-egy Activity tartozott. Ám később a Fragmentek megjelenésével ez megváltozott, és most már a legelterjedtebb módszer a single activity alkalmazások fejlesztése, ahol egyetlen Activityből áll a program, és abban cserélődnek a Fragmentek.} struktúrát követi, így minden képernyő egy Fragment, melyhez a RainbowCake követelményei szerint tartozik saját ViewState és ViewModel. 
+
+
+
+\subsection{Kategorizált listanézet}
+Az alkalmazás elindításakor megjelenő egymásba ágyazott lista a legbonyolultabb képernyő a projektben. Szükség volt hozzá egy RecyclerView-ra, mellyel egy listát jeleníthetünk meg a képernyőn, illetve a Groupie könyvtárra, amit már korábban bemutattam, de most az implementációs részleteibe fogok belemenni. 
+
+A folyamat a 
+
+\subsection{Egyszerű listanézet}
 
 \subsection{Navigáció}
 
@@ -131,7 +197,7 @@ A főképernyőn alul egy navigációs sávot találunk, mellyel a két különb
 	\caption{A jegyzetek listája, és a rajta elvégezhető műveletek.}
 	\label{fig:NoteListScreen2}
 \end{figure}
-
+\newpage
 \subsection{Jegyzet létrehozása}
 Az alkalmazás fő funkcionalitása a jegyzetek tárolása, így elég fontos, hogy legyen lehetőség újak létrehozására. Ez a képernyő jobb alsó sarkában található plusz gombra kattintva tehető meg. Az ott megjelenő két újabb gomb közül az alsó megnyomására felugrik egy kameraablak, ahol egy fénykép készítése után megtörténik a digitalizáció, és a szerkesztési oldalra ugrunk. Itt egy cím megadásával fejezhetjük be a létrehozási folyamatot, de opcionálisan hozzárendelhetjük egy kategóriához is (\refstruc{fig:NewNoteScreen}). Amíg a cím vagy a tartalom üres, addig az alkalmazás nem fogja engedni elmenteni a jegyzetet, figyelmeztetést rak az üresen hagyott mezőre.
 \begin{figure}[!ht]
@@ -141,7 +207,7 @@ Az alkalmazás fő funkcionalitása a jegyzetek tárolása, így elég fontos, h
 	\caption{A létrehozás során készített kép, illetve az abból kialakuló jegyzet szerkesztése.}
 	\label{fig:NewNoteScreen}
 \end{figure}
-
+\newpage
 \subsection{Jegyzet szerkesztése}
 Amennyiben a listában egy jegyzetre kattintunk, illetve újat hozunk létre, akkor annak részletes oldalára navigálunk. Itt megtekinthetjük a tartalmát, a jobb felső sarokban található ceruza ikonra nyomva pedig szerkeszthetjük is (\refstruc{fig:NoteDetailsScreen}). Megváltoztathatjuk a címét, tartalmát, kategóriáját, a fent megjelenő pluszjel segítségével pedig készíthetünk újabb fotót, melynek szövege hozzáfűzésre kerül az eddigihez. A fentebb említett megkötések itt is érvényesek, azaz a cím és a tartalom nem lehet üres az elmentés pillanatában. 
 
@@ -154,7 +220,7 @@ Mind megtekintési, mind szerkesztési módban elérhető a fenti sávban a szem
 	\caption{A jegyzet megtekintési, illetve szerkesztési képernyője.}
 	\label{fig:NoteDetailsScreen}
 \end{figure}
-
+\newpage
 \subsection{Kategória létrehozása}
 Az alkalmazásban elérhető másik adattípus a kategória, mely rendszerezési célt szolgál. Képes magába foglalni jegyzeteket és más kategóriákat is, tetszőleges mélységben. Szintén a jobb alsó sarokban található gomb biztosítja a létrehozás lehetőségét, ám ebben az esetben a felugró két kisebb gomb közül a felsőt kell választani. Itt egy, a jegyzetkészítéshez nagyon hasonló oldalon tudunk címet és opcionálisan szülőkategóriát megadni, és amennyiben nem üres a cím mezője, el is menthetjük (\refstruc{fig:NewCategoryScreen}). 
 
@@ -165,7 +231,7 @@ Az alkalmazásban elérhető másik adattípus a kategória, mely rendszerezési
 	\caption{A létrehozás gomb kinyitott állapotban, új kategória felvétele.}
 	\label{fig:NewCategoryScreen}
 \end{figure}
-
+\newpage
 \subsection{Kategória szerkesztése}
 Új kategória létrehozása után, illetve a listában egy kategóriára nyomva annak részleteit tekinthetjük meg. Itt megjelenik a címe és esetleges szülője, és jobb fent szintén található egy ceruza ikon, mely lehetővé teszi a szerkesztést (\refstruc{fig:CategoryDetailsScreen}). Hasonlóan a jegyzethez megtekintés és szerkesztés során is törölhetjük az adott kategóriát, ilyenkor egy felugró ablak figyelmeztet rá, hogy a törlés során az összes tartalmazott objektum is törlődni fog. 
 

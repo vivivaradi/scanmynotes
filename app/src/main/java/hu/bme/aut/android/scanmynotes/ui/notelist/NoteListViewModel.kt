@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class NoteListViewModel @Inject constructor(
         private val interactor: Interactor
-) : RainbowCakeViewModel<NoteListViewState>(Initial) {
+) : RainbowCakeViewModel<NoteListViewState>(Loading) {
 
     class NewNoteReadyEvent(val text: String): OneShotEvent
     object NoTextFoundEvent: OneShotEvent
@@ -24,7 +24,6 @@ class NoteListViewModel @Inject constructor(
 
     fun getAuth() = Firebase.auth
 
-    // TODO: get category list
     fun load(selectedNavItem: SelectedNavItem) = execute {
         viewState = Loading
         val complexResult = interactor.getComplexList()

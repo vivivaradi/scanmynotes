@@ -4,7 +4,6 @@ import hu.bme.aut.android.scanmynotes.domain.models.Category
 
 sealed class CategoryDetailsViewState
 
-object Initial: CategoryDetailsViewState()
 object Loading: CategoryDetailsViewState()
 data class Viewing(val category: Category): CategoryDetailsViewState()
 data class Editing(val category: Category): CategoryDetailsViewState()

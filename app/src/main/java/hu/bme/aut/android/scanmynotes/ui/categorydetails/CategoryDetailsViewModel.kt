@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class CategoryDetailsViewModel @Inject constructor(
     private val interactor: Interactor
-    ): RainbowCakeViewModel<CategoryDetailsViewState>(Initial) {
+    ): RainbowCakeViewModel<CategoryDetailsViewState>(Loading) {
 
     lateinit var currentCategory: Category
     var selectedParent: Category? = null

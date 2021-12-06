@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  5 DEC 2021 03:26
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  6 DEC 2021 05:01
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -920,41 +920,57 @@ File: figures/firestore_query.png Graphic file (type bmp)
  [21]
 File: figures/analytics_custom.png Graphic file (type bmp)
 <figures/analytics_custom.png>
+File: figures/gradle_apikey.png Graphic file (type bmp)
+<figures/gradle_apikey.png>
+File: figures/apikey_configfield.png Graphic file (type bmp)
+<figures/apikey_configfield.png>
+ [22] [23]
+File: figures/floatingbutton_closed.png Graphic file (type bmp)
+<figures/floatingbutton_closed.png>
+File: figures/floatingbutton_open_small.png Graphic file (type bmp)
+<figures/floatingbutton_open_small.png>
+ [24]
+File: figures/animation_example.png Graphic file (type bmp)
+<figures/animation_example.png>
+ [25]
 File: figures/notelist_closed.png Graphic file (type bmp)
 <figures/notelist_closed.png>
 File: figures/notelist_open.png Graphic file (type bmp)
 <figures/notelist_open.png>
- [22]
+ [26]
 File: figures/notelist_full.jpg Graphic file (type bmp)
 <figures/notelist_full.jpg>
 File: figures/notelist_search.jpg Graphic file (type bmp)
 <figures/notelist_search.jpg>
 File: figures/notelist_sort.jpg Graphic file (type bmp)
 <figures/notelist_sort.jpg>
+ [27]
 File: figures/newnote_photo.jpg Graphic file (type bmp)
 <figures/newnote_photo.jpg>
 File: figures/newnote_create.jpg Graphic file (type bmp)
 <figures/newnote_create.jpg>
- [23]
+ [28]
 File: figures/note_view.png Graphic file (type bmp)
 <figures/note_view.png>
 File: figures/note_edit.png Graphic file (type bmp)
 <figures/note_edit.png>
+ [29]
 File: figures/floatingbutton_open.png Graphic file (type bmp)
 <figures/floatingbutton_open.png>
 File: figures/category_save.png Graphic file (type bmp)
 <figures/category_save.png>
- [24]
+ [30]
 File: figures/category_view.png Graphic file (type bmp)
 <figures/category_view.png>
 File: figures/category_edit_error.png Graphic file (type bmp)
 <figures/category_edit_error.png>
-) [25] [26] [27] [28]
+) [31]
 \openout2 = `content/summary.aux'.
 
- (content/summary.tex
+
+(content/summary.tex
 6. fejezet.
-) [29
+) [32
 
 
 
@@ -986,7 +1002,7 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 []
  []
 
-[30
+[33
 
 
 
@@ -1000,26 +1016,20 @@ amework for Java\TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][] []
 \tf@thm=\write5
 \openout5 = `thesis.thm'.
 
- [31] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
+ [34] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
 (content/abstract.aux) (content/introduction.aux) (content/platform.aux)
 (content/architecture.aux) (content/libraries.aux) (content/implementation.aux)
 (content/summary.aux))
-
-Package rerunfilecheck Warning: File `thesis.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `thesis.out':
-(rerunfilecheck)             Before: 6BE30C48E8838F738BA454F379E7E033;7424
-(rerunfilecheck)             After:  406F2EE962268BF880788256296998EF;8061.
+Package rerunfilecheck Info: File `thesis.out' has not changed.
+(rerunfilecheck)             Checksum: 5F445577B7BB7DC4F0EE55DC5EBC5EBA;8675.
  ) 
 Here is how much of TeX's memory you used:
- 17220 strings out of 411295
- 312347 string characters out of 2836941
- 720932 words of memory out of 3000000
- 37323 multiletter control sequences out of 15000+600000
+ 17264 strings out of 411295
+ 313791 string characters out of 2836941
+ 722612 words of memory out of 3000000
+ 37362 multiletter control sequences out of 15000+600000
  410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191
- 78i,8n,84p,1160b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 78i,8n,84p,1338b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.pdf (37 pages).
+Output written on thesis.pdf (40 pages).

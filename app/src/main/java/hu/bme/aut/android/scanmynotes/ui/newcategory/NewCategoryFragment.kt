@@ -63,7 +63,6 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
 
     override fun render(viewState: NewCategoryViewState) {
         when (viewState) {
-            is Initial -> Log.d("New Category", "Initial")
             is Loading -> binding.newCategoryViewFlipper.displayedChild = LOADING
             is CategoriesLoaded -> {
                 Log.d("New Category", "Success")

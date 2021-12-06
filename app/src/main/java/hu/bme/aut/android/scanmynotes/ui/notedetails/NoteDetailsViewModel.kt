@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class NoteDetailsViewModel @Inject constructor(
     private val interactor: Interactor
-): RainbowCakeViewModel<NoteDetailsViewState>(Initial) {
+): RainbowCakeViewModel<NoteDetailsViewState>(Loading) {
 
     lateinit var currentNote: Note
     var selectedParent: Category? = null

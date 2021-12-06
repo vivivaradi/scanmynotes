@@ -125,7 +125,6 @@ class NoteListFragment : RainbowCakeFragment<NoteListViewState, NoteListViewMode
 
     override fun render(viewState: NoteListViewState) {
         when(viewState){
-            is Initial -> Log.d(getString(R.string.debug_tag), "Screen state is initial")
             is Loading -> binding.noteListViewFlipper.displayedChild = LOADING
             is ListLoaded -> {
                 setSearchVisibility()

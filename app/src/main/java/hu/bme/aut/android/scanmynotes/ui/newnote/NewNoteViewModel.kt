@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class NewNoteViewModel @Inject constructor(
     private val interactor: Interactor
-): RainbowCakeViewModel<NewNoteViewState>(Initial) {
+): RainbowCakeViewModel<NewNoteViewState>(Loading) {
 
     class NewNoteSavedEvent(val id: String): OneShotEvent
     class NoteSaveEventError(val message: String): OneShotEvent
