@@ -71,7 +71,7 @@ class NewCategoryFragment: RainbowCakeFragment<NewCategoryViewState, NewCategory
                 adapter.addAll(viewState.categories)
                 binding.newCategoryViewFlipper.displayedChild = VIEWING
             }
-            is Failure -> Log.d("New Category", "Failure")
+            is Error -> Log.d("New Category", "Failure")
         }
     }
 

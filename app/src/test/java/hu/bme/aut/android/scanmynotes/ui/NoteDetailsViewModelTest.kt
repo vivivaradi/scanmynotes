@@ -8,7 +8,7 @@ import hu.bme.aut.android.scanmynotes.domain.models.Note
 import hu.bme.aut.android.scanmynotes.ui.notedetails.NoteDetailsViewModel
 import hu.bme.aut.android.scanmynotes.data.models.Result
 import hu.bme.aut.android.scanmynotes.domain.models.Category
-import hu.bme.aut.android.scanmynotes.ui.notedetails.Failure
+import hu.bme.aut.android.scanmynotes.ui.notedetails.Error
 import hu.bme.aut.android.scanmynotes.ui.notedetails.Viewing
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -53,7 +53,7 @@ class NoteDetailsViewModelTest: ViewModelTest() {
 
         noteDetailsViewModel.observeStateAndEvents { stateObserver, eventsObserver ->
             noteDetailsViewModel.loadData("1")
-            stateObserver.assertObservedLast(Failure("noteError"))
+            stateObserver.assertObservedLast(Error("noteError"))
         }
     }
 

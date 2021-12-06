@@ -2,6 +2,7 @@ package hu.bme.aut.android.scanmynotes.ui.categorydetails
 
 import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeViewModel
+import co.zsmb.rainbowcake.extensions.exhaustive
 import hu.bme.aut.android.scanmynotes.R
 import hu.bme.aut.android.scanmynotes.data.models.Result
 import hu.bme.aut.android.scanmynotes.domain.interactors.Interactor
@@ -35,9 +36,9 @@ class CategoryDetailsViewModel @Inject constructor(
                 }
                 Viewing(currentCategory)
             }
-            categoryResult is Result.Failure -> Failure(categoryResult.message)
-            categoriesResult is Result.Failure -> Failure(categoriesResult.message)
-            else -> Failure(R.string.failure_unknown_error_text.toString())
+            categoryResult is Result.Failure -> Error(categoryResult.message)
+            categoriesResult is Result.Failure -> Error(categoriesResult.message)
+            else -> Error(R.string.failure_unknown_error_text.toString())
         }
     }
 
@@ -54,8 +55,8 @@ class CategoryDetailsViewModel @Inject constructor(
                 currentCategory = updatedCategory
                 Viewing(currentCategory)
             }
-            is Result.Failure -> Failure(result.message)
-        }
+            is Result.Failure -> Error(result.message)
+        }.exhaustive
     }
 
     fun deleteCategory() = execute {

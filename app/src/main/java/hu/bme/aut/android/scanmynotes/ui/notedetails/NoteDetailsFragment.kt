@@ -150,7 +150,7 @@ class NoteDetailsFragment : RainbowCakeFragment<NoteDetailsViewState, NoteDetail
                 }
                 binding.editNoteView.categorySelectorSpinner.spinner.setSelection(selectedPosition)
             }
-            is Failure -> Log.d(getString(R.string.debug_tag), viewState.message)
+            is Error -> Log.d(getString(R.string.debug_tag), viewState.message)
         }
     }
 

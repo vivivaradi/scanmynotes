@@ -151,15 +151,43 @@ Ezután következtek az animációk, melyeket Androidon szintén erőforrásfáj
 
 Ami a legérdekesebb, hogy a pivotX és pivotY tulajdonságokkal meghatározhatjuk, hogy az adott elem forgatásakor a középpont hol legyen. Így egészen komplex animációk is létrehozhatók, habár nekem most csak egy egyszerű középpont körüli forgatás kellett.
 
+\subsection{Egyedi legördülő menü}
+Létrehozás és módosítás során lehetőséget ad az alkalmazás kiválasztani egy kategóriát, melybe az objektumot tenni szeretnénk. Ennek megvalósítására a legördülő menüt találtam legalkalmasabbnak, melyet Androidon a \emph{Spinner} nevet kapta. Ezt a komponenst egy ArrayAdapter segítségével töltöm fel, mely a neki odaadott kollekció minden elemére visszaad egy, a létrehozásakor megadott layout-ot, ami itt most egy alapértelmezett \emph{simple\_spinner\_dropdown\_item}. Ez remekül biztosítja a számomra szükséges funkciót, csak épp nem túl esztétikus, és semmiképp sem illik a Material elemek közé. Ennek a megoldására két lehetőségem volt: a Material könyvtár részeként érkező TextField használata, vagy saját magam próbálok egy hasonló kinézetet elérni a Spinner testreszabásával. Az előbbi megoldás nagyon jól passzolt volna az alkalmazásba, de az egész logikát a Spinner-re építve írtam meg, és sajnos a TextField használata ettől teljesen eltér, úgyhogy mindent át kellett volna írnom. Ezért az utóbbi opciónál döntöttem.
+
+Ehhez kettő XML fájlt hoztam létre a \emph{res/drawable} mappában, egyet az inaktív, csukott állapot, és egyet a kinyitott állapot hátterének. Itt a \emph{shape} XML-attribútum segítségével tudunk különféle alakzatokat kirajzolni, alapértelmezettként pedig téglalapot rajzol. Nekem pont erre volt szükségem, így csak egy kicsit testre kellett szabni. Az inaktív háttér keretének adtam lekerekített sarkokat, paddinget és vonalvastagságot, emellett a színét beállítottam a Material TextField inaktív színére, hogy a lehető legjobban egyezzen a többi elem megjelenésével. A lenyitott háttér ettől annyiban különbözik, hogy a keret színe az alkalmazás fő színét kapta meg, dupla olyan vastag lett, és az egész kapott egy fehér kitöltést, hogy eltakarja a mögötte lévő elemeket. 
+
+Ezekkel pedig úgy tudtam felülírni a Spinner eredeti kinézetét, hogy az XML-ben ráraktam az \emph{android:background} és \emph{android:popupBackground} attribútumokat, melyeknek értékül adtam a fent leírt két layout-ot. Így már egészen esztétikusra sikerült, és majdnem észrevehetetlen a különbség a többi elemhez képest. Az eredményt a \refstruc{fig:CustomSpinner} szemlélteti.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=60mm, keepaspectratio]{figures/custom_spinner_closed.png}
+	\includegraphics[width=60mm, keepaspectratio]{figures/custom_spinner_open.png}
+	\caption{A Spinner kinézete becsukva, illetve kinyitva.}
+	\label{fig:CustomSpinner}
+\end{figure}
+
 \subsection{Képernyők felépítése}
 Habár a legtöbb felület elrendezése és funkciója eltérő, a felszín alatt hasonlóképpen működnek. Az alkalmazás a \emph{single activity}\footnote{Évekkel ezelőtt Android fejlesztés során az Activity szinonimája volt a képernyőnek, azaz minden megjelenő felülethez egy-egy Activity tartozott. Ám később a Fragmentek megjelenésével ez megváltozott, és most már a legelterjedtebb módszer a single activity alkalmazások fejlesztése, ahol egyetlen Activityből áll a program, és abban cserélődnek a Fragmentek.} struktúrát követi, így minden képernyő egy Fragment, melyhez a RainbowCake követelményei szerint tartozik saját ViewState és ViewModel. 
 
+Egy ViewState itt nézettől függően három vagy négy állapotot tartalmaz. Mindegyik rendelkezik egy \emph{Loading} és egy \emph{Error} állapottal, melyek nevükhöz hűen a töltést, illetve valamilyen hibát jeleznek. Ezen kívül általában egy harmadik állapot jelzi az adatok helyes megérkezését, amikor a töltés befejeződött és megjeleníthető a UI, illetve a részletező nézetek logikája tér el ettől egy kicsit, mert ott a \emph{Viewing} és az \emph{Editing} állapotokkal lehet váltani az olvasási és az írási nézet között. 
 
+A ViewModel-eknek minden esetben meg kell adni egy kezdő állapotot, ez mindegyik képernyőnél a \emph{Loading}. Emellett rendelkeznek egy \emph{load} függvénnyel, mely a kezdeti, megjelenítéshez szükséges adatokat kéri le, majd a hívás eredménye alapján állítja megfelelő állapotba a UI-t. Itt van nagyon nagy szerepe a létrehozott Result osztálynak, mert a visszakapott eredményt típus alapján szét lehet bontani, nem kell belenézni az adatba, hogy érvényes-e. Ahogy az már korábban említésre került, a ViewModel végez minden logikát, ami a képernyőhöz kötődik, hogy a Fragment-nek tényleg csak a UI megjelenítésével kelljen foglalkoznia. Ez szűri a listát kereséskor, elvégzi a rendezést, és függvényeket tartalmaz minden módosítási és létrehozási műveletre, amikkel továbbhív az interactor felé. Általában a kategória vagy jegyzet létrehozásának és törlésének eredményét egy eseményben továbbítja a Fragment-nek, ugyanis ilyenkor navigálni kell másik képernyőre. 
+
+A Fragment kezel mindent, ami a látható felhasználói felülettel kapcsolatos, hiszen csak neki van referenciája az elrendezésre és a benne található elemekre. Ez a referencia egy úgynevezett \emph{ViewBinding} funkció segítségével jön létre, melyet a \emph{build.gradle}-ben bekapcsolva minden layout-ot tartalmazó XML fájlhoz generálódik egy Binding osztály, melynek egy példányán keresztül közvetlenül elérhetjük az elemeit. Ezek a layout-ok mind ViewFlipper-t használnak, hogy a lehető legkönnyebb legyen cserélni a megjelenített nézetet (\refstruc{fig:ViewFlipperComponent}). A már korábban is szereplő ábrán látott layout gyerekeire a megjelenésük sorrendjének indexével lehet hivatkozni, azaz ebben az esetben a \emph{loadingView} a nullás, a \emph{noteListView} az egyes indexet kapja. Ám az ilyen számkonstansok hosszú távon nem eredményezik a legolvashatóbb kódot, ezért készítettem hozzá egy megfeleltetést, hogy a kódban a nevükkel hivatkozhassam őket (\refstruc{fig:ViewFlipperObject}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=50mm, keepaspectratio]{figures/viewflipper_object.png}
+	\caption{A kezdeti gomb elforgatásának animációja XML-ben.}
+	\label{fig:ViewFlipperObject}
+\end{figure}
+
+A ViewModel fentebb említett \emph{load} függvényét a Fragment az \emph{onStart} életciklus-függvényben hívja meg, mely minden alkalommal lefut, amikor a nézet láthatóvá válik. Azért ide tettem a hívást, mert az adatok frissítésére nem csak az első alkalommal van szükség, amikor megjelenik a Fragment, hanem minden módosítás után is, és erre ezt a megoldást láttam a legcélszerűbbnek. Az adatok frissítése után változni fog a képernyő állapota, melyet a \emph{render} függvényben tudunk lekezelni. Erre egy példa már szerepelt korábban az architektúra leírásánál, a \refstruc{fig:ViewFlipperUsage} bemutatásában.
 
 \subsection{Kategorizált listanézet}
 Az alkalmazás elindításakor megjelenő egymásba ágyazott lista a legbonyolultabb képernyő a projektben. Szükség volt hozzá egy RecyclerView-ra, mellyel egy listát jeleníthetünk meg a képernyőn, illetve a Groupie könyvtárra, amit már korábban bemutattam, de most az implementációs részleteibe fogok belemenni. 
 
-A folyamat a 
+A folyamat a képernyők felépítésénél is leírt \emph{load} függvénnyel kezdődik. Ennek szüksége van egy komplex, egymásba ágyazott listára, melyet a \emph{getComplexList} függvény meghívásával kérhet le. 
 
 \subsection{Egyszerű listanézet}
 

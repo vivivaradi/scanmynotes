@@ -39,9 +39,9 @@ class NoteDetailsViewModel @Inject constructor(
                 }
                 Viewing(currentNote)
             }
-            noteResult is Result.Failure -> Failure(noteResult.message)
-            categoriesResult is Result.Failure -> Failure(categoriesResult.message)
-            else -> Failure(R.string.failure_unknown_error_text.toString())
+            noteResult is Result.Failure -> Error(noteResult.message)
+            categoriesResult is Result.Failure -> Error(categoriesResult.message)
+            else -> Error(R.string.failure_unknown_error_text.toString())
         }
     }
 
@@ -59,7 +59,7 @@ class NoteDetailsViewModel @Inject constructor(
                 currentNote = updatedNote
                 Viewing(currentNote)
             }
-            is Result.Failure -> Failure(result.message)
+            is Result.Failure -> Error(result.message)
         }
     }
 

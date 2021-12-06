@@ -6,4 +6,4 @@ sealed class NewCategoryViewState
 
 object Loading: NewCategoryViewState()
 data class CategoriesLoaded(val categories: List<Category>): NewCategoryViewState()
-data class Failure(val message: String): NewCategoryViewState()
+data class Error(val message: String): NewCategoryViewState()

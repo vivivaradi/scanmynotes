@@ -63,10 +63,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
         inflater.inflate(R.menu.menu_new, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
@@ -85,9 +81,6 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
             is NewNoteViewModel.NewNoteSavedEvent -> {
                 findNavController().navigate(NewNoteFragmentDirections.savedNewNoteAction(event.id))
             }
-            is NewNoteViewModel.NoteSaveEventError -> {
-                // TODO
-            }
         }
     }
 
@@ -102,7 +95,7 @@ class NewNoteFragment: RainbowCakeFragment<NewNoteViewState, NewNoteViewModel>()
                 binding.newNoteView.editNoteContent.textField.setText(args.noteText)
                 binding.newNoteViewFlipper.displayedChild = VIEWING
             }
-            is Failure -> Log.d("New Note", "Failure")
+            is Error -> Log.d("New Note", "Failure")
         }
 
     }

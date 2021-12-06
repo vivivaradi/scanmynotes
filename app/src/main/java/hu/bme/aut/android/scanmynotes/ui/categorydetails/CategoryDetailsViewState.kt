@@ -7,4 +7,4 @@ sealed class CategoryDetailsViewState
 object Loading: CategoryDetailsViewState()
 data class Viewing(val category: Category): CategoryDetailsViewState()
 data class Editing(val category: Category): CategoryDetailsViewState()
-data class Failure(val message: String): CategoryDetailsViewState()
+data class Error(val message: String): CategoryDetailsViewState()

@@ -8,4 +8,4 @@ sealed class NoteDetailsViewState
 object Loading: NoteDetailsViewState()
 data class Viewing(val note: Note): NoteDetailsViewState()
 data class Editing(val note: Note): NoteDetailsViewState()
-data class Failure(val message: String): NoteDetailsViewState()
+data class Error(val message: String): NoteDetailsViewState()
