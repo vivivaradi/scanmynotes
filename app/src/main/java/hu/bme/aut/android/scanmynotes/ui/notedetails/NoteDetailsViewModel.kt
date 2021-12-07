@@ -77,10 +77,9 @@ class NoteDetailsViewModel @Inject constructor(
         viewState = Loading
         val text = interactor.digitalize(image)
         if (text != null)
-            postEvent(TextReady(text))
+            viewState = Editing(Note(currentNote.id, currentNote.title, currentNote.parentId, currentNote.content + text))
         else
             postEvent(NoTextFoundEvent)
-        viewState = Editing(Note(currentNote.id, currentNote.title, currentNote.content + text))
     }
 
     fun selectParent(category: Category?) {
