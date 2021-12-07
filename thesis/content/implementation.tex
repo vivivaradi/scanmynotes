@@ -1,111 +1,14 @@
 %-----------------------
-\chapter{Alkalmazás}
+\chapter{Implementáció}
 %-----------------------
 %TODO write
 %TODO spellcheck
 
-Egy alkalmazás megvalósítása mindig komplex folyamat, mely sok kisebb részfolyamatot foglal magába. Az alábbiakban a fejlesztés részleteiről fogok írni, kezdve az alkalmazással szemben támasztott követelményekkel, majd képernyőképek segítségével bemutatom a működését. Ezután a megvalósítás részleteibe fogok belemenni, és végül a tesztelésről is ejtek pár szót.
-
-\section{Követelmények}
-
-A fejlesztés során alapvető célom volt egy, a modern paradigmáknak és a felhasználók elvárásainak megfelelő applikáció megalkotása. Törekedtem az objektumorientált szemlélet alkalmazására, a felelősségek szétválasztására és a maximális felhasználói élmény nyújtására. Fontos volt, hogy az alkalmazás folyamatai ne térjenek el nagymértékben attól, mint amit a felhasználók más applikációkban megszokhattak, és minden művelet meg legyen valósítva az adatokon, amire szükségük lehet.
-
-Ezek alapján az alábbi követelmények fogalmazódtak meg az alkalmazással szemben:
-\begin{enumerate}
-	\item A felhasználónak legyen lehetősége fiókot létrehozni, e-mail cím és jelszó megadásával bejelentkezni, illetve fiókjából ki is lépni.
-	\item Az adatok legyenek perzisztensen tárolva, az alkalmazás bezárásával, abból való kilépéssel vagy egy esetleges készülékcsere esetén se vesszenek el.
-	\item Az adatok csak bejelentkezés után váljanak láthatóvá, minden felhasználó csak a saját adataihoz férhessen hozzá.
-	\item A felhasználó képes legyen kategóriákat létrehozni a jegyzetek számára, ezeket akár tetszőleges mélységben további kategóriákba ágyazni.
-	\item Legyen lehetőség jegyzetek létrehozására dokumentumok lefényképezése által. A szöveg digitalizálása után a jegyzet legyen címmel ellátható, kategóriába sorolható és a tartalma szerkeszthető.
-	\item Inkonzisztens adatok létrehozására ne adjon lehetőséget, a felhasználói input mindig legyen validálva.
-	\item A jegyzeteken és kategóriákon lehessen minden fő műveletet - létrehozás, olvasás, módosítás, törlés - elvégezni, ezek során a felhasználói felület és az adatbázis maradjanak konzisztensek egymással.
-	\item Módosítás során lehessen a jegyzetet újabb fényképek készítésével kiegészíteni, az ily módon digitalizált szöveg kerüljön hozzáfűzésre az eredeti tartalomhoz.
-	\item A UI esztétikai és felhasználói élmény szempontjából legyen megfelelő, a hosszú ideig tartó folyamatokat jelezze a felhasználónak töltőképernyő segítségével.
-	\item A jegyzetek listája lehessen rendezhető és kereshető.
-\end{enumerate}
-
-\section{Működés}
-
-A következőkben az alkalmazás funkcióit fogom bemutatni, a leírásokat képernyőképekkel kiegészítve. A képek néhol eltérnek egymástól, melynek oka hogy az applikáció funkcionalitásából fakadóan nem volt lehetséges mindet az emulátoron elkészíteni, hanem a jegyzetek készítéséhez fizikai készülékre is szükség volt.
-
-\subsection{Bejelentkezés}
-A telepítést követően a bejelentkezési képernyő az első, amivel a felhasználó találkozik. Ez már korábban megjelent a dolgozatban, a \refstruc{fig:MaterialBeforeAfter} bemutatásában. Itt a beviteli mezők segédszövegei egyértelműsítik, hogy milyen adatok elvártak a bejelentkezéshez illetve regisztrációhoz. Ezek gombnyomás hatására validálásra kerülnek, és amennyiben az e-mail formátuma nem érvényes vagy a jelszó hossza nem éri el a 6 karaktert, akkor a folyamat meghiúsul, és a felhasználó értesül róla, hogy mely mező(k) tartalmát kell javítania.
-
-\subsection{Kategorizált lista}
-Sikeres bejelentkezést követően az alkalmazás a fő képernyőjére navigál, ahol az eddig elmentett jegyzeteket láthatjuk kategóriákba rendezve. A kategóriák alapértelmezetten össze vannak csukva, csak a legfelső szinten található elemeket látjuk. A lista sorainak jobb szélén elhelyezkedő nyilakra kattintva tudjuk kibontani az adott kategóriát, ezzel megtekinteni a tartalmát (\refstruc{fig:NoteListScreen}).
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=55mm, keepaspectratio]{figures/notelist_closed.png}
-	\includegraphics[width=55mm, keepaspectratio]{figures/notelist_open.png}
-	\caption{Az alkalmazás kezdőlapja alapértelmezett állapotban, illetve egy kategória kibontva.}
-	\label{fig:NoteListScreen}
-\end{figure}
-
-Innen számos lehetőségünk adódik navigációra az applikáción belül, kezdve a jobb felső sarokban található, meglehetősen magától értetődő kijelentkezés gombbal. Ezt megnyomva a fent leírt bejelentkezési képernyőre navigálunk, ahol adataink megadásával újra bejelentkezhetünk.
-
-\subsection{Jegyzetlista}
-A főképernyőn alul egy navigációs sávot találunk, mellyel a két különböző listamegjelenítés között tudunk váltani. Míg a \emph{Categories} opció alatt egy hierarchikusan egymás alá rendezett listát láthatunk, a \emph{Notes} opció csak a jegyzeteket tárja elénk, kategóriától függetlenül. Itt több lehetőség tárul elénk: a képernyő tetején található egy keresősáv és egy rendezés gomb. Keresni a jegyzetek címe alapján tudunk, itt gépelés közben azonnal szűkül az eredményhalmaz. A rendezés szintén a cím alapján működik, jelenleg növekvő és csökkenő betűrendet támogat az alkalmazás (\refstruc{fig:NoteListScreen2}).
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=49mm, keepaspectratio]{figures/notelist_full.jpg}
-	\includegraphics[width=49mm, keepaspectratio]{figures/notelist_search.jpg}
-	\includegraphics[width=49mm, keepaspectratio]{figures/notelist_sort.jpg}
-	\caption{A jegyzetek listája, és a rajta elvégezhető műveletek.}
-	\label{fig:NoteListScreen2}
-\end{figure}
-\newpage
-\subsection{Jegyzet létrehozása}
-Az alkalmazás fő funkcionalitása a jegyzetek tárolása, így elég fontos, hogy legyen lehetőség újak létrehozására. Ez a képernyő jobb alsó sarkában található plusz gombra kattintva tehető meg. Az ott megjelenő két újabb gomb közül az alsó megnyomására felugrik egy kameraablak, ahol egy fénykép készítése után megtörténik a digitalizáció, és a szerkesztési oldalra ugrunk. Itt egy cím megadásával fejezhetjük be a létrehozási folyamatot, de opcionálisan hozzárendelhetjük egy kategóriához is (\refstruc{fig:NewNoteScreen}). Amíg a cím vagy a tartalom üres, addig az alkalmazás nem fogja engedni elmenteni a jegyzetet, figyelmeztetést rak az üresen hagyott mezőre.
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=55mm, keepaspectratio]{figures/newnote_photo.jpg}
-	\includegraphics[width=55mm, keepaspectratio]{figures/newnote_create.jpg}
-	\caption{A létrehozás során készített kép, illetve az abból kialakuló jegyzet szerkesztése.}
-	\label{fig:NewNoteScreen}
-\end{figure}
-\newpage
-\subsection{Jegyzet szerkesztése}
-Amennyiben a listában egy jegyzetre kattintunk, illetve újat hozunk létre, akkor annak részletes oldalára navigálunk. Itt megtekinthetjük a tartalmát, a jobb felső sarokban található ceruza ikonra nyomva pedig szerkeszthetjük is (\refstruc{fig:NoteDetailsScreen}). Megváltoztathatjuk a címét, tartalmát, kategóriáját, a fent megjelenő pluszjel segítségével pedig készíthetünk újabb fotót, melynek szövege hozzáfűzésre kerül az eddigihez. A fentebb említett megkötések itt is érvényesek, azaz a cím és a tartalom nem lehet üres az elmentés pillanatában.
-
-Mind megtekintési, mind szerkesztési módban elérhető a fenti sávban a szemetes ikon, mellyel törölhetjük a jegyzetet a listánkból. Vigyázat, ez a művelet nem visszafordítható!
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=55mm, keepaspectratio]{figures/note_view.png}
-	\includegraphics[width=55mm, keepaspectratio]{figures/note_edit.png}
-	\caption{A jegyzet megtekintési, illetve szerkesztési képernyője.}
-	\label{fig:NoteDetailsScreen}
-\end{figure}
-\newpage
-\subsection{Kategória létrehozása}
-Az alkalmazásban elérhető másik adattípus a kategória, mely rendszerezési célt szolgál. Képes magába foglalni jegyzeteket és más kategóriákat is, tetszőleges mélységben. Szintén a jobb alsó sarokban található gomb biztosítja a létrehozás lehetőségét, ám ebben az esetben a felugró két kisebb gomb közül a felsőt kell választani. Itt egy, a jegyzetkészítéshez nagyon hasonló oldalon tudunk címet és opcionálisan szülőkategóriát megadni, és amennyiben nem üres a cím mezője, el is menthetjük (\refstruc{fig:NewCategoryScreen}).
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=50mm, keepaspectratio]{figures/floatingbutton_open.png}
-	\includegraphics[width=50mm, keepaspectratio]{figures/category_save.png}
-	\caption{A létrehozás gomb kinyitott állapotban, új kategória felvétele.}
-	\label{fig:NewCategoryScreen}
-\end{figure}
-\newpage
-\subsection{Kategória szerkesztése}
-Új kategória létrehozása után, illetve a listában egy kategóriára nyomva annak részleteit tekinthetjük meg. Itt megjelenik a címe és esetleges szülője, és jobb fent szintén található egy ceruza ikon, mely lehetővé teszi a szerkesztést (\refstruc{fig:CategoryDetailsScreen}). Hasonlóan a jegyzethez megtekintés és szerkesztés során is törölhetjük az adott kategóriát, ilyenkor egy felugró ablak figyelmeztet rá, hogy a törlés során az összes tartalmazott objektum is törlődni fog.
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=50mm, keepaspectratio]{figures/category_view.png}
-	\includegraphics[width=50mm, keepaspectratio]{figures/category_edit_error.png}
-	\caption{A kategória részletes képernyője, illetve a szerkesztési képernyő által feldobott hiba, ha üresen hagyjuk a címet.}
-	\label{fig:CategoryDetailsScreen}
-\end{figure}
-
-\section{Megvalósítás}
+Egy alkalmazás megvalósítása mindig komplex folyamat, mely sok kisebb részfolyamatot foglal magába. Az alábbiakban a fejlesztés részleteiről fogok írni, először a megvalósítást mutatom be a projektfelépítéstől kezdve a logikán át a felhasználói felületig, majd egy kicsit kitérek a tesztelésre is.
 
 A következőkben az alkalmazás implementációjába fogok részletesebben belemenni a projektfelépítéstől kezdve a logikán át a felhasználói felületig.
 
-\subsection{Projektfelépítés}
+\section{Projektfelépítés}
 A projekt elrendezése úgy lett kialakítva, hogy megfeleljen az Android fejlesztéshez ajánlott konvencióknak, emellett a package-ek nevei egyértelműek legyenek és könnyedén meg lehessen találni bármit, amit keresünk. A felépítés a következő:
 \begin{itemize}
 	\item \emph{data:} Az adatelérési réteg osztályait tartalmazza. Két package található benne: egy \emph{models} és egy \emph{network}. Előbbi a hálózati modell(eke)t tartalmazza, utóbbi pedig az API-kat és a DataSource-okat.
@@ -115,7 +18,7 @@ A projekt elrendezése úgy lett kialakítva, hogy megfeleljen az Android fejles
 	\item \emph{util:} Ide kerültek azok a kódok, amiket máshova nem lehetett beilleszteni. Egyetlen fájl található benne, olyan kiegészítésekkel, amiket több osztály is használ, ezért nem lehetett egy funkcióhoz kötni.
 \end{itemize}
 
-\subsection{Szerveroldali komponensek integrációja}
+\section{Szerveroldali komponensek integrációja}
 Az alkalmazás backendjét a Firebase szolgáltatja, melynek kiterjedt és alapos dokumentációja nagyban megkönnyíti az integrációs folyamatot.
 
 Első lépésként be kell jelentkezni a Firebase console\footnote{\url{https://console.firebase.google.com/}}-ba, és létrehozni az alkalmazás számára egy Firebase projektet. Amikor kész, akkor ehhez hozzá kell adni a már létező applikációt azáltal, hogy megadjuk az alkalmazás package nevét\footnote{A package név egy egyedi azonosító, mely alapján egyértelműen meghatározható az alkalmazás. Két ugyanolyan package névvel rendelkező applikáció nem telepíthető fel egy eszközre, de még a Google Play Store-ba sem kerülhet.}. Ezután generálódik egy \emph{google-services.json} nevű fájl, melyet le kell tölteni, és a lokális projekt \emph{app} mappájába beilleszteni. A projekt szintű \emph{build.gradle} fájlba fel kell venni a Google Services Gradle plugint, mint függőséget, és ezt a modul szintű \emph{build.gradle} fájlban egy \emph{apply plugin} parancs felvételével alkalmazni kell. Végül pedig a használni kívánt Firebase szolgáltatásokat is fel kell venni függőségként az utóbbi fájlba, és egy gradle szinkronizálás után elérhetővé válnak az alkalmazásban.
@@ -168,7 +71,7 @@ A harmadik szolgáltatás az Analytics, mely rengeteg hasznos információt szol
 
 Az utolsó Firebase szolgáltatás, amit az alkalmazásban felhasználtam, a Crashlytics. Az előzőektől ellentétben az első bekezdésben leírtakon kívül ennél még szükség van további integrációs lépésekre is a működéshez. Van ugyanis egy saját pluginja, amit a fentiekkel megegyező módon fel kell venni mindkét gradle fájlba. Ezt követően szükség van egy teszt crash előidézésére, majd az alkalmazás újraindítására, hogy az elküldhesse a hibajelentést a Crashlyticsnek. Ezt követően viszont nincs már szükség semmi másra, a kódba sem szükséges semmit felvenni, mert automatikusan figyeli az alkalmazást. Természetesen számos lehetőségünk van finomhangolni a működését egyéni kulcsok hozzáadásával, de akár a nem-végzetes hibák figyelésével is.
 
-\subsection{Képfeldolgozás integrációja}
+\section{Képfeldolgozás integrációja}
 Az alkalmazás fő funkciója a kézírás-digitalizálás, amit a Google Cloud Vision API végez. Ennek az ökoszisztémája nagyon hasonló a Firebase-hez, annyi különbséggel, hogy itt a Google Cloud Console\footnote{\url{https://console.cloud.google.com/}}-ban kell létrehozni a projektet. Ezt a kettőt akár össze is lehetne kötni, lévén Google rendszer mindkettő, de akkor a Firebase szolgáltatások is átkerülnek ingyenesről egy úgynevezett \emph{pay as you go}\footnote{A pay as you go olyan fizetési opció, mely során egy bizonyos kvóta alatt ingyenesen használhatók a szolgáltatások, afölött pedig annyit kell fizetni, amennyit használjuk.} plan-re. Én pedig szerettem volna minimalizálni az esetleges költségeket, így elvetettem ezt a lehetőséget.
 	
 Miután ez kész, célszerű a számlázás bekapcsolásával és egy \emph{billing account} létrehozásával kezdeni, mert bár mindent be lehet állítani enélkül is, addig nem fog működni az alkalmazásban az API, ameddig ez nincs rendben.
@@ -191,7 +94,7 @@ A következő lépés a kívánt API bekapcsolása, ugyanis itt is minden alapé
 
 A képfeldolgozás megvalósítása a következő: a fotózás befejezésével a kép egy Bitmap objektumként érkezik meg az interactorhoz, ahol a hívás háttérszálra kerül. Ezáltal már biztonságosan lehet hosszabb műveleteket végezni, így itt végzem el kép base64 kódolását, mely során egy Vision API által biztosított Image típusú objektumot állítok elő. A további hívások már ezt az objektumot kapják paraméterként, így a DataSource-on keresztül a \emph{VisionApi} osztályhoz jut. Ez végzi a további előkészítési folyamatot, küldi el detektálásra a képet, és az eredményt a megfelelő formában adja vissza. Mindez meglehetősen egyszerűen megoldható az API saját objektumainak használatával. Itt először megadom az API kulcsot, majd specifikálom a kívánt detektálási módot. Ez azért fontos, mert az API a kézírás-felismerésen kívül számtalan másra is képes, így nekem kell kiválasztanom, hogy pontosan mit szeretnék elvégeztetni. Ezután a képből és a választott funkcióból egy \emph{BatchAnnotateImageRequest} objektumot készítek (ami jelenleg egyetlen képet tartalmaz, de van lehetőség egyszerre több kép feldolgozására is), és az \emph{annotate} függvény segítségével megkapom ennek az annotációját. A teljes szöveget az eredmény \emph{fullTextAnnotation} tagváltozója tartalmazza.
 
-\subsection{Adatmodellek elkészítése}
+\section{Adatmodellek elkészítése}
 Az alkalmazásban szükség volt olyan osztályokra, melyek az adatbázisból visszakapott adatokat fogják össze, és szállítják a rétegek között. Ezeket hívják adatmodellnek, és a megvalósítás során négy darabot készítettem. Ebből három a \emph{domain.models} package-ben található, ezek egyben a megjelenítési modellek is, egy pedig a \emph{data.models} package-be tartozik, ugyanis hálózati hívások eredményét reprezentálja.
 
 Ez utóbbi a Result nevű osztály, és tulajdonképpen a visszakapott adatokat vagy hibaüzenetet csomagolja be a könnyebb hibakezelés érdekében. Egy sablonosztályról\footnote{Olyan osztály, mely template paramétereket használ, ezáltal tetszőleges adattípussal használható.} van szó, mely két belső \emph{data class}-t tartalmaz: egy Success, illetve egy Failure nevűt. A Success a sikeres hívások eredményét tárolja egyetlen \emph{data} nevű paraméterében, mely tetszőleges adattípust felvehet, a Failure pedig a sikertelen hívások hibaüzenetét továbbítja. Emellett \emph{companion object}\footnote{Kotlinban a companion object tartalmazza tulajdonképpen azokat az adattagokat és függvényeket, amelyeket Javaban statikusnak hívtunk. Ezek osztályszintűek, ami annyit jelent, hogy nincs szükség az osztály példányosítására ahhoz, hogy elérjük őket.}-ben tartalmaz egy-egy függvényt, melyekkel a két állapot valamelyikét lehet inicializálni. A FirebaseApi összes függvényét úgy implementáltam, hogy valamilyen Result típust adjon vissza, így a fentebbi rétegekben minden esetet könnyedén le lehet kezelni.
@@ -200,7 +103,7 @@ A domain modellek közül az első és legalapvetőbb a ListItem osztály. Ő eg
 
 Ennek leszármazottai a Note illetve a Category nevet kapták. Ők az alkalmazásban tárolt és megjelenített jegyzeteket, illetve kategóriákat reprezentálják. Ősükhöz képest egy-egy adattaggal bővültek, a Note \emph{content} adattagja a jegyzetek szövegét tárolja, míg a Category \emph{listItems} listájában a tartalmazott objektumai találhatók. Ez utóbbi nincs eltárolva az adatbázisban, hiszen könnyedén előállítható az adatok lekérdezése után a \emph{parentId} adattagok alapján.
 
-\subsection{Egyedi FloatingActionButton}
+\section{Egyedi FloatingActionButton}
 Az új adatok fevételéhez szükség volt valamilyen gombra, aminek a megnyomásával a felhasználó a megfelelő oldalra navigálhat. Mivel ez egy elég fontos funkció, így célszerű kitüntetett helyre tenni az alkalmazásban, ahol a felhasználók azonnal láthatják. Az ilyen típusú gombok megvalósítására készült el a Material Components könyvtár FloatingActionButton névre keresztelt komponense. Ez egy általában a jobb alsó sarokban elhelyezkedő, tartalom felett megjelenő gomb, mely görgetéstől függetlenül a képernyőn marad, így biztosítva a folyamatos elérhetőséget.
 
 Azonban funkcionalitás szempontjából a kategóriák és a jegyzetek létrehozásához nekem két ilyen gombra lett volna szükségem, ami viszont szembemegy a Material Design alapelveivel. Ezért döntöttem úgy, hogy ezt felhasználva megalkotom a gombot amire szükségem van (\refstruc{fig:FloatingActionButton}).
@@ -228,7 +131,7 @@ Ezután következtek az animációk, melyeket Androidon szintén erőforrásfáj
 
 Ami a legérdekesebb, hogy a pivotX és pivotY tulajdonságokkal meghatározhatjuk, hogy az adott elem forgatásakor a középpont hol legyen. Így egészen komplex animációk is létrehozhatók, habár nekem most csak egy egyszerű középpont körüli forgatás kellett.
 
-\subsection{Egyedi legördülő menü}
+\section{Egyedi legördülő menü}
 Létrehozás és módosítás során lehetőséget ad az alkalmazás kiválasztani egy kategóriát, melybe az objektumot tenni szeretnénk. Ennek megvalósítására a legördülő menüt találtam legalkalmasabbnak, melyet Androidon a \emph{Spinner} nevet kapta. Ezt a komponenst egy ArrayAdapter segítségével töltöm fel, mely a neki odaadott kollekció minden elemére visszaad egy, a létrehozásakor megadott layout-ot, ami itt most egy alapértelmezett \emph{simple\_spinner\_dropdown\_item}. Ez remekül biztosítja a számomra szükséges funkciót, csak épp nem túl esztétikus, és semmiképp sem illik a Material elemek közé. Ennek a megoldására két lehetőségem volt: a Material könyvtár részeként érkező TextField használata, vagy saját magam próbálok egy hasonló kinézetet elérni a Spinner testreszabásával. Az előbbi megoldás nagyon jól passzolt volna az alkalmazásba, de az egész logikát a Spinner-re építve írtam meg, és sajnos a TextField használata ettől teljesen eltér, úgyhogy mindent át kellett volna írnom. Ezért az utóbbi opciónál döntöttem.
 
 Ehhez kettő XML fájlt hoztam létre a \emph{res/drawable} mappában, egyet az inaktív, csukott állapot, és egyet a kinyitott állapot hátterének. Itt a \emph{shape} XML-attribútum segítségével tudunk különféle alakzatokat kirajzolni, alapértelmezettként pedig téglalapot rajzol. Nekem pont erre volt szükségem, így csak egy kicsit testre kellett szabni. Az inaktív háttér keretének adtam lekerekített sarkokat, paddinget és vonalvastagságot, emellett a színét beállítottam a Material TextField inaktív színére, hogy a lehető legjobban egyezzen a többi elem megjelenésével. A lenyitott háttér ettől annyiban különbözik, hogy a keret színe az alkalmazás fő színét kapta meg, dupla olyan vastag lett, és az egész kapott egy fehér kitöltést, hogy eltakarja a mögötte lévő elemeket. 
@@ -243,7 +146,7 @@ Ezekkel pedig úgy tudtam felülírni a Spinner eredeti kinézetét, hogy az XML
 	\label{fig:CustomSpinner}
 \end{figure}
 
-\subsection{Képernyők felépítése}
+\section{Képernyők felépítése}
 Habár a legtöbb felület elrendezése és funkciója eltérő, a felszín alatt hasonlóképpen működnek. Az alkalmazás a \emph{single activity}\footnote{Évekkel ezelőtt Android fejlesztés során az Activity szinonimája volt a képernyőnek, azaz minden megjelenő felülethez egy-egy Activity tartozott. Ám később a Fragmentek megjelenésével ez megváltozott, és most már a legelterjedtebb módszer a single activity alkalmazások fejlesztése, ahol egyetlen Activityből áll a program, és abban cserélődnek a Fragmentek.} struktúrát követi, így minden képernyő egy Fragment, melyhez a RainbowCake követelményei szerint tartozik saját ViewState és ViewModel. 
 
 Egy ViewState itt nézettől függően három vagy négy állapotot tartalmaz. Mindegyik rendelkezik egy \emph{Loading} és egy \emph{Error} állapottal, melyek nevükhöz hűen a töltést, illetve valamilyen hibát jeleznek. Ezen kívül általában egy harmadik állapot jelzi az adatok helyes megérkezését, amikor a töltés befejeződött és megjeleníthető a UI, illetve a részletező nézetek logikája tér el ettől egy kicsit, mert ott a \emph{Viewing} és az \emph{Editing} állapotokkal lehet váltani az olvasási és az írási nézet között. 
@@ -261,7 +164,7 @@ A Fragment kezel mindent, ami a látható felhasználói felülettel kapcsolatos
 
 A ViewModel fentebb említett \emph{load} függvényét a Fragment az \emph{onStart} életciklus-függvényben hívja meg, mely minden alkalommal lefut, amikor a nézet láthatóvá válik. Azért ide tettem a hívást, mert az adatok frissítésére nem csak az első alkalommal van szükség, amikor megjelenik a Fragment, hanem minden módosítás után is, és erre ezt a megoldást láttam a legcélszerűbbnek. Az adatok frissítése után változni fog a képernyő állapota, melyet a \emph{render} függvényben tudunk lekezelni. Erre egy példa már szerepelt korábban az architektúra leírásánál, a \refstruc{fig:ViewFlipperUsage} bemutatásában.
 
-\subsection{Kategorizált listanézet}
+\section{Kategorizált listanézet}
 Az alkalmazás elindításakor megjelenő egymásba ágyazott lista a legbonyolultabb képernyő a projektben. Szükség volt hozzá egy RecyclerView-ra, mellyel egy listát jeleníthetünk meg a képernyőn, illetve a Groupie könyvtárra, amit már korábban bemutattam, de most az implementációs részleteibe fogok belemenni. 
 
 Ahogy az a működésnél a képernyőképeken látszott (\refstruc{fig:NoteListScreen}), a kétféle listanézet között egy BottomNavigationView segítségével válthatunk. Az aktuálisan kiválasztott elem követésére létrehoztam egy SelectedNavItem nevű enumerációt, mely egy \emph{NOTES} és egy \emph{CATEGORIES} értéket tartalmaz. Ezáltal olvashatóan lehet kezelni a váltásokat, mindig egyértelmű lesz, hogy épp melyik képernyő van megjelenítve.
@@ -291,7 +194,7 @@ Ahogy látható, az adatok hierarchikus listáján megy végig, és a hierarchi�
 
 Így a listakezelés a Fragmentben már rendkívül egyszerűvé válik, mert a NoteListAdaptert a RecyclerView adaptereként beállítva elég csak egy \emph{showList}-et hívni bárhol, ahol meg kell változtatni a megjelenített lista tartalmát. 
 
-\subsection{Egyszerű listanézet}
+\section{Egyszerű listanézet}
 Az egyszerű lista azt a nézetet jelenti, ami a BottomNavigationView \emph{Notes} elemére kattintva jelenik meg. Ez gyakorlatilag ugyanaz a képernyő, mint a komplex listáé, csupán a RecyclerView-ban lecserélődnek az elemek szimpla jegyzetekre. Emellett két funkció válik elérhetővé a listán, ami eddig el volt rejtve: a keresés és a rendezés. 
 
 A keresésre kényelmes megoldást ad az androidx könyvtár SearchView komponense, mely egy előre elkészített, kattintható és gépelhető keresési nézet. Ám a működéséhez először még meg kell valósítani a \emph{SearchView.OnQueryTextListener} interfészt. Ez két felüldefiniálandó függvényt tartalmaz, melyekkel a keresés viselkedését lehet finomhangolni. 
@@ -323,7 +226,7 @@ A harmadik pedig egy DialogInterface.OnClickListener objektum, melyet esetünkbe
 
 Ezután már csak annyi a teendő, hogy a Fragmentben, amiben kíváncsiak vagyunk a dialógus eredményére, fel kell iratkozni rá. Ezt a \emph{parentFragmentManager.setFragmentResultListener} függvénnyel tudjuk megtenni, aminek paraméterként meg kell adni azt a kulcsot, amilyen adatra kíváncsiak vagyunk. Ez a fenti képen a \emph{setFragmentResult} paramétere, melynek a SortOption nevet adtam. A kiválasztott rendezési módszer kinyerése után pedig a ViewModel által rendezett listát odaadjuk az adapternek megjelenítésre. 
 
-\subsection{Navigáció}
+\section{Navigáció}
 A felhasznált könyvtáraknál már említésre került a Navigation Component, de itt most részletesen kifejtem a projektben betöltött szerepét. 
 
 A megvalósítást azzal kezdtem, hogy felvettem a \emph{build.gradle} fájlba a könyvtárat függőségként. Ezután a MainActivity layout erőforrásába felvettem egy FragmentContainerView-t, és beállítottam, hogy ez töltse be az alapértelmezett NavHost szerepét. 
@@ -345,7 +248,7 @@ Emellett még tartalmaz olyan könnyítést, hogy létre lehet hozni egy "vissza
 
 Ha a gráfon már szerepel minden, amire szükségünk van, akkor az egyetlen hátralévő dolog a kódból való használata. Ehhez először szükségünk lesz a NavController-re, amit a fragmentekből a \emph{findNavController} függvényhívással kaphatunk meg. Ezután kelleni fog az elvégezni kívánt akció. A SafeArgs-nak köszönhetően minden fragmenthez generálódik egy \emph{Directions} utótaggal ellátott osztály, mely tartalmazza a belőle kiinduló navigációs útvonalakat, olyan néven, amilyen id-t adtunk neki a gráfban. Így például a NoteListFragmentből kijelentkezni a \emph{NoteListFragmentDirections.logoutAction} felhasználásával tudunk. Így már nincs más hátra, mint a NavController \emph{navigate} függvényének paraméterként odaadni az akciót.
 
-\subsection{Tesztelés}
+\section{Tesztelés}
 Az alkalmazás fejlesztése során kétféle módon is ellenőriztem a helyes működést. Az első a manuális tesztelés, mely során mind emulátorban, mind fizikai készüléken végigmentem a funkciókon.
 
 Fejlesztés közben számomra elengedhetetlen volt a manuális tesztelés, hiszen meglehetősen gyors visszajelzést ad a kódról, hogy megjelenik-e az új funkció, az elvárt módon jelenik-e meg és megfelelően működik-e. 
