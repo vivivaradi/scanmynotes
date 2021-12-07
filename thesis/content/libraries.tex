@@ -18,8 +18,6 @@ Az API kézírás-felismerő képességének megvannak a korlátai, amik kevésb
 
 A Firebase szintén a Google terméke fejlesztők számára, mely megkönnyíti és felgyorsítja a fejlesztési folyamatokat azáltal, hogy egy teljes backend-infrastruktúrát biztosít. Így a fejlesztőnek elég csak ezeket a szolgáltatásokat integrálnia az alkalmazásába ahelyett, hogy azt is külön írnia kellene. Lehetőséget kínál felhasználó-kezelésre, adattárolásra, teljesítményfigyelésre, biztosít analitikát, crash-elemzést és még sok mást.
 
-%TODO kicsit se-füle se farka mondatok
-
 Alább találhatók azon Firebase-szolgáltatások, melyeket felhasználtam az applikáció fejlesztése során; most ezekre fogok kicsit bővebben kitérni.
 
 \subsection{Cloud Firestore}
@@ -115,27 +113,30 @@ Az alábbi két képen látható a minőségbeli különbség a Material haszná
 	\label{fig:MaterialBeforeAfter}
 \end{figure}
 
+\section{Jetpack Navigation Component}
+
+A Navigation Component a Google megoldása a képernyők közti navigáció megvalósítására. Jetpack fantázianévvel látták el azokat a komponenseket és megoldásokat, melyekkel hosszú távon terveznek dolgozni, így mindenképp szerettem volna megismerkedni a használatával, mert később is hasznos lehet ez a tudás. 
+
+Itt három dologra van szükség a navigáció megvalósításához: egy navigációs gráfra, egy NavHost fragmentre és egy NavController-re. A gráf tartalmaz minden ehhez kapcsolódó információt, ami magába foglalja a lehetséges célképernyőket és ezek közti útvonalakat. A NavHost egy üres konténer, mely megjeleníti az éppen aktuális képernyőt, amire a felhasználó navigált. Ennek alapértelmezett implementációja a NavHostFragment, melyben a fragmenteket tudjuk megjeleníteni. A NavController pedig összeköti a kettőt, irányítja a NavHost-on belüli navigációt és ő felelős a tartalom kicseréléséért amikor a felhasználó új oldalra lép. 
+
+A könyvtár sok kényelmi funkciót tartalmaz, többek között a SafeArgs plugin segítségével típusbiztossá tehetjük a navigációkor átadott argumentumokat. \cite{Navigation}
+
 \section{JUnit 4}
 
-Egy applikáció tesztelésének számos aspektusa van, és egyedül ezen aspektusok összessége tudja maximálisan biztosítani a helyes működést. A unit teszteken\footnote{A unit tesztek célja, hogy a program különböző részeit izoláljuk egymástól, és más osztályoktól, moduloktól függetlenül validáljuk a működésüket.} kívül még integrációs\footnote{Az integrációs tesztek során a szoftver különböző moduljait együtt egy csoportként teszteljük, hogy a közös működés helyességét ellenőrizzük.\cite{IntegrationTest}}, end-to-end\footnote{End-to-end tesztelésnél teljes folyamatokat ellenőrzünk az elejétől a végéig, mint például egy bejelentkezés vagy egy online vásárlás.\cite{EndtoEndTest}} és UI tesztekre\footnote{A UI tesztek során a felhasználói input helyes kezelésén és a felület megfelelő elrendezésén kívül azt is ellenőrizni kell, hogy a felhasználó számára kellőképpen intuitív és könnyen kezelhető-e az alkalmazás.\cite{UITest}} is szükség lehet.
+Egy applikáció tesztelésének számos aspektusa van, és egyedül ezen aspektusok összessége tudja maximálisan biztosítani a helyes működést. A következő pár mondatban összefoglalom a tesztek legfőbb típusait, majd kitérek arra, amit én is alkalmaztam a projektben.
 
-%TODO én nem lábjegyzetbe raknám a tesztelés típusait, hanem egy bekezdésben végigmennék rajta, hogy mik léteznek és ebből mit használsz
+ A unit tesztek célja, hogy a program különböző részeit izoláljuk egymástól, és más osztályoktól, moduloktól függetlenül validáljuk a működésüket. Az integrációs tesztek során a szoftver különböző moduljait együtt egy csoportként teszteljük, hogy a közös működés helyességét ellenőrizzük.\cite{IntegrationTest} End-to-end tesztelésnél teljes folyamatokat ellenőrzünk az elejétől a végéig, mint például egy bejelentkezés vagy egy online vásárlás.\cite{EndtoEndTest} A UI tesztek során pedig a felhasználói input helyes kezelésén és a felület megfelelő elrendezésén kívül azt is ellenőrizni kell, hogy a felhasználó számára kellőképpen intuitív és könnyen kezelhető-e az alkalmazás.\cite{UITest}
 
-A fejlesztés során elsősorban a unit tesztekre koncentráltam, mert egy alkalmazás tesztelésének ez az első lépése. Kétféle módja van: manuális illetve automatizált tesztvégrehajtás. Ez utóbbiban könnyíti meg a dolgunkat a JUnit, mely egy Java nyelvhez készült, nyílt forráskódú tesztkeretrendszer. Mivel a Java és a Kotlin teljesen átjárható, így ez tökéletes Android teszteléshez is. Segítségével teszteseteket definiálhatunk, melyeket aztán lefuttathatunk bármikor, így például refaktorálás vagy új funkció bevezetése során megbizonyosodhatunk róla, hogy a változtatások nem törtek el semmit a kódbázisban.
-
-%TODO az unit teszt nem az első lépése a tesztelésnek, hanem a legkisebb, legelemibb módja. a tesztelésre fordított idő alapján sok helyen egy end-to-end-szerű smoke-tesztet írnak először, ami ha nem megy át, akkor nagy baj van, de amíg nagy változtatások várhatóak, addig nem kell minden kódsor után átírni az összes unitot
-%TODO a unit teszteknek nem igazán szokott lenni manuális módja - tippre arra gondoltál, hogy a tesztelésnek van két módja?
-%TODO kevésbé vagyok ma fáradt, úgyhogy lehet hoszabban fogok írni mindenhova ;)
+A fejlesztés során elsősorban a unit tesztekre koncentráltam, mert egy alkalmazás tesztelésének ez a legelemibb lépése. Ebben könnyíti meg a dolgunkat a JUnit, mely egy Java nyelvhez készült, nyílt forráskódú tesztkeretrendszer. Mivel a Java és a Kotlin teljesen átjárható, így ez tökéletes Android teszteléshez is. Segítségével tesztosztályokat, azon belül pedig teszteseteket definiálhatunk, melyeket aztán lefuttathatunk bármikor, így például refaktorálás vagy új funkció bevezetése során megbizonyosodhatunk róla, hogy a változtatások nem törtek el semmit a kódbázisban. Általában minden projektbeli osztályhoz egy külön tesztosztályt hozunk létre, a különböző funkciókat egy-egy tesztfüggvénybe szétválasztva, hogy ne függjenek egymástól.
 
 A keretrendszer annotáció alapú, ami annyit jelent, hogy a megfelelő kódrészletek megjelölésével jelezhetjük, hogy milyen funkciót tölt be. Az elérhető legfontosabb annotációk a következők:
 \begin{itemize}
 	\item \emph{@Test(timeout):} Az ezzel megjelölt függvények a tesztesetek, külön-külön végrehajthatók lesznek. A zárójelben található opcionális \emph{timeout} tulajdonság megadásával lekorlátozhatjuk a futás idejét, így ha a teszteset túllépi a megadott időt, akkor a teszt sikertelen lesz.
-	\item \emph{@Before:} Megjelöli a függvényt, mely minden teszteset előtt le fog futni, egyfajta előkészítésként.
+	\item \emph{@Before:} Megjelöli a függvényt, mely a tesztosztályban minden teszteset előtt le fog futni, egyfajta előkészítésként.
 	\item \emph{@BeforeClass:} Hasonló, mint a \emph{Before}, de csak egyszer fut le, az összes teszt végrehajtása előtt.
-	\item \emph{@After:} A jelölt függvényt a keretrendszer minden egyes teszteset lefutása után meg fogja hívni.
+	\item \emph{@After:} A tesztosztály jelölt függvényét a keretrendszer minden egyes teszteset lefutása után meg fogja hívni.
 	\item \emph{@AfterClass:} A \emph{BeforeClass}-hoz hasonlóan működik, csak az összes teszt lefutása után hívódik meg egyszer.
 \end{itemize}
-%TODO nekem olvasás közben nem volt egyértelmű, hogy a before / after / beforeclass /afterclass annotációk csak az adott fájlra (teszt-osztályra) vonatkoznak.
 
 Ezeken kívül a keretrendszer még biztosít egy \emph{Assert} nevű osztályt, mely számos függvényt tartalmaz az eredmények ellenőrzésére. Ezek közül a legtöbbet használt az \emph{assertEquals}, melynek paraméterként kell megadni az elvárt és a kapott eredményt, ő pedig összehasonlítja, és eltérés esetén meghiúsítja a tesztesetet. \cite{JUnit}
 
@@ -145,5 +146,5 @@ A unit tesztelés során követelmény, hogy az alkalmazás többi részétől t
 
 A Mockito ezt a folyamatot hivatott könnyebbé tenni. A \emph{@Mock} annotációval tudjuk megjelölni azokat a változókat, melyeket helyettesíteni szeretnénk, majd a \emph{MockitoAnnotations.openMocks} függvényt kell meghívni, hogy a keretrendszer ezeket legenerálja. Ezután a teszteseteinkben ellenőrizhetjük az interakciókat illetve a mockolt objektumok hívásait úgynevezett \emph{stub} metódushívásokkal helyettesíthetjük. Erre szolgál a \emph{when().thenReturn()} függvénypáros, ahol a \emph{when} paramétere a metódushívás, a \emph{thenReturn} paramétere pedig az eredmény, amit a mock objektum visszaad az adott hívás során az eredeti futás eredménye helyett.
 
-Ezáltal a tesztjeink determinisztikussá válnak, mivel nem fognak függni egy létező objektum állapotától, és mindig az általunk várt eredményt adják.
-%TODO ettől izoláltá válnak, ami segíti a determinisztikus viselkedést, de ettől még tartalmazhat race-condictiont vagy random működést, amitől nem-determinisztikus marad.
+Ezáltal a tesztjeink izolálttá válnak, mivel nem fognak függni egy létező objektum állapotától, és ténylegesen egy egységként tudjuk őket kezelni.
+

@@ -42,11 +42,15 @@ Függőségnek nevezzük azt, amikor egy osztálynak szüksége van egy másik o
 Függőséginjektálásról akkor beszélünk, hogyha a fent leírt módszer helyett az osztály a függőségeit paraméterként kapja, például a konstruktorban. Ezáltal az említett problémák megszűnnek, az osztályunk újrafelhasználható lesz, és könnyedén tesztelni is tudjuk, ha valós függőség helyett egy mock objektumot adunk neki. 
 
 A DI megvalósítására két opció létezik: manuális, illetve automatizált. Az előbbi kisebb alkalmazásoknál megoldható lehet, ha csak pár osztály létezik kevés függőséggel, de nagyon hamar kezelhetetlenné válik az alkalmazás növekedésével. Erre nyújtanak megoldást a különböző könyvtárak, melyek megfelelő beállítások mellett automatikusan elvégzik a függőségek létrehozását és biztosítását. 
-Egy ilyen könyvtár a Dagger 2, mely az egyik legnépszerűbb ezen a téren. A RainbowCake beépítetten támogatja a használatát, csak a megfelelő függőségeket kell felvenni a projektbe. Ezt követően még pár beállítást el kell végeznünk a projekten, majd az injektálni kívánt konstruktorokat \emph{@Inject} annotációval megjelölni, a többit pedig elvégzi helyettünk.
+Egy ilyen könyvtár a Dagger 2, mely az egyik legnépszerűbb ezen a téren. A RainbowCake beépítetten támogatja a használatát, csak fel kell venni a projekt függőségeként. Ezt követően a megfelelő működéshez még szükség van pár osztály megvalósítására. 
 
-%TODO a "pár beállítást" szerintem nyugodtan fejts ki
-%TODO nem konstruktort akarunk injektálni, hanem a konstruktorban átadaott paramétereket injektáljuk. szóval egy picit átfogalmazás kellene ide
-%TODO a többiet elvégzi helyettünk kicsit flegma, ha ki tudnád fejteni, hogy mit tud megoldani, vagy milyen esetekre használtad, jól jönne
+Az első az Application, mely a projektben a ScanMyNotesApplication nevet kapta. Neki annyi a feladata, hogy leszármazzon a RainbowCakeApplication-ből, és felülírja az \emph{injector} property-t a konkrét Dagger komponenssel, jelen esetben a DaggerAppComponent-tel. Ezzel kapcsolatosan még annyi feladat van, hogy a projekt manifest fájljában az \emph{android:name} attribútumot átírjuk az itt megadott Application nevére.
+
+A következő a ViewModelModule, melyre azért van szükség, hogy az injektálási mechanizmus ismerje a ViewModeleket. Ebben minden, az alkalmazásban szereplő ViewModelt fel kell sorolni és a megfelelő annotációkkal ellátni. Tulajdonképpen ugyanez a szerepe a NetworkModule-nak is, csak ő az API-kat biztosítja, és annyi a különbség, hogy ezek a ViewModelekkel ellentétben Singletonok\footnote{Egyetlen példány létezhet belőlük.}. 
+
+A fentieken kívül még két beállítást kell elvégeznünk. Az egyik az ApplicationModule osztály létrehozása, mely egy darab Singleton kontextust biztosít az alkalmazás számára, a másik pedig az AppComponent interfész, melyben fel kell sorolni az összes modult, amire szükség lesz az applikációban. 
+
+Ez azért nem egy kétperces setup folyamat, de cserébe ezután csak annyit kell tennünk, hogy amelyik konstruktor paramétereit injektálni szeretnénk, azt megjelöljük egy \emph{@Inject} annotációval, és a Dagger biztosítani fogja az osztályunk számára azokat a függőségeket. 
 
 \subsection{View State}
 A RainbowCake állapotkezelése jelentősen megkönnyíti a UI különböző állapotainak nyomon követését, és az annak megfelelő nézet megjelenítését. Ha egy képernyőnek több egymástól független, elkülöníthető állapota van, akkor ezt nem érdemes egyetlen \emph{data class} tagváltozóiban tárolni, mert az inkonzisztens állapothoz vezethet.\cite{ViewState} 

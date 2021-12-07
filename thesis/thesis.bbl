@@ -123,6 +123,11 @@ Android Developers.
   \url{https://developer.android.com/guide/topics/permissions/overview},
   [2021-11-28].
 
+\bibitem{Navigation}
+Android Developers.
+\newblock \emph{Navigation}.
+\newblock \url{https://developer.android.com/guide/navigation/}, [2021-12-07].
+
 \bibitem{IntegrationTest}
 Adam Carpenter.
 \newblock \emph{What is Integration Testing?}

@@ -4,9 +4,7 @@
 
 Az Android egy nyílt forráskódú, Linux alapú operációs rendszer, mely először okostelefonokra készült, de mára már eszközök igen széles skáláján megtalálható a karóráktól kezdve a háztartási eszközökön át az autókig. A legtöbbet használt mobil operációs rendszer, piaci részesedése közel 73\%.\cite{ShareStat}
 
-Népszerűsége pedig nem véletlen; a legolcsóbbtól a legdrágábbig mindegyik szegmensben található Android készülék, így mindenki kiválaszthatja a számára legmegfelelőbbet. Hatalmas szabadságot ad a felhasználó kezébe, lecserélhetünk bármilyen alapértelmezett alkalmazást, sőt, akár az operációs rendszert is.
-
-%TODO Citrom szerint furán hangzik az "akár az operációs rendszert is" - lehet ki kéne fejteni, mire gondolsz, pl.: másik verziót felrakni? saját magadnak fordítrani?
+Népszerűsége pedig nem véletlen; a legolcsóbbtól a legdrágábbig mindegyik szegmensben található Android készülék, így mindenki kiválaszthatja a számára legmegfelelőbbet. Hatalmas szabadságot ad a felhasználó kezébe, lecserélhetünk bármilyen alapértelmezett alkalmazást, sőt, az operációs rendszert is le lehet váltani más verzióra, vagy akár egy teljesen más custom ROM\footnote{Egy custom ROM az Android egy nem hivatalos, módosított verziója, mely általában több testreszabási lehetőséget és szabad kezet ad a felhasználójának.}-ra.
 
 Ez a változatosság és szabadság fejlesztői szempontból kettős. Egyrészről gyakorlatilag lehetséges bármilyen alkalmazást írni, és a nyílt forráskód miatt bármikor bele lehet nézni a platform kódjába, hogy megértsük a viselkedését, másrészről viszont lehetetlenné teszi, hogy ellenőrizni tudjuk az alkalmazásunk működését minden létező készüléken.
 
@@ -43,9 +41,7 @@ A fejlesztők számára a legfontosabb elem a Java API keretrendszer. Ez tartalm
 \end{itemize}
 
 \subsection{Rendszeralkalmazások}
-A rendszer beépített alkalmazásokkal érkezik a leggyakoribb feladatok elvégzésére. Ilyen például az SMS-küldés, internet böngészés, telefonálás, naptár és így tovább. Ezek, ahogy a fenti bevezetőben is említettem, néhány kivételével teljesen lecserélhetők felhasználó által letöltött alkalmazásokra.
-
-%TODO az és így tovább-os mondat végére nem kell az és így tovább, mert azzal kezdted, hogy pár példát felsorolsz majd
+A rendszer beépített alkalmazásokkal érkezik a leggyakoribb feladatok elvégzésére. Ilyen például az SMS-küldés, internet böngészés, telefonálás, és a naptár. Ezek, ahogy a fenti bevezetőben is említettem, néhány kivételével teljesen lecserélhetők felhasználó által letöltött alkalmazásokra.
 
 Mindez nem csak a felhasználó számára lényeges - a fejlesztő is fel tudja használni. Például, ha a fejlesztő szeretne telefonhívást indítani a saját alkalmazásából, akkor nem kell ezt a funkcionalitást implementálnia, elég csak meghívnia a készüléken elérhető alapértelmezett alkalmazást, ami majd elvégzi ezt. \cite{PlatformGuide}
 
@@ -59,10 +55,8 @@ Az Android fejlesztés hivatalos eszköze az Android Studio, mely egy IntelliJ I
 	\item \emph{Egységes környezet:} Nem kell külön program más eszközökre való fejlesztéshez, akár telefonra, táblagépre vagy okosórára szeretnénk alkalmazást írni, mindet megtehetjük a Studioból.
 	\item \emph{Emulator:} Fejlesztésnél rendkívül praktikus, hogyha nem kell minden alkalommal fizikai készüléket keresni, ha futtatni szeretnénk a programunkat. Erre szolgál a beépített emulátor, amivel különböző virtuális készülékeken tesztelhetünk alkalmazásokat. Ez egy teljes operációs rendszert tár elénk, így nem csak az alkalmazásunkat tudjuk rajta megnézni, hanem a rendszeralkalmazások is mind elérhetők. Hívásindítást és -fogadást, SMS-eket, konfigurációváltozást vagy akár helyadat-változást is tudunk vele emulálni. Egyszerre több emulátorunk is lehet, ezeket az AVD Managerben tudjuk kezelni. Új létrehozásánál kiválaszthatjuk, hogy milyen készülékmodellt szeretnénk, melyik Android verzióval, és egyéb hardverbeállításokat is megadhatunk, például, hogy mennyi memóriát szeretnénk a készüléknek.
 	\item \emph{Verziókezelés:} Az IDE több verziókezelő rendszert is beépítetten támogat, így egy kényelmes felületen intézhetjük a változtatások követését.
-	\item \emph{Kódelemzési funkciók:} Ezek azok, amik igazán kényelmessé teszik az Android Studio használatát. Folyamatos segítséget nyújt a kódírásban, a kódkiegészítés jelentősen meggyorsítja a haladást. Jelzi, ha bármi elavult, így nem utólag kell megváltoztatni a kódot. Ami viszont számomra a leghasznosabb funkció, az a nem használt kódrészletek jelzése. Mivel az IDE kiszürkíti azokat a változókat és függvényeket, amik egyszer sincsenek meghívva, így könnyű karbantartani, hogy ne maradjon a kódbázisban felesleges sor.
+	\item \emph{Kódelemzési funkciók:} Ezek azok, amik igazán kényelmessé teszik az Android Studio használatát. Folyamatos segítséget nyújt a kódírásban, a kódkiegészítés jelentősen meggyorsítja a haladást. Jelzi, ha bármi elavult, így nem utólag kell megváltoztatni a kódot. Az egyik leghasznosabb funkció pedig a nem használt kódrészletek jelzése. Mivel az IDE kiszürkíti azokat a változókat és függvényeket, amik egyszer sincsenek meghívva, így könnyű karbantartani, hogy ne maradjon a kódbázisban felesleges sor.
 \end{itemize}
-
-%TODO Kódelemzési funckióknál ha általános bemutatás volt eddig, akkor furán néz ki, hogy itt tele van személyes preferenciával
 
 \subsection{Projektstruktúra}
 Minden projekt egy vagy több modulból áll, és mindent tartalmaz a forráskódtól kezdve a tesztkódon át a build konfigurációkig. A modulok segítségével különálló funkcionalitási egységekre bontható az alkalmazás, melyeket egymástól függetlenül lehet buildelni, tesztelni és debugolni. \cite{ProjectStructure}
@@ -72,9 +66,6 @@ A fejlesztőkörnyezetet megnyitva a projektfájlok megjelenítése alapértelme
 
 Az első a \emph{manifests}, melyben az \emph{AndroidManifest.xml} fájl található. Ez fontos adatokat tartalmaz az alkalmazásról, melyekre szüksége van a build eszközöknek, az operációs rendszernek, és a Google Play-nek is. Fel kell sorolni benne többek között az összes komponensét, a futás során szükséges engedélyeket (pl.: fájlrendszer-hozzáférés, kamera), illetve a működéshez elengedhetetlen szoftveres és hardveres funkciókat. Utóbbit ellenőrzi is a Play Store, és csak olyan készülékekre engedi feltelepíteni az alkalmazást, melyek ennek megfelelnek. \cite{Manifest}
 
-A következő mappa általában \emph{java} névre hallgat, és ebben található a projekt összes forráskódja. A nevével ellentétben ma már legtöbbször Kotlin kódot tartalmaz, mivel egy-két éve már ez az Android fejlesztés hivatalos nyelve, de az elnevezés megmaradt azokból az időkből, amikor még mindenki Java-t használt.
-
-%TODO java név: Citrom elmagyarázza, de legyn ott az általában :)
-%TODO egy-két éve helyett legyen a hivatalos év, talán 19 vagy 18, google it
+A következő mappa általában \emph{java} névre hallgat, és ebben található a projekt összes forráskódja. A nevével ellentétben ma már legtöbbször Kotlin kódot tartalmaz, mivel 2019 óta ez az Android fejlesztés hivatalos, preferált nyelve, de az elnevezés megmaradt azokból az időkből, amikor még mindenki Java-t használt.
 
 Az utolsó mappa pedig a \emph{res}, melyben az erőforrásfájlok találhatók. Ezek általában XML fájlok, és az alkalmazásban felhasznált layoutokat, animációkat, stringeket írják le, de ide kerülnek például a képi erőforrások is.

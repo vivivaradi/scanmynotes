@@ -27,7 +27,6 @@
             app:destination="@+id/newNoteFragment"/>
         <action
             android:id="@+id/logoutAction"
-            app:destination="@+id/loginFragment"
             app:popUpTo="@id/noteListFragment"
             app:popUpToInclusive="true"/>
         <action
@@ -71,7 +70,6 @@
         android:label="NewCategoryFragment" >
         <action
             android:id="@+id/popAction"
-            app:destination="@id/noteListFragment"
             app:popUpTo="@id/newCategoryFragment"
             app:popUpToInclusive="true" />
     </fragment>

@@ -67,6 +67,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
+                    emptyFields()
                     findNavController().navigate(R.id.noteListFragment)
                 } else {
                     Toast.makeText(context, task.exception.toString(),
@@ -88,6 +89,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                     val method = getString(R.string.analytics_signup_method_text)
                     bundle.putString(FirebaseAnalytics.Param.METHOD, method)
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
+                    emptyFields()
                     findNavController().navigate(R.id.noteListFragment)
                 } else {
                     Toast.makeText(context, task.exception.toString(),
@@ -95,6 +97,12 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
                     Log.e(getString(R.string.error_tag), task.exception.toString())
                 }
             }
+    }
+
+    fun emptyFields() {
+        binding.email.setText("")
+        binding.password.setText("")
+
     }
 
     fun validateForm() = binding.email.validateEmailContent() && binding.password.validatePasswordContent()

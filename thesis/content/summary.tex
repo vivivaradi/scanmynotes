@@ -4,6 +4,27 @@
 
 %TODO
 
+\section{Tapasztalatok}
+
 \section{Értékelés}
 
+Az alkalmazás követelményei résznél 10 pontba szedtem az applikációval szemben támasztott elvárásokat, így most arra szeretnék kitérni pontonként, hogy ezeket mennyire sikerült megvalósítani.
+
+\begin{enumerate}
+	\item A felhasználói fiók létrehozására és bejelentkezésre létrejött egy képernyő, ahol egy e-mail címet és egy jelszót kell megadni. Magát az autentikációt a Firebase Authentication végzi. Belépés után a NoteList képernyő jobb felső sarkában található Logout gomb nyújt lehetőséget a kijelentkezésre.
+	\item Az adatok tárolását a Firebase Firestore végzi, és mivel ez egy felhőalapú szolgáltatás, így a felhasználó tetszőleges készüléken bejelentkezve eléri a saját adatait. 
+	\item A bejelentkezési oldalról addig nem lehet tovább navigálni, amíg nem lett sikeres az autentikáció. A saját adatok elérése pedig az adattárolás struktúrájából következik, ugyanis az adatbázisban minden felhasználó adata a saját azonosítójával elnevezett dokumentumban található, futás során pedig az auth modul csak a jelenleg bejelentkezett felhasználó id-ját ismeri, másét nem. 
+	\item 
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+\end{enumerate}
+
+Mindezt figyelembe véve én elégedett vagyok az elkészült alkalmazással, mert bár még elég alap funkcionalitással rendelkezik, de úgy gondolom, hogy a lehető legjobban figyeltem arra, hogy könnyen bővíthetővé tegyem. Van is nem kevés ötletem a potenciális fejlesztésekre, melyből néhányat a következő szekcióban ismertetek. 
+
 \section{Továbbfejlesztési lehetőségek}
+
+Természetesen az alkalmazás abszolút nem tökéletes, van még rengeteg opció a fejlődésre. Ezért úgy gondoltam, hogy lezárásképp megemlítek pár dolgot, amin lehetne javítani mind kódminőség, mind felhasználás szempontjából.

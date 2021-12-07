@@ -32,7 +32,7 @@ fun EditText.validateTextContent(): Boolean {
 }
 
 fun EditText.validateEmailContent(): Boolean {
-    if (text.toString().isEmpty() || !text.toString().contains('@') || !text.toString().contains('.')) {
+    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches()) {
         error = "Email has to be a valid email format!"
         return false
     }
