@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  7 DEC 2021 17:51
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  7 DEC 2021 19:32
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -661,26 +661,8 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 39.
 ) (thesis.aux (include/titlepage.aux)
 (include/declaration.aux) (content/abstract.aux) (content/introduction.aux)
 (content/platform.aux) (content/architecture.aux) (content/libraries.aux)
-(content/prerequisites.aux) (content/features.aux) (content/implementation.aux
-
-LaTeX Warning: Label `fig:NoteListScreen' multiply defined.
-
-
-LaTeX Warning: Label `fig:NoteListScreen2' multiply defined.
-
-
-LaTeX Warning: Label `fig:NewNoteScreen' multiply defined.
-
-
-LaTeX Warning: Label `fig:NoteDetailsScreen' multiply defined.
-
-
-LaTeX Warning: Label `fig:NewCategoryScreen' multiply defined.
-
-
-LaTeX Warning: Label `fig:CategoryDetailsScreen' multiply defined.
-
-) (content/summary.aux))
+(content/prerequisites.aux) (content/features.aux) (content/implementation.aux)
+(content/summary.aux))
 \openout1 = `thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
@@ -932,46 +914,43 @@ File: figures/login_screenshot_after.png Graphic file (type bmp)
 
  (content/features.tex
 6. fejezet.
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 5.
-
 File: figures/notelist_closed.png Graphic file (type bmp)
 <figures/notelist_closed.png>
 File: figures/notelist_open.png Graphic file (type bmp)
 <figures/notelist_open.png>
-File: figures/notelist_full.jpg Graphic file (type bmp)
-<figures/notelist_full.jpg>
-File: figures/notelist_search.jpg Graphic file (type bmp)
-<figures/notelist_search.jpg>
-File: figures/notelist_sort.jpg Graphic file (type bmp)
-<figures/notelist_sort.jpg>
 [21
 
 
 
 
 ]
+File: figures/notelist_full.jpg Graphic file (type bmp)
+<figures/notelist_full.jpg>
+File: figures/notelist_search.jpg Graphic file (type bmp)
+<figures/notelist_search.jpg>
+File: figures/notelist_sort.jpg Graphic file (type bmp)
+<figures/notelist_sort.jpg>
+ [22]
 File: figures/newnote_photo.jpg Graphic file (type bmp)
 <figures/newnote_photo.jpg>
 File: figures/newnote_create.jpg Graphic file (type bmp)
 <figures/newnote_create.jpg>
- [22]
+ [23]
 File: figures/note_view.png Graphic file (type bmp)
 <figures/note_view.png>
 File: figures/note_edit.png Graphic file (type bmp)
 <figures/note_edit.png>
- [23]
+ [24]
 File: figures/floatingbutton_open.png Graphic file (type bmp)
 <figures/floatingbutton_open.png>
 File: figures/category_save.png Graphic file (type bmp)
 <figures/category_save.png>
- [24]
+ [25]
 File: figures/category_view.png Graphic file (type bmp)
 <figures/category_view.png>
 File: figures/category_edit_error.png Graphic file (type bmp)
 <figures/category_edit_error.png>
-) [25] [26] [27]
+) [26] [27]
 \openout2 = `content/implementation.aux'.
 
  (content/implementation.tex
@@ -982,102 +961,70 @@ File: figures/category_edit_error.png Graphic file (type bmp)
 
 
 ]
-File: figures/notelist_closed.png Graphic file (type bmp)
-<figures/notelist_closed.png>
-File: figures/notelist_open.png Graphic file (type bmp)
-<figures/notelist_open.png>
-File: figures/notelist_full.jpg Graphic file (type bmp)
-<figures/notelist_full.jpg>
-File: figures/notelist_search.jpg Graphic file (type bmp)
-<figures/notelist_search.jpg>
-File: figures/notelist_sort.jpg Graphic file (type bmp)
-<figures/notelist_sort.jpg>
- [29]
-File: figures/newnote_photo.jpg Graphic file (type bmp)
-<figures/newnote_photo.jpg>
-File: figures/newnote_create.jpg Graphic file (type bmp)
-<figures/newnote_create.jpg>
- [30]
-File: figures/note_view.png Graphic file (type bmp)
-<figures/note_view.png>
-File: figures/note_edit.png Graphic file (type bmp)
-<figures/note_edit.png>
- [31]
-File: figures/floatingbutton_open.png Graphic file (type bmp)
-<figures/floatingbutton_open.png>
-File: figures/category_save.png Graphic file (type bmp)
-<figures/category_save.png>
- [32]
-File: figures/category_view.png Graphic file (type bmp)
-<figures/category_view.png>
-File: figures/category_edit_error.png Graphic file (type bmp)
-<figures/category_edit_error.png>
- [33] [34]
 File: figures/auth_users.png Graphic file (type bmp)
 <figures/auth_users.png>
- [35]
+ [29]
 File: figures/firestore.png Graphic file (type bmp)
 <figures/firestore.png>
 File: figures/firestore_query.png Graphic file (type bmp)
 <figures/firestore_query.png>
- [36]
+ [30]
 File: figures/analytics_custom.png Graphic file (type bmp)
 <figures/analytics_custom.png>
- [37]
+ [31]
 File: figures/gradle_apikey.png Graphic file (type bmp)
 <figures/gradle_apikey.png>
 File: figures/apikey_configfield.png Graphic file (type bmp)
 <figures/apikey_configfield.png>
- [38] [39]
+ [32]
 File: figures/floatingbutton_closed.png Graphic file (type bmp)
 <figures/floatingbutton_closed.png>
 File: figures/floatingbutton_open_small.png Graphic file (type bmp)
 <figures/floatingbutton_open_small.png>
 File: figures/animation_example.png Graphic file (type bmp)
 <figures/animation_example.png>
- [40]
+ [33] [34]
 File: figures/custom_spinner_closed.png Graphic file (type bmp)
 <figures/custom_spinner_closed.png>
 File: figures/custom_spinner_open.png Graphic file (type bmp)
 <figures/custom_spinner_open.png>
- [41]
+ [35]
 File: figures/viewflipper_object.png Graphic file (type bmp)
 <figures/viewflipper_object.png>
- [42]
-[43]
+ [36]
 File: figures/list_population.png Graphic file (type bmp)
 <figures/list_population.png>
- [44] [45]
+ [37] [38]
 File: figures/dialog_builder.png Graphic file (type bmp)
 <figures/dialog_builder.png>
 
-Underfull \hbox (badness 1424) in paragraph at lines 324--325
+Underfull \hbox (badness 1424) in paragraph at lines 227--228
 \TU/lmr/m/n/10.95 gyunk a dialógus eredményére, fel kell iratkozni rá. Ezt a \T
 U/lmr/m/it/10.95 parentFragmentMana-
  []
 
-
-Underfull \hbox (badness 6380) in paragraph at lines 329--330
+[39]
+Underfull \hbox (badness 6380) in paragraph at lines 232--233
 \TU/lmr/m/n/10.95 tárat függőségként. Ezután a MainActivity layout erőforrásába
  felvettem egy
  []
 
 File: figures/nav_graph.png Graphic file (type bmp)
 <figures/nav_graph.png>
-[46] [47] [48]
+[40] [41]
 File: figures/test_case.png Graphic file (type bmp)
 <figures/test_case.png>
-) [49]
+ [42]) [43]
 \openout2 = `content/summary.aux'.
 
  (content/summary.tex
 8. fejezet.
-) [50
+) [44
 
 
 
 
-] [51] (thesis.bbl
+] [45] (thesis.bbl
 Underfull \hbox (badness 1990) in paragraph at lines 8--14
 []\TU/lmr/m/n/10.95 S. O’Dea.  \TU/lmr/m/it/10.95 Mobile operating systems’ mar
 ket share worldwide from Janu-
@@ -1104,7 +1051,7 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 []
  []
 
-[52
+[46
 
 
 
@@ -1125,23 +1072,20 @@ amework for Java\TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][] []
 \tf@thm=\write5
 \openout5 = `thesis.thm'.
 
- [53] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
+ [47] (thesis.aux (include/titlepage.aux) (include/declaration.aux)
 (content/abstract.aux) (content/introduction.aux) (content/platform.aux)
 (content/architecture.aux) (content/libraries.aux) (content/prerequisites.aux)
 (content/features.aux) (content/implementation.aux) (content/summary.aux))
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 3A4FE7900396EE4DECB721430667E019;10595.
+(rerunfilecheck)             Checksum: 425C240927528018C8DFA82FB8EBE56E;9006.
  ) 
 Here is how much of TeX's memory you used:
- 17357 strings out of 411295
- 316305 string characters out of 2836941
- 726612 words of memory out of 3000000
- 37434 multiletter control sequences out of 15000+600000
+ 17354 strings out of 411295
+ 316261 string characters out of 2836941
+ 724936 words of memory out of 3000000
+ 37431 multiletter control sequences out of 15000+600000
  410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191
  78i,8n,84p,1338b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis.pdf (59 pages).
+Output written on thesis.pdf (53 pages).
