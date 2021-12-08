@@ -2,7 +2,7 @@
 \chapter{Összefoglalás}
 %--------------------
 
-%TODO
+%TODO intro
 
 \section{Tapasztalatok}
 
@@ -16,8 +16,8 @@ Az 5. fejezetben az alkalmazás követelményei résznél 10 pontba szedtem az a
 	\item A bejelentkezési oldalról addig nem lehet tovább navigálni, amíg nem lett sikeres az autentikáció. A saját adatok elérése pedig az adattárolás struktúrájából következik, ugyanis az adatbázisban minden felhasználó adata a saját azonosítójával elnevezett dokumentumban található, futás során pedig az auth modul csak a jelenleg bejelentkezett felhasználó id-ját ismeri, és ezt használja fel a megfelelő dokumentum lekéréséhez. 
 	\item A kategóriákkal szemben támasztott követelményeket sikerült maradéktalanul teljesíteni, van egy új kategória nézet, ahol nevet és szülőt lehet adni a kategóriának. A Category modell pedig biztosítja a tetszőleges mélységű egymásba ágyazást, ugyanis a \emph{listItems} adattagja további kategóriákat is tartalmazhat, melyek szintén tartalmazhatnak kategóriákat és így tovább. 
 	\item Egy fénykép készítése után - amennyiben volt rajta felismerhető szöveg - annak tartalmából jegyzet készíthető, a megjelenő létrehozás képernyőn címet adhatunk és kategóriát választhatunk neki, és a detektált szöveg is szerkeszthető mentés előtt. 
+	\item Az alkalmazás mindenhol végez validációt, ahol felhasználói szöveges inputot vár: a bejelentkezési adatokon e-mail cím formátumot és minimum karakterszámot ellenőriz, az objektumok létrehozásakor és szerkesztésekor pedig a cím, illetve tartalom ürességét figyeli. 
 	\item 
-	\item
 	\item
 	\item
 	\item
