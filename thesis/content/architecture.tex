@@ -1,5 +1,5 @@
 %------------------------------
-\chapter{Architektúra}
+\chapter{Megoldás architektúrájának bemutatása}
 %------------------------------
 
 A fejlesztés során elsődleges célom volt, hogy egy olyan architektúrára alapozzam az alkalmazást, mely megfelelően szétválasztja a felelősségeket, és ezáltal egy könnyen karbantartható, átlátható kódot alkossak. Először egyből az MVVM (Model - View - ViewModel) architektúrára gondoltam, mivel azt már korábban is használtam, és jó tapasztalataim voltak vele. A RainbowCake\cite{Rainbowcake} egy MVVM-re építő architektúra, melynek fő fókusza a felelősségek szétválasztása és a képernyő konzisztens állapotban tartása. Tekintve, hogy ez pontosan megegyezik a céljaimmal, így a kipróbálása mellett döntöttem.
@@ -11,7 +11,7 @@ Az architektúra rétegeit a \refstruc{fig:RainbowCakeLayers} szemlélteti.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=150mm, keepaspectratio]{figures/final-architecture.png}
-	\caption{A RainbowCake architektúra rétegei.}
+	\caption{A RainbowCake architektúra rétegei. \cite{Rainbowcake}}
 	\label{fig:RainbowCakeLayers}
 \end{figure}
 

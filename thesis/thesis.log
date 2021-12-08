@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  7 DEC 2021 19:32
+This is XeTeX, Version 3.141592653-2.6-0.999993 (MiKTeX 21.8) (preloaded format=xelatex 2021.11.3)  8 DEC 2021 01:04
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -891,15 +891,14 @@ File: figures/analytics_platform.png Graphic file (type bmp)
 <figures/analytics_platform.png>
 File: figures/analytics_countries.png Graphic file (type bmp)
 <figures/analytics_countries.png>
- [13]
 File: figures/crashlytics_crashfree.png Graphic file (type bmp)
 <figures/crashlytics_crashfree.png>
- [14] [15]
+ [13] [14] [15] [16]
 File: figures/login_screenshot_before.png Graphic file (type bmp)
 <figures/login_screenshot_before.png>
 File: figures/login_screenshot_after.png Graphic file (type bmp)
 <figures/login_screenshot_after.png>
- [16] [17] [18]) [19]
+ [17] [18]) [19]
 \openout2 = `content/prerequisites.aux'.
 
  (content/prerequisites.tex
@@ -924,17 +923,17 @@ File: figures/notelist_open.png Graphic file (type bmp)
 
 
 ]
-File: figures/notelist_full.jpg Graphic file (type bmp)
-<figures/notelist_full.jpg>
-File: figures/notelist_search.jpg Graphic file (type bmp)
-<figures/notelist_search.jpg>
-File: figures/notelist_sort.jpg Graphic file (type bmp)
-<figures/notelist_sort.jpg>
+File: figures/notelist_full.png Graphic file (type bmp)
+<figures/notelist_full.png>
+File: figures/notelist_search.png Graphic file (type bmp)
+<figures/notelist_search.png>
+File: figures/notelist_sort.png Graphic file (type bmp)
+<figures/notelist_sort.png>
  [22]
-File: figures/newnote_photo.jpg Graphic file (type bmp)
-<figures/newnote_photo.jpg>
-File: figures/newnote_create.jpg Graphic file (type bmp)
-<figures/newnote_create.jpg>
+File: figures/newnote_photo.png Graphic file (type bmp)
+<figures/newnote_photo.png>
+File: figures/newnote_create.png Graphic file (type bmp)
+<figures/newnote_create.png>
  [23]
 File: figures/note_view.png Graphic file (type bmp)
 <figures/note_view.png>
@@ -998,13 +997,13 @@ File: figures/list_population.png Graphic file (type bmp)
 File: figures/dialog_builder.png Graphic file (type bmp)
 <figures/dialog_builder.png>
 
-Underfull \hbox (badness 1424) in paragraph at lines 227--228
+Underfull \hbox (badness 1424) in paragraph at lines 225--226
 \TU/lmr/m/n/10.95 gyunk a dialógus eredményére, fel kell iratkozni rá. Ezt a \T
 U/lmr/m/it/10.95 parentFragmentMana-
  []
 
 [39]
-Underfull \hbox (badness 6380) in paragraph at lines 232--233
+Underfull \hbox (badness 6380) in paragraph at lines 230--231
 \TU/lmr/m/n/10.95 tárat függőségként. Ezután a MainActivity layout erőforrásába
  felvettem egy
  []
@@ -1019,12 +1018,12 @@ File: figures/test_case.png Graphic file (type bmp)
 
  (content/summary.tex
 8. fejezet.
-) [44
+[44
 
 
 
 
-] [45] (thesis.bbl
+]) [45] (thesis.bbl
 Underfull \hbox (badness 1990) in paragraph at lines 8--14
 []\TU/lmr/m/n/10.95 S. O’Dea.  \TU/lmr/m/it/10.95 Mobile operating systems’ mar
 ket share worldwide from Janu-
@@ -1038,14 +1037,14 @@ Underfull \hbox (badness 2970) in paragraph at lines 8--14
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--58
+Underfull \hbox (badness 10000) in paragraph at lines 55--60
 [] [] [][][][] [] [][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]$[
 ][]\TU/lmr/m/n/10.95 ,
  []
 
 
-Underfull \hbox (badness 4193) in paragraph at lines 60--64
+Underfull \hbox (badness 4193) in paragraph at lines 62--66
 []\TU/lmr/m/n/10.95 Márton Braun.  \TU/lmr/m/it/10.95 ViewFlipper documentation
 \TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][][][][][][][][][] [] [][][] 
 []
@@ -1056,14 +1055,14 @@ Underfull \hbox (badness 4193) in paragraph at lines 60--64
 
 
 ]
-Underfull \hbox (badness 2119) in paragraph at lines 127--130
+Underfull \hbox (badness 2119) in paragraph at lines 129--132
 []\TU/lmr/m/n/10.95 Android Developers.  \TU/lmr/m/it/10.95 Navigation\TU/lmr/m
 /n/10.95 .  [][]$[][][][][] [] [] [] [][][][][][][][][] [] [][][][][][][] [] []
 [][] [] [][][][][] []
  []
 
 
-Underfull \hbox (badness 1052) in paragraph at lines 151--154
+Underfull \hbox (badness 1052) in paragraph at lines 153--156
 []\TU/lmr/m/n/10.95 JavaTPoint.  \TU/lmr/m/it/10.95 JUnit Tutorial | Testing Fr
 amework for Java\TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][] []
  []
@@ -1077,12 +1076,12 @@ amework for Java\TU/lmr/m/n/10.95 .  [][]$[][][][][] [] [] [] [][][] []
 (content/architecture.aux) (content/libraries.aux) (content/prerequisites.aux)
 (content/features.aux) (content/implementation.aux) (content/summary.aux))
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 425C240927528018C8DFA82FB8EBE56E;9006.
+(rerunfilecheck)             Checksum: 203C263B458A1D655A5B6D5ACC6C1FF4;9295.
  ) 
 Here is how much of TeX's memory you used:
- 17354 strings out of 411295
- 316261 string characters out of 2836941
- 724936 words of memory out of 3000000
+ 17353 strings out of 411295
+ 316257 string characters out of 2836941
+ 726241 words of memory out of 3000000
  37431 multiletter control sequences out of 15000+600000
  410780 words of font info for 74 fonts, out of 8000000 for 9000
  1352 hyphenation exceptions out of 8191

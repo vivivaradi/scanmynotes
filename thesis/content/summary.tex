@@ -8,15 +8,15 @@
 
 \section{Értékelés}
 
-Az alkalmazás követelményei résznél 10 pontba szedtem az applikációval szemben támasztott elvárásokat, így most arra szeretnék kitérni pontonként, hogy ezeket mennyire sikerült megvalósítani.
+Az 5. fejezetben az alkalmazás követelményei résznél 10 pontba szedtem az applikációval szemben támasztott elvárásokat, így most arra szeretnék kitérni pontonként, hogy ezeket mennyire sikerült megvalósítani.
 
 \begin{enumerate}
-	\item A felhasználói fiók létrehozására és bejelentkezésre létrejött egy képernyő, ahol egy e-mail címet és egy jelszót kell megadni. Magát az autentikációt a Firebase Authentication végzi. Belépés után a NoteList képernyő jobb felső sarkában található Logout gomb nyújt lehetőséget a kijelentkezésre.
-	\item Az adatok tárolását a Firebase Firestore végzi, és mivel ez egy felhőalapú szolgáltatás, így a felhasználó tetszőleges készüléken bejelentkezve eléri a saját adatait. 
-	\item A bejelentkezési oldalról addig nem lehet tovább navigálni, amíg nem lett sikeres az autentikáció. A saját adatok elérése pedig az adattárolás struktúrájából következik, ugyanis az adatbázisban minden felhasználó adata a saját azonosítójával elnevezett dokumentumban található, futás során pedig az auth modul csak a jelenleg bejelentkezett felhasználó id-ját ismeri, másét nem. 
+	\item A felhasználói fiók létrehozására és a bejelentkezésre létrejött egy képernyő, ahol egy e-mail címet és egy jelszót kell megadni. Magát az autentikációt a Firebase Authentication végzi. Belépés után a NoteList képernyő jobb felső sarkában található Logout gomb nyújt lehetőséget a kijelentkezésre.
+	\item Az adatok tárolásáért a Firebase Firestore a felelős, és mivel ez egy felhőalapú szolgáltatás, így az bárhonnan, bármikor elérhető bejelentkezést követően. Nem kell tehát a felhasználónak azzal foglalkoznia, hogy biztonsági másolatot készítsen a jegyzeteiről arra az esetre, ha elromlana/eltűnne a telefonja, csupán annyit kell tennie, hogy egy másik készülékre letölti az applikációt és bejelentkezik.
+	\item A bejelentkezési oldalról addig nem lehet tovább navigálni, amíg nem lett sikeres az autentikáció. A saját adatok elérése pedig az adattárolás struktúrájából következik, ugyanis az adatbázisban minden felhasználó adata a saját azonosítójával elnevezett dokumentumban található, futás során pedig az auth modul csak a jelenleg bejelentkezett felhasználó id-ját ismeri, és ezt használja fel a megfelelő dokumentum lekéréséhez. 
+	\item A kategóriákkal szemben támasztott követelményeket sikerült maradéktalanul teljesíteni, van egy új kategória nézet, ahol nevet és szülőt lehet adni a kategóriának. A Category modell pedig biztosítja a tetszőleges mélységű egymásba ágyazást, ugyanis a \emph{listItems} adattagja további kategóriákat is tartalmazhat, melyek szintén tartalmazhatnak kategóriákat és így tovább. 
+	\item Egy fénykép készítése után - amennyiben volt rajta felismerhető szöveg - annak tartalmából jegyzet készíthető, a megjelenő létrehozás képernyőn címet adhatunk és kategóriát választhatunk neki, és a detektált szöveg is szerkeszthető mentés előtt. 
 	\item 
-	\item
-	\item
 	\item
 	\item
 	\item
@@ -27,4 +27,4 @@ Mindezt figyelembe véve én elégedett vagyok az elkészült alkalmazással, me
 
 \section{Továbbfejlesztési lehetőségek}
 
-Természetesen az alkalmazás abszolút nem tökéletes, van még rengeteg opció a fejlődésre. Ezért úgy gondoltam, hogy lezárásképp megemlítek pár dolgot, amin lehetne javítani mind kódminőség, mind felhasználás szempontjából.
+Egy alkalmazás fejlesztése soha nem ér véget abból a szempontból, hogy mindig lehet szebbé és jobbá alakítani. A félév végére egy egész komplex projekt alakult ki, de lezárásképp még megemlítek pár dolgot, amiben tovább lehetne fejleszteni.

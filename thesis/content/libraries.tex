@@ -2,7 +2,10 @@
 \chapter{Felhasznált könyvtárak}
 %--------------------
 %TODO spellcheck
-%TODO intro
+
+Egy alkalmazás fejlesztése során nem célszerű mindent saját magunknak megírni, hiszen a legtöbb algoritmusra vagy problémára már létezik megoldás. Az ilyen, készen a projektekbe integrálható megoldásokat hívjuk könyvtáraknak, melyek sokszor optimalizáltabbak és precízebbek, mint amit egymagunk írni tudnánk. Ilyenkor érdemes inkább ezeket felhasználni, hogy a tényleges funkciókra fordíthassuk a fejlesztési időt, és ne arra, ami már létezik.
+
+A projektben több ilyen könyvtárat is felhasználtam, így a következőkben ezeket fogom bemutatni.
 
 \section{Google Cloud Vision API}
 
@@ -18,7 +21,7 @@ Az API kézírás-felismerő képességének megvannak a korlátai, amik kevésb
 
 A Firebase szintén a Google terméke fejlesztők számára, mely megkönnyíti és felgyorsítja a fejlesztési folyamatokat azáltal, hogy egy teljes backend-infrastruktúrát biztosít. Így a fejlesztőnek elég csak ezeket a szolgáltatásokat integrálnia az alkalmazásába ahelyett, hogy azt is külön írnia kellene. Lehetőséget kínál felhasználó-kezelésre, adattárolásra, teljesítményfigyelésre, biztosít analitikát, crash-elemzést és még sok mást.
 
-Alább találhatók azon Firebase-szolgáltatások, melyeket felhasználtam az applikáció fejlesztése során; most ezekre fogok kicsit bővebben kitérni.
+Alább találhatók azon Firebase-szolgáltatások, melyeket felhasználtam az applikáció fejlesztése során; ezek végzik az alkalmazásban a felhasználók kezelését, adatok tárolását és szolgáltatását, illetve különböző analitikai és hibaazonosítási funkciókat látnak el.
 
 \subsection{Cloud Firestore}
 Egy alkalmazásban a felhasználó által bevitt adatokat valamilyen módon el kell tárolnunk, hogy aztán később is hozzá lehessen férni. Erre két lehetőségünk van: lokális adatbázis használata a készüléken (pl.: Room) vagy a felhőalapú adattárolás. Én az utóbbit választottam, mert felhasználói szempontból sokkal kényelmesebb egyszer egy fiókot csinálni és ahhoz kötni az adatokat, mint mondjuk egy esetleges készülékcserénél kutatni, hogy hogyan lehet átemelni az adatokat az újra. A Firebase két szolgáltatást is biztosít erre a célra, ezek név szerint a Realtime Database és a Cloud Firestore.
@@ -41,7 +44,7 @@ Az applikáció biztonsági szabályai a következőképpen néznek ki (\refstru
 A fenti szabály minden dokumentumra illeszkedik, és megenged minden írást és minden olvasást abban az esetben, hogyha a lekérdezés 2022. január 31. előtt érkezik be. Ez egy tesztszabály, melyet a Firestore generál a projekt létrehozásakor a fejlesztés megkönnyítése céljából. Természetesen ezt éles alkalmazásban mindenképpen le kell cserélni, hiszen így bárki hozzáférhet az adatbázishoz, aki tudja a projektazonosítót, ám a tesztelési fázisban még bőven elegendő.
 
 \subsection{Authentication}
-Ahhoz, hogy a felhasználók csak és kizárólag a saját adataikhoz férjenek hozzá, valamilyen módon tárolni és azonosítani kell őket. Erre kínál megoldást a Firebase Authentication, mely backend-szolgáltatásokat, könnyen használható SDK-kat és UI könyvtárakat biztosít a felhasználók autentikációjára. Lehetővé tesz többek között jelszavas, telefonszámos, illetve harmadik fél általi (pl.: Google, Facebook, Twitter) bejelentkezést is. Automatikusan integrálódik más Firebase szolgáltatásokkal, de saját fejlesztésű háttérrendszerekkel is könnyedén használható.  \cite{Auth}
+Ahhoz, hogy a felhasználók csak és kizárólag a saját adataikhoz férjenek hozzá, valamilyen módon tárolni és azonosítani kell őket. Erre kínál megoldást a Firebase Authentication, mely backend-szolgáltatásokat, könnyen használható SDK-kat és UI könyvtárakat biztosít a felhasználók autentikációjára. Lehetővé tesz többek között jelszavas, telefonszámos, illetve harmadik fél általi (pl.: Google, Facebook, Twitter) bejelentkezést is. Automatikusan integrálódik más Firebase szolgáltatásokkal, de saját fejlesztésű háttérrendszerekkel is könnyedén használható. \cite{Auth}
 
 \subsection{Analytics}
 A Firebase Analytics egy ingyenes analitikai megoldás, mely szintén integrálódik más Firebase szolgáltatásokkal. Automatikusan elkap előre definiált eseményeket, de lehetővé teszi a fejlesztő számára saját események létrehozását. Az aktivitást, és a megfigyelt események alapján alkotott statisztikákat pedig bejelentkezés után el lehet érni a Firebase console\footnote{\url{https://console.firebase.google.com}}-ban az alkalmazás adatai alatt. \cite{Analytics} Számos hasznos metrikát és diagramot készít az applikáció stabilitásáról, használatáról vagy éppen bevételéről. A fejlesztő figyelemmel kísérheti, hogy hányan használják az alkalmazást (\refstruc{fig:AnalyticsPlatform}), mely országokból (\refstruc{fig:AnalyticsCountries}), illetve információt kaphat a tevékenységek időtartamáról, platformokról és elkapott eseményekről.
