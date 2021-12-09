@@ -47,7 +47,5 @@ class NewNoteViewModelTest: ViewModelTest() {
         val category2 = Category("2", "category2", "1")
 
         val expectedCategoryList = listOf(category1, category2)
-
-        val expectedNewNote = Note("3", "newNote", "1", "newContent")
     }
 }
